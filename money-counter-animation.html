@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Money Counter Animation</title>
+<style>
+  :root{
+    --chroma: #00b140; /* verde chroma key estándar */
+    --gold: #ffd54a;
+    --gold-dark: #d99a1b;
+  }
+  html,body{
+    margin:0; padding:0; width:1920px; height:1080px; overflow:hidden;
+    background: var(--chroma);
+    font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+  }
+  #stage{
+    position:relative; width:1920px; height:1080px;
+    background: var(--chroma);
+  }
+
+  /* ---------- Contador central ---------- */
+  #counterWrap{
+    position:absolute; left:50%; top:50%;
+    transform: translate(-50%,-50%);
+    text-align:center;
+    z-index:10;
+  }
+  #glowRing{
+    position:absolute; left:50%; top:50%;
+    width:520px; height:520px;
+    transform: translate(-50%,-50%) scale(0.8);
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(255,213,74,0.55) 0%, rgba(255,213,74,0) 70%);
+    opacity:0;
+    z-index:1;
+  }
+  #counter{
+    position:relative;
+    z-index:5;
+    font-size: 260px;
+    font-weight:900;
+    color:#ffffff;
+    -webkit-text-stroke: 6px #7a5200;
+    text-shadow:
+      0 0 25px rgba(255,213,74,0.9),
+      0 0 60px rgba(255,213,74,0.6),
+      0 10px 0 #b97e10;
+    letter-spacing: 4px;
+    transform: scale(1);
+    line-height:1;
+  }
+  #subLabel{
+    margin-top: 18px;
+    font-size: 46px;
+    font-weight:700;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(0,0,0,0.35);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    opacity:0.95;
+  }
+
+  /* ---------- Barra de progreso ---------- */
+  #barTrack{
+    position:absolute; left:50%; bottom:150px;
+    transform: translateX(-50%);
+    width:900px; height:26px;
+    background: rgba(255,255,255,0.25);
+    border-radius:20px;
+    border: 3px solid rgba(255,255,255,0.6);
+    overflow:hidden;
+    z-index:10;
+  }
+  #barFill{
+    height:100%; width:0%;
+    background: linear-gradient(90deg, #d99a1b, #ffd54a, #fff3c4);
+    border-radius:20px;
+  }
+
+  /* ---------- Particulas (billetes / monedas) ---------- */
+  .particle{
+    position:absolute;
+    will-change: transform, opacity;
+    z-index:3;
+  }
+  .bill{
+    width:120px; height:64px;
+    background: linear-gradient(135deg,#fff3c4,#ffd54a 55%,#d99a1b);
+    border:3px solid #7a5200;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:34px; font-weight:900; color:#7a5200;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  }
+  .coin{
+    width:70px; height:70px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff3c4, #ffd54a 55%, #b97e10);
+    border:4px solid #7a5200;
+    display:flex; align-items:center; justify-content:center;
+    font-size:34px; font-weight:900; color:#7a5200;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  }
+
+  /* ---------- Confetti final ---------- */
+  .confetti{
+    position:absolute;
+    width:16px; height:26px;
+    z-index:20;
+    opacity:0;
+  }
+
+  #flash{
+    position:absolute; inset:0;
+    background:#ffffff;
+    opacity:0;
+    z-index:30;
+    pointer-events:none;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glowRing"></div>
+
+  <div id="counterWrap">
+    <div id="counter">$0</div>
+    <div id="subLabel">Balance</div>
+  </div>
+
+  <div id="barTrack"><div id="barFill"></div></div>
+
+  <div id="flash"></div>
+</div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const counter = document.getElementById('counter');
+  const barFill = document.getElementById('barFill');
+  const glowRing = document.getElementById('glowRing');
+  const flash = document.getElementById('flash');
+
+  const STAGE_W = 1920, STAGE_H = 1080;
+  const COUNT_DURATION = 3400;   // ms para contar 0 -> 100
+  const HOLD_AFTER = 1400;       // ms extra tras llegar a 100
+  const TOTAL_DURATION = COUNT_DURATION + HOLD_AFTER;
+
+  function easeOutExpo(t){
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  // ---------- Partículas flotantes (billetes / monedas) ----------
+  const particleDefs = [];
+  const NUM_PARTICLES = 14;
+  for(let i=0;i<NUM_PARTICLES;i++){
+    const isBill = i % 2 === 0;
+    const el = document.createElement('div');
+    el.className = 'particle';
+    const inner = document.createElement('div');
+    inner.className = isBill ? 'bill' : 'coin';
+    inner.textContent = '$';
+    el.appendChild(inner);
+    stage.appendChild(el);
+
+    const startX = 120 + Math.random() * (STAGE_W - 240);
+    const startDelay = Math.random() * COUNT_DURATION * 0.8;
+    const rise = 550 + Math.random()*350;
+    const drift = (Math.random() - 0.5) * 260;
+    const rot = (Math.random() - 0.5) * 360;
+    const dur = 1800 + Math.random()*1000;
+
+    particleDefs.push({el, startX, startY: STAGE_H + 100, startDelay, rise, drift, rot, dur});
+    el.style.left = startX + 'px';
+    el.style.top = (STAGE_H + 100) + 'px';
+    el.style.opacity = '0';
+  }
+
+  function animateParticles(now, startTime){
+    particleDefs.forEach(p=>{
+      const t = now - startTime - p.startDelay;
+      if(t < 0){ p.el.style.opacity = '0'; return; }
+      const prog = Math.min(t / p.dur, 1);
+      const eased = 1 - Math.pow(1-prog, 2);
+      const y = p.startY - eased * p.rise;
+      const x = p.startX + eased * p.drift;
+      const rot = eased * p.rot;
+      const op = prog < 0.15 ? prog/0.15 : (prog > 0.75 ? (1-prog)/0.25 : 1);
+      p.el.style.transform = `translate(${x - p.startX}px, ${y - p.startY}px) rotate(${rot}deg)`;
+      p.el.style.opacity = Math.max(0, Math.min(1, op)) * 0.95;
+    });
+  }
+
+  // ---------- Confetti al llegar a 100 ----------
+  function spawnConfetti(){
+    const colors = ['#ffd54a','#ffffff','#d99a1b','#fff3c4'];
+    for(let i=0;i<60;i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.background = colors[i % colors.length];
+      const cx = STAGE_W/2 + (Math.random()-0.5)*120;
+      const cy = STAGE_H/2 - 40;
+      c.style.left = cx + 'px';
+      c.style.top = cy + 'px';
+      stage.appendChild(c);
+
+      const angle = Math.random()*Math.PI*2;
+      const dist = 260 + Math.random()*420;
+      const dx = Math.cos(angle)*dist;
+      const dy = Math.sin(angle)*dist - 120;
+      const rot = (Math.random()-0.5)*720;
+      const delay = Math.random()*150;
+
+      requestAnimationFrame(()=>{
+        c.style.transition = `transform 1300ms cubic-bezier(.2,.7,.3,1) ${delay}ms, opacity 1300ms ease ${delay}ms`;
+        c.style.transform = `translate(${dx}px, ${dy + 500}px) rotate(${rot}deg)`;
+        c.style.opacity = '1';
+        setTimeout(()=>{ c.style.opacity = '0'; }, 900+delay);
+      });
+    }
+  }
+
+  let confettiFired = false;
+  let startTime = null;
+
+  function frame(now){
+    if(startTime === null) startTime = now;
+    const elapsed = now - startTime;
+
+    // Contador numérico
+    const countProg = Math.min(elapsed / COUNT_DURATION, 1);
+    const eased = easeOutExpo(countProg);
+    const value = Math.round(eased * 100);
+    counter.textContent = '$' + value;
+    barFill.style.width = (eased*100) + '%';
+
+    // Pulso de escala sutil mientras cuenta
+    if(countProg < 1){
+      const pulse = 1 + Math.sin(elapsed/70) * 0.01;
+      counter.style.transform = `scale(${pulse})`;
+    }
+
+    // Glow ring aparece progresivamente
+    const glowOp = Math.min(elapsed / 600, 1) * 0.9;
+    glowRing.style.opacity = glowOp;
+    glowRing.style.transform = `translate(-50%,-50%) scale(${0.8 + eased*0.35})`;
+
+    animateParticles(now, startTime);
+
+    if(countProg >= 1 && !confettiFired){
+      confettiFired = true;
+      counter.style.transition = 'transform 260ms cubic-bezier(.2,1.4,.4,1)';
+      counter.style.transform = 'scale(1.18)';
+      setTimeout(()=>{ counter.style.transform = 'scale(1)'; }, 260);
+      flash.style.transition = 'opacity 120ms ease';
+      flash.style.opacity = '0.55';
+      setTimeout(()=>{ flash.style.opacity = '0'; }, 160);
+      spawnConfetti();
+    }
+
+    if(elapsed < TOTAL_DURATION){
+      requestAnimationFrame(frame);
+    } else {
+      window.__ANIMATION_DONE__ = true;
+      document.title = 'DONE';
+    }
+  }
+
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
