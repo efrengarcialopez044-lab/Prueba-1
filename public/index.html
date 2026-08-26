@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot IA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>🤖 Chatbot IA</h1>
+      <button id="clear-btn" title="Nueva conversación">Nueva conversación</button>
+    </header>
+
+    <main id="chat-window" class="chat-window">
+      <div class="message assistant">
+        <div class="bubble">¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?</div>
+      </div>
+    </main>
+
+    <form id="chat-form" class="chat-form">
+      <textarea
+        id="chat-input"
+        placeholder="Escribe tu mensaje..."
+        rows="1"
+        autofocus
+      ></textarea>
+      <button type="submit" id="send-btn">Enviar</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
