@@ -10,6 +10,10 @@ import { createBookingSchema, manualBookingSchema } from "@/lib/validations";
 import { getIsAdmin } from "@/lib/auth";
 import { sendBookingRequestEmails } from "@/lib/email";
 import { createCheckoutSession, isStripeConfigured } from "@/lib/stripe";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+
+const BOOKING_CREATE_LIMIT = 5;
+const BOOKING_CREATE_WINDOW_MS = 15 * 60 * 1000;
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +38,21 @@ export async function GET() {
  */
 export async function POST(request: Request) {
   const isAdmin = await getIsAdmin();
+
+  if (!isAdmin) {
+    const { allowed, retryAfterSeconds } = checkRateLimit(
+      `booking-create:${getClientIp(request)}`,
+      BOOKING_CREATE_LIMIT,
+      BOOKING_CREATE_WINDOW_MS
+    );
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "Demasiadas solicitudes. Inténtalo de nuevo en unos minutos." },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+      );
+    }
+  }
+
   const json = await request.json().catch(() => null);
   if (!json) {
     return NextResponse.json({ error: "JSON inválido" }, { status: 400 });

@@ -7,7 +7,7 @@ privado para el propietario.
 ## Stack
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Supabase (Postgres +
-Auth) · Zod · Stripe (preparado, no activado).
+Auth) · Zod · Stripe (preparado, no activado) · Vitest · GitHub Actions (CI + despliegue).
 
 ## Empezar
 
@@ -22,6 +22,65 @@ memoria (`lib/mock-data.ts` / `lib/mock-store.ts`) que permiten reservar, confir
 cancelar, bloquear fechas y editar la configuración de principio a fin. El panel de
 administración es accesible en `/admin` sin login en este modo (se muestra un aviso
 "Modo demo" en la cabecera).
+
+## Automatización: CI y despliegue continuo
+
+Cada `git push` pasa por dos workflows de GitHub Actions (`.github/workflows/`):
+
+- **`ci.yml`** — en cada push y pull request, a cualquier rama: instala dependencias,
+  lint, `tsc --noEmit`, tests (Vitest) y build. Si algo falla, se ve en rojo en GitHub
+  antes de que llegue a producción.
+- **`deploy.yml`** — en cada push a `main` (o a la rama de trabajo actual), construye y
+  despliega automáticamente a Vercel en producción. **Este es el único paso manual que
+  queda, y es de una sola vez**: hay que dar de alta 3 *secrets* en el repositorio
+  (GitHub → Settings → Secrets and variables → Actions → "New repository secret"):
+
+  | Secret | De dónde sale |
+  |---|---|
+  | `VERCEL_TOKEN` | vercel.com/account/tokens → Create Token |
+  | `VERCEL_ORG_ID` | `.vercel/project.json` tras vincular el proyecto (`npx vercel link`), o Vercel → Project Settings → General |
+  | `VERCEL_PROJECT_ID` | mismo sitio que `VERCEL_ORG_ID` |
+
+  En cuanto esos 3 secrets estén puestos, **no hace falta volver a pedir ni pegar ningún
+  token nunca más**: cada push a la rama configurada construye y publica solo, y el link
+  de producción (`casa-elody.vercel.app`) se actualiza automáticamente.
+
+  Además, hay que añadir en Vercel (Project Settings → Environment Variables) las mismas
+  variables de `.env.example` que quieras activar en producción (Supabase, Stripe, etc.)
+  — los *secrets* de GitHub solo autentican el despliegue, no sustituyen la configuración
+  de la app.
+
+## Tests
+
+```bash
+npm test          # Vitest en modo watch
+npm test -- --run # una sola pasada (el que usa CI)
+```
+
+Cubren la lógica de negocio más sensible (`lib/bookings.test.ts`): cálculo de precio,
+solapamiento de fechas, disponibilidad y política de cancelación. Es el módulo con más
+riesgo si se rompe (dinero y dobles reservas), así que es el que tiene red de seguridad
+automática en cada push.
+
+## Seguridad
+
+- **Rate limiting** (`lib/rate-limit.ts`) en los endpoints públicos de escritura —
+  crear reserva, cancelar, consultar disponibilidad — para frenar abuso/spam básico sin
+  infraestructura externa. Es un límite en memoria por IP (se reinicia si la función
+  serverless se reinicia); para límites estrictos a gran escala, sustituir por un store
+  compartido como Upstash Redis.
+- **Cabeceras HTTP** (`next.config.ts`, `lib/csp.ts`): Content-Security-Policy,
+  `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` y HSTS en todas las
+  respuestas.
+- **`/api/health`**: comprueba que la app puede leer sus datos (no solo que el proceso
+  está vivo) y reporta qué integraciones opcionales están activas — útil para un monitor
+  de uptime (UptimeRobot, Better Uptime, etc.).
+- **Aviso de configuración a medias**: si defines la mitad de las variables de una
+  integración (p. ej. `STRIPE_SECRET_KEY` sin `STRIPE_WEBHOOK_SECRET`), la app avisa en
+  los logs del servidor al arrancar (`instrumentation.ts` → `lib/env-check.ts`) en vez de
+  fallar en silencio la primera vez que un huésped paga.
+- Todo lo ya cubierto en **Reglas de negocio clave** más abajo (revalidación server-side
+  de precio/disponibilidad/cancelación, RLS de Supabase, service role solo en servidor).
 
 ## Conectar Supabase (producción)
 
@@ -128,6 +187,7 @@ servidor a servidor.
 ## Estructura del proyecto
 
 ```
+.github/workflows/    CI (lint+typecheck+test+build) y despliegue automático a Vercel
 app/
   page.tsx                          Landing pública
   reservar/                         Flujo de reserva (calendario, precio, formulario)
@@ -163,7 +223,9 @@ supabase/migrations/ Esquema SQL, RLS y seed inicial
 ## Comandos
 
 ```bash
-npm run dev     # desarrollo
-npm run build   # build de producción
-npm run lint    # ESLint
+npm run dev        # desarrollo
+npm run build      # build de producción
+npm run lint       # ESLint
+npm run typecheck  # tsc --noEmit
+npm test           # Vitest
 ```

@@ -9,8 +9,12 @@ import {
 import { updateBookingStatusSchema } from "@/lib/validations";
 import { getIsAdmin } from "@/lib/auth";
 import { sendBookingCancelledEmail, sendBookingConfirmedEmail } from "@/lib/email";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
+
+const GUEST_ACTION_LIMIT = 10;
+const GUEST_ACTION_WINDOW_MS = 15 * 60 * 1000;
 
 interface Params {
   params: Promise<{ id: string }>;
@@ -26,6 +30,20 @@ interface Params {
 export async function PATCH(request: Request, { params }: Params) {
   const { id } = await params;
   const isAdmin = await getIsAdmin();
+
+  if (!isAdmin) {
+    const { allowed, retryAfterSeconds } = checkRateLimit(
+      `booking-cancel:${getClientIp(request)}`,
+      GUEST_ACTION_LIMIT,
+      GUEST_ACTION_WINDOW_MS
+    );
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "Demasiadas solicitudes. Inténtalo de nuevo en unos minutos." },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+      );
+    }
+  }
 
   const json = await request.json().catch(() => null);
   const parsed = updateBookingStatusSchema.safeParse(json);

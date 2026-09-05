@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
-import { getBlockedDates, getBookings, getProperty } from "@/lib/db";
-import { buildAvailabilityMap, validateBookingRange } from "@/lib/bookings";
+import { getBlockedDates, getBookings } from "@/lib/db";
+import { buildAvailabilityMap } from "@/lib/bookings";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
+
+const AVAILABILITY_LIMIT = 60;
+const AVAILABILITY_WINDOW_MS = 60 * 1000;
 
 /**
  * GET /api/availability?from=YYYY-MM-DD&to=YYYY-MM-DD
@@ -10,6 +14,18 @@ export const dynamic = "force-dynamic";
  * exposes availability status, never guest data.
  */
 export async function GET(request: Request) {
+  const { allowed, retryAfterSeconds } = checkRateLimit(
+    `availability:${getClientIp(request)}`,
+    AVAILABILITY_LIMIT,
+    AVAILABILITY_WINDOW_MS
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Demasiadas solicitudes. Inténtalo de nuevo en unos segundos." },
+      { status: 429, headers: { "Retry-After": String(retryAfterSeconds) } }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const from = searchParams.get("from");
   const to = searchParams.get("to");
@@ -22,50 +38,4 @@ export async function GET(request: Request) {
   const map = buildAvailabilityMap(from, to, bookings, blockedDates);
 
   return NextResponse.json({ availability: map });
-}
-
-/**
- * POST /api/availability — checks whether a specific range/guest count is
- * bookable and returns the price breakdown. Used by the booking widget
- * before the guest fills in their details.
- */
-export async function POST(request: Request) {
-  const body = await request.json().catch(() => null);
-  if (!body) {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
-  }
-
-  const { checkIn, checkOut, guests } = body as {
-    checkIn?: string;
-    checkOut?: string;
-    guests?: number;
-  };
-
-  if (!checkIn || !checkOut || !guests) {
-    return NextResponse.json(
-      { error: "checkIn, checkOut y guests son obligatorios" },
-      { status: 400 }
-    );
-  }
-
-  const [property, bookings, blockedDates] = await Promise.all([
-    getProperty(),
-    getBookings(),
-    getBlockedDates(),
-  ]);
-
-  const validation = validateBookingRange({
-    checkIn,
-    checkOut,
-    guests: Number(guests),
-    maxGuests: property.max_guests,
-    existingBookings: bookings,
-    blockedDates,
-  });
-
-  if (!validation.valid) {
-    return NextResponse.json({ available: false, error: validation.error }, { status: 200 });
-  }
-
-  return NextResponse.json({ available: true });
 }
