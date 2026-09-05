@@ -7,7 +7,7 @@ import {
   generateBookingCode,
   validateBookingRange,
 } from "./bookings";
-import type { BookingFieldsInput, PropertySettingsInput } from "./validations";
+import type { BookingFieldsInput, LegalFieldsInput, PropertySettingsInput } from "./validations";
 import type { BlockedDate, Booking, BookingStatus, Property, PropertyImage } from "./types";
 import { createBookingCalendarEvent, deleteBookingCalendarEvent } from "./google-calendar";
 import { refundPayment } from "./stripe";
@@ -238,7 +238,7 @@ async function patchBooking(id: string, patch: Partial<Booking>): Promise<Bookin
  * anti-overlap rule can never be bypassed by a crafted request.
  */
 export async function createBooking(
-  input: BookingFieldsInput,
+  input: BookingFieldsInput & Partial<LegalFieldsInput>,
   options: { status?: BookingStatus } = {}
 ): Promise<Booking> {
   const property = await getProperty();
@@ -280,6 +280,16 @@ export async function createBooking(
     total_price: price.total,
     status,
     notes: input.notes || null,
+    lead_document_type: input.leadDocumentType ?? null,
+    lead_document_number: input.leadDocumentNumber ?? null,
+    lead_birth_date: input.leadBirthDate ?? null,
+    lead_nationality: input.leadNationality ?? null,
+    address_street: input.addressStreet ?? null,
+    address_postal_code: input.addressPostalCode ?? null,
+    address_city: input.addressCity ?? null,
+    address_province: input.addressProvince ?? null,
+    address_country: input.addressCountry ?? null,
+    occupants: input.occupants ?? [],
     google_event_id: null,
     stripe_session_id: null,
     stripe_payment_intent_id: null,

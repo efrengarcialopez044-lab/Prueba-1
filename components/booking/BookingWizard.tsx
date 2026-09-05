@@ -6,12 +6,18 @@ import { addMonths, format } from "date-fns";
 import { CalendarGrid, CalendarLegend } from "@/components/booking/CalendarGrid";
 import { GuestSelector } from "@/components/booking/GuestSelector";
 import { PriceBreakdown } from "@/components/booking/PriceBreakdown";
+import {
+  emptyLeadLegalData,
+  emptyOccupant,
+  LegalGuestForm,
+  type LeadGuestLegalData,
+} from "@/components/booking/LegalGuestForm";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, Textarea, FieldError } from "@/components/ui/Field";
 import { calculatePrice } from "@/lib/bookings";
 import type { DayAvailability } from "@/lib/bookings";
-import type { Property } from "@/lib/types";
+import type { Occupant, Property } from "@/lib/types";
 
 const MONTHS_AHEAD = 12;
 
@@ -39,10 +45,27 @@ export function BookingWizard({
     phone: "",
     notes: "",
   });
+  const [legal, setLegal] = useState<LeadGuestLegalData>(emptyLeadLegalData());
+  const [occupants, setOccupants] = useState<Occupant[]>([]);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  // Every occupant besides the lead guest needs their own identity on
+  // file (Spanish tourist-accommodation registration rules), so the
+  // occupant list always tracks guests - 1.
+  useEffect(() => {
+    function resizeOccupants() {
+      const needed = Math.max(0, guests - 1);
+      setOccupants((prev) => {
+        if (prev.length === needed) return prev;
+        if (prev.length > needed) return prev.slice(0, needed);
+        return [...prev, ...Array.from({ length: needed - prev.length }, emptyOccupant)];
+      });
+    }
+    resizeOccupants();
+  }, [guests]);
 
   useEffect(() => {
     const from = format(new Date(), "yyyy-MM-dd");
@@ -113,6 +136,16 @@ export function BookingWizard({
           guests,
           ...form,
           acceptedTerms,
+          leadDocumentType: legal.documentType,
+          leadDocumentNumber: legal.documentNumber,
+          leadBirthDate: legal.birthDate,
+          leadNationality: legal.nationality,
+          addressStreet: legal.addressStreet,
+          addressPostalCode: legal.addressPostalCode,
+          addressCity: legal.addressCity,
+          addressProvince: legal.addressProvince,
+          addressCountry: legal.addressCountry,
+          occupants,
         }),
       });
       const data = await res.json();
@@ -255,6 +288,15 @@ export function BookingWizard({
                   value={form.notes}
                   onChange={(e) => setForm({ ...form, notes: e.target.value })}
                   placeholder="Hora estimada de llegada, peticiones especiales…"
+                />
+              </div>
+
+              <div className="border-t border-sand-200 pt-4">
+                <LegalGuestForm
+                  lead={legal}
+                  onLeadChange={setLegal}
+                  occupants={occupants}
+                  onOccupantsChange={setOccupants}
                 />
               </div>
 

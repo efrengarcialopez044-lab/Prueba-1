@@ -98,6 +98,21 @@ servidor (`lib/google-calendar.ts`). Para activarlo:
 No requiere que el propietario inicie sesión con Google en la web — es una integración
 servidor a servidor.
 
+## Registro legal de viajeros y cookies
+
+- **Datos legales del huésped**: al reservar (flujo público), además de nombre/email/
+  teléfono se piden el documento (DNI/NIE/pasaporte), fecha de nacimiento, nacionalidad y
+  domicilio completo del titular, y la identidad de cada acompañante — lo exige la
+  normativa española de registro de viajeros en alojamientos turísticos (RD 933/2021). Se
+  valida en el servidor (`lib/validations.ts`) que haya exactamente `huéspedes - 1`
+  acompañantes con datos completos. El propietario los ve en el detalle de cada reserva en
+  `/admin/reservas/[id]`. Las reservas manuales creadas por el propio administrador desde
+  el calendario no exigen estos datos (se asume que ya los gestiona aparte).
+- **Cookies**: aviso de cookies (`components/CookieConsent.tsx`) y página
+  `/politica-cookies`. Sin `NEXT_PUBLIC_GA_MEASUREMENT_ID` no se carga ningún script de
+  terceros; si se configura, Google Analytics solo se activa tras aceptar el aviso
+  (`components/GoogleAnalytics.tsx`).
+
 ## Estructura del proyecto
 
 ```

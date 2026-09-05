@@ -18,7 +18,37 @@ const bookingFieldsSchema = z.object({
 const dateOrderRefinement = <T extends { checkIn: string; checkOut: string }>(data: T) =>
   data.checkOut > data.checkIn;
 
+const documentTypeEnum = z.enum(["dni", "nie", "pasaporte"]);
+
+const occupantSchema = z.object({
+  firstName: z.string().trim().min(1, "Introduce el nombre"),
+  lastName: z.string().trim().min(1, "Introduce los apellidos"),
+  documentType: documentTypeEnum,
+  documentNumber: z.string().trim().min(5, "Documento inválido"),
+  birthDate: isoDate,
+  nationality: z.string().trim().min(2, "Introduce la nacionalidad"),
+});
+
+// Exigido por la normativa española de registro de viajeros (RD 933/2021)
+// para alojamientos turísticos: identidad y domicilio del titular, e
+// identidad de cada acompañante.
+const legalFieldsSchema = z.object({
+  leadDocumentType: documentTypeEnum,
+  leadDocumentNumber: z.string().trim().min(5, "Documento inválido"),
+  leadBirthDate: isoDate,
+  leadNationality: z.string().trim().min(2, "Introduce la nacionalidad"),
+  addressStreet: z.string().trim().min(3, "Introduce la dirección"),
+  addressPostalCode: z.string().trim().min(3, "Código postal inválido"),
+  addressCity: z.string().trim().min(2, "Introduce la ciudad"),
+  addressProvince: z.string().trim().min(2, "Introduce la provincia"),
+  addressCountry: z.string().trim().min(2, "Introduce el país"),
+  occupants: z.array(occupantSchema).default([]),
+});
+
+export type LegalFieldsInput = z.infer<typeof legalFieldsSchema>;
+
 export const createBookingSchema = bookingFieldsSchema
+  .merge(legalFieldsSchema)
   .extend({
     acceptedTerms: z.literal(true, {
       error: "Debes aceptar los términos y condiciones",
@@ -27,6 +57,10 @@ export const createBookingSchema = bookingFieldsSchema
   .refine(dateOrderRefinement, {
     message: "La fecha de salida debe ser posterior a la de entrada",
     path: ["checkOut"],
+  })
+  .refine((data) => data.occupants.length === data.guests - 1, {
+    message: "Faltan los datos de algún acompañante",
+    path: ["occupants"],
   });
 
 export type CreateBookingInput = z.infer<typeof createBookingSchema>;

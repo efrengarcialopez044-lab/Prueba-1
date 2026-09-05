@@ -1,17 +1,25 @@
 @import "tailwindcss";
 
+/*
+ * Paleta veraniega/costera inspirada en la casa real: blanco y arena claro
+ * (fachada y césped), azul-verdoso profundo (Atlántico, usado como color de
+ * texto/oscuro) y un coral cálido de acento para las llamadas a la acción,
+ * en vez de la paleta anterior más rústica/otoñal. Los nombres de las
+ * variables (sand/forest/terracotta) se mantienen para no tocar todas las
+ * clases de Tailwind ya usadas en los componentes — solo cambian los tonos.
+ */
 :root {
-  --background: #faf8f4;
-  --foreground: #211f1a;
-  --sand-50: #faf8f4;
-  --sand-100: #f3efe6;
-  --sand-200: #e8e0d0;
-  --sand-300: #d9cdb2;
-  --forest-600: #3c4a3a;
-  --forest-700: #2c3729;
-  --forest-800: #202a1e;
-  --terracotta-500: #bf6b47;
-  --terracotta-600: #a8583a;
+  --background: #f8fafb;
+  --foreground: #16292e;
+  --sand-50: #f8fafb;
+  --sand-100: #eef4f4;
+  --sand-200: #dbe7e8;
+  --sand-300: #c2d8da;
+  --forest-600: #2f5259;
+  --forest-700: #223e44;
+  --forest-800: #16292e;
+  --terracotta-500: #e8825a;
+  --terracotta-600: #d3673f;
 }
 
 @theme inline {

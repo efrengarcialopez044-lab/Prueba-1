@@ -7,6 +7,12 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { Badge, BookingStatusBadge } from "@/components/ui/Badge";
 import { BookingRowActions } from "@/components/admin/BookingRowActions";
 
+const documentTypeLabels: Record<string, string> = {
+  dni: "DNI",
+  nie: "NIE",
+  pasaporte: "Pasaporte",
+};
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -87,6 +93,59 @@ export default async function AdminBookingDetailPage({ params }: Props) {
               <p className="text-sm text-forest-800">{booking.notes}</p>
             </div>
           )}
+
+          <div className="border-t border-sand-200 pt-5">
+            <p className="mb-3 text-sm font-medium text-forest-800">
+              Datos legales (registro de viajeros)
+            </p>
+            {booking.lead_document_type ? (
+              <div className="space-y-4 text-sm">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-forest-800/50">Documento del titular</p>
+                    <p className="font-medium text-forest-800">
+                      {documentTypeLabels[booking.lead_document_type]}{" "}
+                      {booking.lead_document_number}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-forest-800/50">Nacimiento / nacionalidad</p>
+                    <p className="font-medium text-forest-800">
+                      {booking.lead_birth_date && formatDateLong(booking.lead_birth_date)} ·{" "}
+                      {booking.lead_nationality}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-forest-800/50">Domicilio</p>
+                  <p className="font-medium text-forest-800">
+                    {booking.address_street}, {booking.address_postal_code}{" "}
+                    {booking.address_city} ({booking.address_province}),{" "}
+                    {booking.address_country}
+                  </p>
+                </div>
+                {booking.occupants.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-forest-800/50">
+                      Acompañantes ({booking.occupants.length})
+                    </p>
+                    <ul className="space-y-1">
+                      {booking.occupants.map((o, i) => (
+                        <li key={i} className="text-forest-800">
+                          {o.firstName} {o.lastName} — {documentTypeLabels[o.documentType]}{" "}
+                          {o.documentNumber}, {o.nationality}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="text-sm text-forest-800/50">
+                Sin datos legales registrados (reserva creada antes de activar este requisito).
+              </p>
+            )}
+          </div>
 
           <div className="flex justify-end border-t border-sand-200 pt-5">
             <BookingRowActions bookingId={booking.id} status={booking.status} />

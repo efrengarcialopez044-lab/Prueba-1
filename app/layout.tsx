@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { CookieConsent } from "@/components/CookieConsent";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,6 +30,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-sand-50 text-foreground font-sans">
         {children}
+        <CookieConsent />
+        <GoogleAnalytics />
       </body>
     </html>
   );

@@ -72,6 +72,18 @@ create table if not exists public.bookings (
   total_price numeric(10, 2) not null,
   status text not null default 'pending' check (status in ('pending', 'confirmed', 'cancelled')),
   notes text,
+  -- Datos legales exigidos por la normativa de registro de viajeros
+  -- (RD 933/2021) para alojamientos turísticos en España.
+  lead_document_type text check (lead_document_type in ('dni', 'nie', 'pasaporte')),
+  lead_document_number text,
+  lead_birth_date date,
+  lead_nationality text,
+  address_street text,
+  address_postal_code text,
+  address_city text,
+  address_province text,
+  address_country text,
+  occupants jsonb not null default '[]'::jsonb,
   google_event_id text,
   stripe_session_id text,
   stripe_payment_intent_id text,

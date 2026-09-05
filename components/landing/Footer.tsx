@@ -9,9 +9,14 @@ export function Footer({ property }: { property: Property }) {
         <p>
           © {new Date().getFullYear()} {property.name}. Todos los derechos reservados.
         </p>
-        <Link href="/admin" className="hover:text-forest-800">
-          Acceso propietario
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link href="/politica-cookies" className="hover:text-forest-800">
+            Política de cookies
+          </Link>
+          <Link href="/admin" className="hover:text-forest-800">
+            Acceso propietario
+          </Link>
+        </div>
       </Container>
     </footer>
   );

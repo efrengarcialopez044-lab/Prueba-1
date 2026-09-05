@@ -1,4 +1,19 @@
 export type BookingStatus = "pending" | "confirmed" | "cancelled";
+export type DocumentType = "dni" | "nie" | "pasaporte";
+
+/**
+ * A guest other than the lead booker. Spain's tourist-accommodation
+ * registration rules (RD 933/2021, "check-in de viajeros") require every
+ * occupant's identity to be on file, not just the person who booked.
+ */
+export interface Occupant {
+  firstName: string;
+  lastName: string;
+  documentType: DocumentType;
+  documentNumber: string;
+  birthDate: string; // ISO date
+  nationality: string;
+}
 
 export interface Property {
   id: string;
@@ -47,6 +62,18 @@ export interface Booking {
   total_price: number;
   status: BookingStatus;
   notes: string | null;
+  // Datos legales exigidos por la normativa de registro de viajeros.
+  // Nulos en reservas creadas antes de añadir este requisito.
+  lead_document_type: DocumentType | null;
+  lead_document_number: string | null;
+  lead_birth_date: string | null;
+  lead_nationality: string | null;
+  address_street: string | null;
+  address_postal_code: string | null;
+  address_city: string | null;
+  address_province: string | null;
+  address_country: string | null;
+  occupants: Occupant[];
   google_event_id: string | null;
   stripe_session_id: string | null;
   stripe_payment_intent_id: string | null;
