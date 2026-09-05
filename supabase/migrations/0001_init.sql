@@ -72,6 +72,7 @@ create table if not exists public.bookings (
   total_price numeric(10, 2) not null,
   status text not null default 'pending' check (status in ('pending', 'confirmed', 'cancelled')),
   notes text,
+  google_event_id text,
   created_at timestamptz not null default now(),
   constraint bookings_valid_range check (check_out > check_in),
   -- Evita solapamientos entre reservas activas (pending/confirmed) de la

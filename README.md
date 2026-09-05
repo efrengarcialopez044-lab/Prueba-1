@@ -47,6 +47,28 @@ administración es accesible en `/admin` sin login en este modo (se muestra un a
   invocar — las reservas se crean como solicitud sin cobro. Ver los comentarios del
   archivo para activar el cobro al reservar.
 
+## Google Calendar
+
+Cada vez que una reserva pasa a `confirmed` se crea un evento de día completo en el
+Google Calendar del propietario (nombre del huésped, contacto, huéspedes y notas); al
+cancelarla, el evento se elimina. Sin configurar, solo se registra en la consola del
+servidor (`lib/google-calendar.ts`). Para activarlo:
+
+1. Crea un proyecto en [Google Cloud Console](https://console.cloud.google.com) y activa
+   la **Google Calendar API**.
+2. Crea una **cuenta de servicio** (IAM y administración → Cuentas de servicio) y genera
+   una clave JSON.
+3. En Google Calendar (calendar.google.com), en el calendario del propietario:
+   **Configuración → Compartir con determinadas personas** → añade el email de la cuenta
+   de servicio (algo como `nombre@proyecto.iam.gserviceaccount.com`) con permiso
+   **"Realizar cambios en los eventos"**.
+4. Copia a `.env.local`: `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`
+   (el campo `private_key` del JSON, tal cual) y `GOOGLE_CALENDAR_ID` (normalmente el email
+   de Gmail del propietario, visible en la configuración de ese calendario).
+
+No requiere que el propietario inicie sesión con Google en la web — es una integración
+servidor a servidor.
+
 ## Estructura del proyecto
 
 ```

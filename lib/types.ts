@@ -47,6 +47,7 @@ export interface Booking {
   total_price: number;
   status: BookingStatus;
   notes: string | null;
+  google_event_id: string | null;
   created_at: string;
 }
 

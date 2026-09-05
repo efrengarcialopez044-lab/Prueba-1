@@ -9,6 +9,7 @@ import {
 } from "./bookings";
 import type { BookingFieldsInput, PropertySettingsInput } from "./validations";
 import type { BlockedDate, Booking, BookingStatus, Property, PropertyImage } from "./types";
+import { createBookingCalendarEvent, deleteBookingCalendarEvent } from "./google-calendar";
 
 export class BookingError extends Error {}
 
@@ -251,8 +252,18 @@ export async function createBooking(
     total_price: price.total,
     status,
     notes: input.notes || null,
+    google_event_id: null,
     created_at: new Date().toISOString(),
   };
+
+  // Admin manual bookings can be created already "confirmed" — sync the
+  // calendar event up front so it exists from the very first read.
+  if (status === "confirmed") {
+    record.google_event_id = await createBookingCalendarEvent(
+      { ...record, id: "" },
+      property
+    );
+  }
 
   if (!isSupabaseConfigured) {
     const db = getMockDb();
@@ -287,8 +298,9 @@ export async function updateBookingStatus(
   const booking = await getBookingById(id);
   if (!booking) throw new BookingError("Reserva no encontrada");
 
+  const property = await getProperty();
+
   if (status === "cancelled" && !isAdmin) {
-    const property = await getProperty();
     if (!canGuestCancel(booking.check_in, property.cancellation_deadline_days)) {
       throw new BookingError(
         `Esta reserva ya no puede cancelarse: faltan menos de ${property.cancellation_deadline_days} días para el check-in.`
@@ -296,18 +308,27 @@ export async function updateBookingStatus(
     }
   }
 
+  // Keep the owner's Google Calendar in sync with confirmations/cancellations.
+  let googleEventId = booking.google_event_id;
+  if (status === "confirmed" && !googleEventId) {
+    googleEventId = await createBookingCalendarEvent(booking, property);
+  } else if (status === "cancelled" && googleEventId) {
+    await deleteBookingCalendarEvent(googleEventId);
+    googleEventId = null;
+  }
+
   if (!isSupabaseConfigured) {
     const db = getMockDb();
     const idx = db.bookings.findIndex((b) => b.id === id);
     if (idx === -1) throw new BookingError("Reserva no encontrada");
-    db.bookings[idx] = { ...db.bookings[idx], status };
+    db.bookings[idx] = { ...db.bookings[idx], status, google_event_id: googleEventId };
     return db.bookings[idx];
   }
 
   const supabase = isAdmin ? createAdminClient() : await createClient();
   const { data, error } = await supabase
     .from("bookings")
-    .update({ status })
+    .update({ status, google_event_id: googleEventId })
     .eq("id", id)
     .select()
     .single();

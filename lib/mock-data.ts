@@ -122,6 +122,7 @@ export const mockBookings: Booking[] = [
     total_price: 145 * 4 + 45,
     status: "confirmed",
     notes: null,
+    google_event_id: null,
     created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
   },
   {
@@ -142,6 +143,7 @@ export const mockBookings: Booking[] = [
     total_price: 145 * 3 + 45,
     status: "pending",
     notes: "Llegaremos por la tarde, sobre las 19h.",
+    google_event_id: null,
     created_at: new Date(Date.now() - 86400000 * 1).toISOString(),
   },
   {
@@ -162,6 +164,7 @@ export const mockBookings: Booking[] = [
     total_price: 130 * 4 + 45,
     status: "confirmed",
     notes: null,
+    google_event_id: null,
     created_at: new Date(Date.now() - 86400000 * 30).toISOString(),
   },
 ];
