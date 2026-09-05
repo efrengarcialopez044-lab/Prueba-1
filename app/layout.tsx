@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Alex_Brush, Fraunces, Inter } from "next/font/google";
 import { CookieConsent } from "@/components/CookieConsent";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "./globals.css";
@@ -15,6 +15,12 @@ const fraunces = Fraunces({
   style: ["normal", "italic"],
 });
 
+const alexBrush = Alex_Brush({
+  variable: "--font-alex-brush",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "Casa Elody — Villa frente al mar en Ribadeo",
   description:
@@ -26,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${alexBrush.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-sand-50 text-foreground font-sans">
         {children}

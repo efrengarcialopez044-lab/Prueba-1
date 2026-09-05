@@ -15,10 +15,10 @@ export function Hero({ property, heroImage }: { property: Property; heroImage?: 
           fill
           priority
           sizes="100vw"
-          className="animate-kenburns object-cover"
+          className="animate-kenburns object-cover blur-[6px]"
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-forest-800/55 via-forest-800/15 to-black/70" />
 
       <Container className="relative z-10 pb-16 pt-32 text-white">
         <div className="animate-fade-up max-w-2xl">
@@ -26,7 +26,9 @@ export function Hero({ property, heroImage }: { property: Property; heroImage?: 
             <MapPin className="h-4 w-4" />
             {property.city}
           </p>
-          <h1 className="font-serif text-4xl leading-tight sm:text-6xl">{property.name}</h1>
+          <h1 className="font-script text-6xl leading-none text-gold-400 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)] sm:text-8xl">
+            {property.name}
+          </h1>
           <p className="mt-4 text-lg text-white/85 sm:text-xl">{property.tagline}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-white/90">

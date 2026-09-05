@@ -14,9 +14,9 @@ export const mockProperty: Property = {
   lng: -7.212,
   price_per_night: 180,
   cleaning_fee: 50,
-  max_guests: 8,
-  bedrooms: 4,
-  bathrooms: 3,
+  max_guests: 18,
+  bedrooms: 9,
+  bathrooms: 6,
   amenities: [
     "A 5 min de la Playa de las Catedrales",
     "Terraza con vistas al Atlántico",

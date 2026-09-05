@@ -20,6 +20,8 @@
   --forest-800: #16292e;
   --terracotta-500: #e8825a;
   --terracotta-600: #d3673f;
+  --gold-400: #f2c14e;
+  --gold-500: #e8b028;
 }
 
 @theme inline {
@@ -34,8 +36,11 @@
   --color-forest-800: var(--forest-800);
   --color-terracotta-500: var(--terracotta-500);
   --color-terracotta-600: var(--terracotta-600);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-fraunces);
+  --font-script: var(--font-alex-brush);
 }
 
 body {
@@ -64,10 +69,10 @@ html {
 
 @keyframes kenburns {
   from {
-    transform: scale(1);
+    transform: scale(1.05);
   }
   to {
-    transform: scale(1.12);
+    transform: scale(1.16);
   }
 }
 

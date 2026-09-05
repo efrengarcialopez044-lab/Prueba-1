@@ -173,7 +173,7 @@ select
   'Camiño do Faro, 8',
   'Ribadeo, Lugo',
   43.552, -7.212,
-  180, 50, 8, 4, 3,
+  180, 50, 18, 9, 6,
   array['A 5 min de la Playa de las Catedrales', 'Terraza con vistas al Atlántico', 'Wi-Fi de alta velocidad', 'Chimenea', 'Cocina totalmente equipada', 'Parking privado', 'Jardín privado', 'Bodega de vinos gallegos', 'Se admiten mascotas'],
   'hola@casaelody.com',
   '+34 600 123 456',
