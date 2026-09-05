@@ -25,8 +25,9 @@ export function LocationMap({ property }: { property: Property }) {
             {property.address}, {property.city}
           </p>
           <p className="mt-4 text-sm text-forest-800/60">
-            A un paseo de las playas de Os Castros y As Catedrais. La dirección exacta y las
-            indicaciones de acceso se envían por email tras confirmar la reserva.
+            A pocos minutos de la Playa de las Catedrales, espacio natural protegido y
+            declarado Monumento Natural. La dirección exacta y las indicaciones de acceso se
+            envían por email tras confirmar la reserva.
           </p>
         </div>
 

@@ -14,9 +14,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Casa Elody — Villa frente al mar en Galicia",
+  title: "Casa Elody — Villa frente al mar en Ribadeo",
   description:
-    "Reserva Casa Elody, una villa privada frente al Atlántico en Galicia, junto a las playas de Os Castros y As Catedrais.",
+    "Reserva Casa Elody, una villa privada frente al Atlántico en Ribadeo, a minutos de la Playa de las Catedrais.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

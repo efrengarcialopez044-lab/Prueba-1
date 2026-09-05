@@ -153,12 +153,12 @@ insert into public.properties (
 select
   'Casa Elody',
   'Donde el Atlántico se convierte en tu hogar',
-  'Casa Elody es una villa privada frente al mar en la costa de Galicia, a un paseo de las playas de Os Castros y As Catedrais.',
+  'Casa Elody es una villa privada frente al mar en Ribadeo, a apenas unos minutos de la Playa de las Catedrales, playa protegida y declarada Monumento Natural.',
   'Camiño do Faro, 8',
-  'Rías Altas, Galicia',
-  43.5590, -7.2062,
+  'Ribadeo, Lugo',
+  43.552, -7.212,
   180, 50, 8, 4, 3,
-  array['Acceso privado a la playa', 'Terraza con vistas al Atlántico', 'Wi-Fi de alta velocidad', 'Chimenea', 'Cocina totalmente equipada', 'Parking privado', 'Jardín privado', 'Bodega de vinos gallegos', 'Se admiten mascotas'],
+  array['A 5 min de la Playa de las Catedrales', 'Terraza con vistas al Atlántico', 'Wi-Fi de alta velocidad', 'Chimenea', 'Cocina totalmente equipada', 'Parking privado', 'Jardín privado', 'Bodega de vinos gallegos', 'Se admiten mascotas'],
   'hola@casaelody.com',
   '+34 600 123 456',
   7
