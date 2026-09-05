@@ -6,7 +6,10 @@ import { Footer } from "@/components/landing/Footer";
 import { Container } from "@/components/ui/Container";
 import { BookingWizard } from "@/components/booking/BookingWizard";
 
-export const metadata: Metadata = { title: "Reservar — Casa Elody" };
+export const metadata: Metadata = {
+  title: "Reservar",
+  description: "Elige tus fechas y reserva Casa Elody, villa frente al mar en Ribadeo.",
+};
 
 export default async function ReservarPage() {
   const property = await getProperty();

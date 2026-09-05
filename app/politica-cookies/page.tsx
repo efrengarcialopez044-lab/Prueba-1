@@ -4,7 +4,10 @@ import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = { title: "Política de cookies — Casa Elody" };
+export const metadata: Metadata = {
+  title: "Política de cookies",
+  robots: { index: false },
+};
 
 export default async function CookiePolicyPage() {
   const property = await getProperty();

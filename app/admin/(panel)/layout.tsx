@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { getProperty } from "@/lib/db";
 import { isSupabaseConfigured } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { LogoutButton } from "@/components/admin/LogoutButton";
+
+export const metadata: Metadata = {
+  title: "Panel de administración",
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   const property = await getProperty();

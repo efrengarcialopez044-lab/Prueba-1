@@ -113,6 +113,18 @@ servidor a servidor.
   terceros; si se configura, Google Analytics solo se activa tras aceptar el aviso
   (`components/GoogleAnalytics.tsx`).
 
+## Rendimiento y SEO
+
+- **Imágenes**: se sirven con `next/image` (redimensiona y convierte a WebP/AVIF según el
+  navegador automáticamente). Las fotos de `public/property` están además comprimidas en
+  origen — la del hero pasó de 496 KB (PNG) a 41 KB (WebP) sin pérdida visible.
+- **Metadatos**: `metadataBase`, Open Graph y Twitter Card configurados en
+  `app/layout.tsx` a partir de `NEXT_PUBLIC_SITE_URL` (`lib/site-config.ts`) — actualiza
+  esa variable en cuanto conectes un dominio propio.
+- **`sitemap.xml` y `robots.txt`** (`app/sitemap.ts`, `app/robots.ts`): indexan la web
+  pública y excluyen `/admin`, `/api` y las páginas de confirmación de reserva (contienen
+  datos del huésped).
+
 ## Estructura del proyecto
 
 ```

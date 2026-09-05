@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { LoginForm } from "@/components/admin/LoginForm";
@@ -7,6 +8,11 @@ import { isSupabaseConfigured } from "@/lib/supabase/server";
 interface Props {
   searchParams: Promise<{ redirectTo?: string }>;
 }
+
+export const metadata: Metadata = {
+  title: "Acceso propietario",
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminLoginPage({ searchParams }: Props) {
   const { redirectTo } = await searchParams;

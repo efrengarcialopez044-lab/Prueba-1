@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { CheckCircle2 } from "lucide-react";
 import { confirmBookingPayment, getBookingByCode, getProperty } from "@/lib/db";
 import { isStripeConfigured, retrieveCheckoutSession } from "@/lib/stripe";
@@ -15,6 +16,11 @@ interface Props {
   params: Promise<{ code: string }>;
   searchParams: Promise<{ session_id?: string }>;
 }
+
+export const metadata: Metadata = {
+  title: "Confirmación de reserva",
+  robots: { index: false, follow: false },
+};
 
 export default async function BookingConfirmedPage({ params, searchParams }: Props) {
   const { code } = await params;

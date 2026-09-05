@@ -47,7 +47,7 @@ export const mockImages: PropertyImage[] = [
   {
     id: "img-1",
     property_id: MOCK_PROPERTY_ID,
-    url: "/property/ribadeo-1-aerial.png",
+    url: "/property/ribadeo-1-aerial.webp",
     alt: "Vista aérea de la casa sobre el acantilado",
     sort_order: 0,
   },
@@ -82,7 +82,7 @@ export const mockImages: PropertyImage[] = [
   {
     id: "img-6",
     property_id: MOCK_PROPERTY_ID,
-    url: "/property/ribadeo-2-aerial-bay.jpg",
+    url: "/property/ribadeo-2-aerial-bay.webp",
     alt: "Vista aérea de la casa y la bahía",
     sort_order: 5,
   },
