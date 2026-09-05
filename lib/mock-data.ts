@@ -38,62 +38,53 @@ export const mockProperty: Property = {
   updated_at: new Date().toISOString(),
 };
 
+// Fotos reales de la casa en Ribadeo. Son las que pasó el cliente — llevan
+// marca de agua de la inmobiliaria que las tomó originalmente y algunas son
+// de baja resolución (subidas desde un anuncio, no los archivos originales).
+// Sustituir por los archivos originales sin marca de agua en cuanto estén
+// disponibles, sobre todo para la foto principal del hero.
 export const mockImages: PropertyImage[] = [
   {
     id: "img-1",
     property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1800&auto=format&fit=crop",
-    alt: "Fachada de la casa al atardecer",
+    url: "/property/ribadeo-1-aerial.png",
+    alt: "Vista aérea de la casa sobre el acantilado",
     sort_order: 0,
   },
   {
     id: "img-2",
     property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1800&auto=format&fit=crop",
-    alt: "Salón con chimenea",
+    url: "/property/ribadeo-6-driveway.jpg",
+    alt: "Fachada principal y entrada de la casa",
     sort_order: 1,
   },
   {
     id: "img-3",
     property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1800&auto=format&fit=crop",
-    alt: "Terraza exterior frente al mar",
+    url: "/property/ribadeo-5-terrace.jpg",
+    alt: "Terraza cubierta con vistas al mar",
     sort_order: 2,
   },
   {
     id: "img-4",
     property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1800&auto=format&fit=crop",
-    alt: "Dormitorio principal",
+    url: "/property/ribadeo-3-garden.webp",
+    alt: "Jardín y césped frente a la casa",
     sort_order: 3,
   },
   {
     id: "img-5",
     property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=1800&auto=format&fit=crop",
-    alt: "Cocina equipada",
+    url: "/property/ribadeo-4-front.jpg",
+    alt: "Vista lateral de la casa",
     sort_order: 4,
   },
   {
     id: "img-6",
     property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?q=80&w=1800&auto=format&fit=crop",
-    alt: "Vistas al Atlántico desde la terraza",
+    url: "/property/ribadeo-2-aerial-bay.jpg",
+    alt: "Vista aérea de la casa y la bahía",
     sort_order: 5,
-  },
-  {
-    id: "img-7",
-    property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1611048267451-e6ed903d4a38?q=80&w=1800&auto=format&fit=crop",
-    alt: "Baño con bañera",
-    sort_order: 6,
-  },
-  {
-    id: "img-8",
-    property_id: MOCK_PROPERTY_ID,
-    url: "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1800&auto=format&fit=crop",
-    alt: "Vista nocturna del jardín",
-    sort_order: 7,
   },
 ];
 
