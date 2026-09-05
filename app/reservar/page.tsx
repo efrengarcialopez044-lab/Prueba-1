@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getProperty } from "@/lib/db";
+import { isStripeConfigured } from "@/lib/stripe";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
 import { Container } from "@/components/ui/Container";
@@ -23,7 +24,7 @@ export default async function ReservarPage() {
             <p className="mt-2 text-forest-800/60">{property.city}</p>
           </div>
 
-          <BookingWizard property={property} />
+          <BookingWizard property={property} stripeEnabled={isStripeConfigured} />
         </Container>
       </main>
       <Footer property={property} />

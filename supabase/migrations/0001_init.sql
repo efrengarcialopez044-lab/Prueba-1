@@ -73,6 +73,9 @@ create table if not exists public.bookings (
   status text not null default 'pending' check (status in ('pending', 'confirmed', 'cancelled')),
   notes text,
   google_event_id text,
+  stripe_session_id text,
+  stripe_payment_intent_id text,
+  paid_at timestamptz,
   created_at timestamptz not null default now(),
   constraint bookings_valid_range check (check_out > check_in),
   -- Evita solapamientos entre reservas activas (pending/confirmed) de la

@@ -38,14 +38,43 @@ administración es accesible en `/admin` sin login en este modo (se muestra un a
    (lecturas, escrituras y autenticación del panel), incluyendo el `EXCLUDE` constraint
    de PostgreSQL que impide reservas solapadas a nivel de base de datos.
 
-## Emails y pagos
+## Emails
 
-- **Emails** (`lib/email.ts`): sin `RESEND_API_KEY`, cada email se registra en la consola
-  del servidor en vez de enviarse. Define `RESEND_API_KEY` y `EMAIL_FROM` para activarlos
-  de verdad (u otro proveedor, cambiando la función `send()`).
-- **Stripe** (`lib/stripe.ts`): cliente y helper de Checkout Session ya escritos pero sin
-  invocar — las reservas se crean como solicitud sin cobro. Ver los comentarios del
-  archivo para activar el cobro al reservar.
+Sin `RESEND_API_KEY`, cada email se registra en la consola del servidor en vez de
+enviarse (`lib/email.ts`). Define `RESEND_API_KEY` y `EMAIL_FROM` para activarlos de
+verdad (u otro proveedor, cambiando la función `send()`).
+
+## Pagos (Stripe: tarjeta + PayPal) — reserva instantánea
+
+Con `STRIPE_SECRET_KEY` configurado, el flujo cambia de "solicitud" a **reserva
+instantánea con pago**: al enviar el formulario, el huésped paga el total en Stripe
+Checkout y la reserva se confirma automáticamente en cuanto el pago se completa (sin que
+el propietario tenga que aprobarla). Sin esa variable, se mantiene el flujo original de
+solicitud sin cobro.
+
+Cómo activarlo:
+
+1. Crea una cuenta en [stripe.com](https://stripe.com) y complete la verificación del
+   negocio.
+2. En el Dashboard → **Settings → Payment methods**, activa **PayPal** además de
+   **Cards** — Stripe los muestra automáticamente en el Checkout según lo que tengas
+   activado ahí, sin tocar código.
+3. Copia la **clave secreta** (Developers → API keys) a `STRIPE_SECRET_KEY`.
+4. En **Developers → Webhooks**, añade un endpoint apuntando a
+   `https://tu-dominio/api/stripe/webhook`, suscrito a los eventos
+   `checkout.session.completed` y `checkout.session.expired`. Copia el **signing
+   secret** que te da a `STRIPE_WEBHOOK_SECRET`.
+
+Detalles de la implementación (`lib/stripe.ts`, `lib/db.ts`, `app/api/stripe/webhook`):
+- La reserva se crea como `pending` (lo que ya bloquea esas fechas) mientras el huésped
+  está pagando; el Checkout Session expira a los 30 minutos y libera las fechas si no
+  llega a pagar (`checkout.session.expired`).
+- Al confirmarse el pago (`checkout.session.completed`), la reserva pasa a `confirmed`,
+  se sincroniza con Google Calendar y se envía el email de confirmación.
+- Cancelar una reserva pagada (el huésped, dentro del plazo, o el propietario) dispara
+  un reembolso automático vía Stripe.
+- La página de confirmación también verifica el pago directamente contra Stripe si el
+  webhook aún no ha llegado, para que el huésped nunca vea un estado desactualizado.
 
 ## Google Calendar
 

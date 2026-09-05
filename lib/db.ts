@@ -10,6 +10,7 @@ import {
 import type { BookingFieldsInput, PropertySettingsInput } from "./validations";
 import type { BlockedDate, Booking, BookingStatus, Property, PropertyImage } from "./types";
 import { createBookingCalendarEvent, deleteBookingCalendarEvent } from "./google-calendar";
+import { refundPayment } from "./stripe";
 
 export class BookingError extends Error {}
 
@@ -204,6 +205,33 @@ export async function getBookingById(id: string): Promise<Booking | null> {
 }
 
 /**
+ * Applies a partial update to a booking. Always uses elevated access
+ * (service role / in-memory store directly) because every caller has
+ * already done its own authorization check — the guest cancellation flow
+ * is anonymous (no Supabase session to scope an RLS-respecting client to),
+ * same as the public booking creation flow.
+ */
+async function patchBooking(id: string, patch: Partial<Booking>): Promise<Booking> {
+  if (!isSupabaseConfigured) {
+    const db = getMockDb();
+    const idx = db.bookings.findIndex((b) => b.id === id);
+    if (idx === -1) throw new BookingError("Reserva no encontrada");
+    db.bookings[idx] = { ...db.bookings[idx], ...patch };
+    return db.bookings[idx];
+  }
+
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(patch)
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw new BookingError(error.message);
+  return data as Booking;
+}
+
+/**
  * Validates availability and computes the price server-side, then persists
  * the booking as a "pending" request. This is the single entry point for
  * both the public booking form and the admin's manual-booking tool, so the
@@ -253,6 +281,9 @@ export async function createBooking(
     status,
     notes: input.notes || null,
     google_event_id: null,
+    stripe_session_id: null,
+    stripe_payment_intent_id: null,
+    paid_at: null,
     created_at: new Date().toISOString(),
   };
 
@@ -308,32 +339,74 @@ export async function updateBookingStatus(
     }
   }
 
+  const patch: Partial<Booking> = { status };
+
   // Keep the owner's Google Calendar in sync with confirmations/cancellations.
-  let googleEventId = booking.google_event_id;
-  if (status === "confirmed" && !googleEventId) {
-    googleEventId = await createBookingCalendarEvent(booking, property);
-  } else if (status === "cancelled" && googleEventId) {
-    await deleteBookingCalendarEvent(googleEventId);
-    googleEventId = null;
+  if (status === "confirmed" && !booking.google_event_id) {
+    patch.google_event_id = await createBookingCalendarEvent(booking, property);
+  } else if (status === "cancelled" && booking.google_event_id) {
+    await deleteBookingCalendarEvent(booking.google_event_id);
+    patch.google_event_id = null;
   }
 
-  if (!isSupabaseConfigured) {
-    const db = getMockDb();
-    const idx = db.bookings.findIndex((b) => b.id === id);
-    if (idx === -1) throw new BookingError("Reserva no encontrada");
-    db.bookings[idx] = { ...db.bookings[idx], status, google_event_id: googleEventId };
-    return db.bookings[idx];
+  // Instant-booking payments are refunded automatically on any cancellation
+  // (guest, within the policy window, or admin override).
+  if (status === "cancelled" && booking.paid_at && booking.stripe_payment_intent_id) {
+    try {
+      await refundPayment(booking.stripe_payment_intent_id);
+    } catch (error) {
+      console.error("No se pudo reembolsar el pago en Stripe", error);
+    }
   }
 
-  const supabase = isAdmin ? createAdminClient() : await createClient();
-  const { data, error } = await supabase
-    .from("bookings")
-    .update({ status, google_event_id: googleEventId })
-    .eq("id", id)
-    .select()
-    .single();
-  if (error) throw new BookingError(error.message);
-  return data as Booking;
+  return patchBooking(id, patch);
+}
+
+/**
+ * Marks a booking paid and confirmed after a successful Stripe Checkout.
+ * Idempotent: called from both the webhook and the confirmation page (in
+ * case the webhook hasn't landed yet), so a second call is a no-op.
+ */
+export async function confirmBookingPayment(
+  bookingId: string,
+  sessionId: string,
+  paymentIntentId: string | null
+): Promise<Booking> {
+  const booking = await getBookingById(bookingId);
+  if (!booking) throw new BookingError("Reserva no encontrada");
+  if (booking.paid_at) return booking;
+
+  const property = await getProperty();
+  const patch: Partial<Booking> = {
+    status: "confirmed",
+    stripe_session_id: sessionId,
+    stripe_payment_intent_id: paymentIntentId,
+    paid_at: new Date().toISOString(),
+  };
+
+  if (!booking.google_event_id) {
+    patch.google_event_id = await createBookingCalendarEvent(
+      { ...booking, ...patch },
+      property
+    );
+  }
+
+  return patchBooking(bookingId, patch);
+}
+
+/** Stores the Checkout Session id right after creating it, before the guest pays. */
+export async function attachCheckoutSession(bookingId: string, sessionId: string): Promise<void> {
+  await patchBooking(bookingId, { stripe_session_id: sessionId });
+}
+
+/**
+ * Releases a booking that was held during checkout but never got paid
+ * (the Stripe Checkout Session expired), freeing its dates.
+ */
+export async function releaseUnpaidBooking(bookingId: string): Promise<void> {
+  const booking = await getBookingById(bookingId);
+  if (!booking || booking.paid_at || booking.status === "cancelled") return;
+  await patchBooking(bookingId, { status: "cancelled" });
 }
 
 export async function deleteBooking(id: string): Promise<void> {

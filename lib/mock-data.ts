@@ -123,6 +123,9 @@ export const mockBookings: Booking[] = [
     status: "confirmed",
     notes: null,
     google_event_id: null,
+    stripe_session_id: "cs_test_demo_1",
+    stripe_payment_intent_id: "pi_demo_1",
+    paid_at: new Date(Date.now() - 86400000 * 5).toISOString(),
     created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
   },
   {
@@ -144,6 +147,9 @@ export const mockBookings: Booking[] = [
     status: "pending",
     notes: "Llegaremos por la tarde, sobre las 19h.",
     google_event_id: null,
+    stripe_session_id: null,
+    stripe_payment_intent_id: null,
+    paid_at: null,
     created_at: new Date(Date.now() - 86400000 * 1).toISOString(),
   },
   {
@@ -165,6 +171,9 @@ export const mockBookings: Booking[] = [
     status: "confirmed",
     notes: null,
     google_event_id: null,
+    stripe_session_id: null,
+    stripe_payment_intent_id: null,
+    paid_at: null,
     created_at: new Date(Date.now() - 86400000 * 30).toISOString(),
   },
 ];

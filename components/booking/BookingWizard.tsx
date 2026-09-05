@@ -15,7 +15,13 @@ import type { Property } from "@/lib/types";
 
 const MONTHS_AHEAD = 12;
 
-export function BookingWizard({ property }: { property: Property }) {
+export function BookingWizard({
+  property,
+  stripeEnabled = false,
+}: {
+  property: Property;
+  stripeEnabled?: boolean;
+}) {
   const router = useRouter();
   const [availability, setAvailability] = useState<Record<string, DayAvailability>>({});
   const [loadingAvailability, setLoadingAvailability] = useState(true);
@@ -117,6 +123,11 @@ export function BookingWizard({ property }: { property: Property }) {
         return;
       }
 
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
       router.push(`/reserva-confirmada/${data.booking.booking_code}`);
     } catch {
       setSubmitError("Error de conexión. Inténtalo de nuevo.");
@@ -188,7 +199,9 @@ export function BookingWizard({ property }: { property: Property }) {
 
         <Card>
           <CardContent>
-            <h2 className="mb-5 font-serif text-2xl text-forest-800">3. Tus datos</h2>
+            <h2 className="mb-5 font-serif text-2xl text-forest-800">
+              3. {stripeEnabled ? "Tus datos y pago" : "Tus datos"}
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -248,7 +261,9 @@ export function BookingWizard({ property }: { property: Property }) {
               <div className="rounded-xl bg-sand-100 p-4 text-xs leading-relaxed text-forest-800/70">
                 <strong className="text-forest-800">Política de cancelación:</strong> puedes
                 cancelar sin coste hasta {property.cancellation_deadline_days} días antes de la
-                fecha de entrada. Pasado ese plazo, la reserva no podrá cancelarse.
+                fecha de entrada
+                {stripeEnabled ? " y se te reembolsará el pago íntegro" : ""}. Pasado ese plazo,
+                la reserva no podrá cancelarse.
               </div>
 
               <label className="flex items-start gap-2.5 text-sm text-forest-800/80">
@@ -269,7 +284,11 @@ export function BookingWizard({ property }: { property: Property }) {
               )}
 
               <Button type="submit" className="w-full justify-center" disabled={submitting}>
-                {submitting ? "Enviando…" : "Enviar solicitud de reserva"}
+                {submitting
+                  ? "Procesando…"
+                  : stripeEnabled
+                    ? "Pagar y reservar ahora"
+                    : "Enviar solicitud de reserva"}
               </Button>
             </form>
           </CardContent>

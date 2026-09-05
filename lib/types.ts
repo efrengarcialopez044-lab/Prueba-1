@@ -48,6 +48,9 @@ export interface Booking {
   status: BookingStatus;
   notes: string | null;
   google_event_id: string | null;
+  stripe_session_id: string | null;
+  stripe_payment_intent_id: string | null;
+  paid_at: string | null;
   created_at: string;
 }
 

@@ -4,7 +4,7 @@ import { ArrowLeft, Mail, Phone, Users, CalendarRange } from "lucide-react";
 import { getBookingById } from "@/lib/db";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/Card";
-import { BookingStatusBadge } from "@/components/ui/Badge";
+import { Badge, BookingStatusBadge } from "@/components/ui/Badge";
 import { BookingRowActions } from "@/components/admin/BookingRowActions";
 
 interface Props {
@@ -36,7 +36,10 @@ export default async function AdminBookingDetailPage({ params }: Props) {
                 {booking.guest_name} {booking.guest_last_name}
               </h1>
             </div>
-            <BookingStatusBadge status={booking.status} />
+            <div className="flex flex-col items-end gap-1.5">
+              <BookingStatusBadge status={booking.status} />
+              {booking.paid_at && <Badge variant="confirmed">Pagado</Badge>}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 border-t border-sand-200 pt-5 text-sm">
@@ -70,6 +73,13 @@ export default async function AdminBookingDetailPage({ params }: Props) {
               </p>
             </div>
           </div>
+
+          {booking.paid_at && (
+            <p className="text-xs text-forest-800/50">
+              Pagado el {formatDateLong(booking.paid_at.slice(0, 10))} vía Stripe
+              {booking.stripe_payment_intent_id ? ` (${booking.stripe_payment_intent_id})` : ""}
+            </p>
+          )}
 
           {booking.notes && (
             <div className="border-t border-sand-200 pt-5">

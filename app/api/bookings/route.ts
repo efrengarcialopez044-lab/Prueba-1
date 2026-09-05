@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
-import { BookingError, createBooking, getBookings, getProperty } from "@/lib/db";
+import {
+  attachCheckoutSession,
+  BookingError,
+  createBooking,
+  getBookings,
+  getProperty,
+} from "@/lib/db";
 import { createBookingSchema, manualBookingSchema } from "@/lib/validations";
 import { getIsAdmin } from "@/lib/auth";
 import { sendBookingRequestEmails } from "@/lib/email";
+import { createCheckoutSession, isStripeConfigured } from "@/lib/stripe";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +26,11 @@ export async function GET() {
  * POST /api/bookings — public endpoint that creates a booking request.
  * Every field is re-validated here: the client-side calendar and price
  * shown to the guest are only a preview, this is the source of truth.
+ *
+ * When Stripe is configured, this is an instant-booking flow: the guest is
+ * sent to Stripe Checkout to pay, and the booking only becomes "confirmed"
+ * once payment succeeds (see app/api/stripe/webhook/route.ts). Until then
+ * it sits as "pending", which still holds the dates.
  */
 export async function POST(request: Request) {
   const isAdmin = await getIsAdmin();
@@ -43,12 +55,28 @@ export async function POST(request: Request) {
     const status = isAdmin && "status" in parsed.data ? parsed.data.status : undefined;
     const booking = await createBooking(parsed.data, { status });
 
-    if (!isAdmin) {
-      const property = await getProperty();
-      sendBookingRequestEmails(booking, property).catch((err) =>
-        console.error("Error enviando emails de solicitud", err)
-      );
+    if (isAdmin) {
+      return NextResponse.json({ booking }, { status: 201 });
     }
+
+    if (isStripeConfigured) {
+      const origin = new URL(request.url).origin;
+      const session = await createCheckoutSession({
+        bookingId: booking.id,
+        bookingCode: booking.booking_code,
+        amount: booking.total_price,
+        customerEmail: booking.guest_email,
+        successUrl: `${origin}/reserva-confirmada/${booking.booking_code}?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${origin}/reservar`,
+      });
+      await attachCheckoutSession(booking.id, session.id);
+      return NextResponse.json({ booking, checkoutUrl: session.url }, { status: 201 });
+    }
+
+    const property = await getProperty();
+    sendBookingRequestEmails(booking, property).catch((err) =>
+      console.error("Error enviando emails de solicitud", err)
+    );
 
     return NextResponse.json({ booking }, { status: 201 });
   } catch (error) {
