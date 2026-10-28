@@ -1,0 +1,17 @@
+{
+  "name": "whatsapp-auto-responder",
+  "version": "1.0.0",
+  "description": "Respuestas automáticas para WhatsApp usando whatsapp-web.js",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}
