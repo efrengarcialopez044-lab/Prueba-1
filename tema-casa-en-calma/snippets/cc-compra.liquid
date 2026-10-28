@@ -1,0 +1,27 @@
+{%- comment -%}
+  Formulario de compra directa.
+  Uso: {% render 'cc-compra', p: producto, extra: producto_extra, mostrar_extra: true, extra_texto: '...', boton_texto: '...', ancla: true, sufijo: section.id %}
+{%- endcomment -%}
+{%- if p != blank -%}
+  {%- assign v = p.selected_or_first_available_variant -%}
+  {%- assign form_id = 'cc-compra-' | append: sufijo -%}
+  {%- form 'product', p, id: form_id, data-cc-compra: '' -%}
+    <input type="hidden" name="id" value="{{ v.id }}">
+    <input type="hidden" name="return_to" value="/checkout">
+    {%- if mostrar_extra and extra != blank and extra.available -%}
+      <label class="cc-bump">
+        <input type="checkbox" value="{{ extra.selected_or_first_available_variant.id }}" data-cc-extra>
+        {%- if extra.featured_media -%}{{ extra.featured_media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+        <span>{{ extra_texto | default: 'Añade también' }} <strong>{{ extra.title }}</strong> por <strong>{{ extra.price | money }}</strong></span>
+      </label>
+    {%- endif -%}
+    <div class="cc-botones"{% if ancla %} data-cc-ancla-compra{% endif %}>
+      <button type="submit" class="cc-btn"{% unless v.available %} disabled{% endunless %}>
+        {%- if v.available -%}{{ boton_texto | default: 'Comprar' }} <span class="cc-btn__precio">{{ v.price | money }}</span>{%- else -%}No disponible{%- endif -%}
+      </button>
+      {%- if enlace_texto != blank -%}<a class="cc-enlace" href="{{ enlace_url | default: '#' }}">{{ enlace_texto }}</a>{%- endif -%}
+    </div>
+  {%- endform -%}
+{%- else -%}
+  <div class="cc-botones"><a class="cc-btn" href="{{ routes.all_products_collection_url }}">{{ boton_texto | default: 'Comprar' }}</a></div>
+{%- endif -%}

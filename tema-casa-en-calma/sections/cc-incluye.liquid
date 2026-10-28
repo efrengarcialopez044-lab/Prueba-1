@@ -1,0 +1,67 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-incluye__grid { --cc-cols: {{ section.settings.columnas }}; }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-incluye"{% if section.settings.ancla != blank %} id="{{ section.settings.ancla }}"{% endif %}>
+  <div class="cc-contenedor">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo">{{ section.settings.titulo }}</h2>
+      {%- if section.settings.texto != blank -%}<div class="cc-texto">{{ section.settings.texto }}</div>{%- endif -%}
+    </div>
+    <div class="cc-incluye__grid">
+      {%- for block in section.blocks -%}
+        <article class="cc-hoja cc-aparece" style="--cc-retraso: {{ forloop.index0 | times: 0.08 }}s" data-cc-tilt {{ block.shopify_attributes }}>
+          <div class="cc-hoja__img">
+            {%- if block.settings.imagen != blank -%}
+              {{ block.settings.imagen | image_url: width: 800 | image_tag: widths: '400, 600, 800', sizes: '(max-width: 749px) 92vw, (max-width: 989px) 46vw, 280px', loading: 'lazy', alt: block.settings.imagen.alt | default: block.settings.titulo }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <h3>{{ block.settings.titulo }}</h3>
+          {%- if block.settings.texto != blank -%}<p>{{ block.settings.texto }}</p>{%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Qué incluye",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Qué incluye" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Todo lo que necesitas, en un solo PDF" },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "text", "id": "ancla", "label": "Nombre del ancla (para enlazar con #nombre)", "default": "incluye" },
+    { "type": "range", "id": "columnas", "label": "Columnas en ordenador", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 52 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    { "type": "hoja", "name": "Página de muestra", "settings": [
+      { "type": "image_picker", "id": "imagen", "label": "Vista previa de la página" },
+      { "type": "text", "id": "titulo", "label": "Título", "default": "21 checklists diarias" },
+      { "type": "textarea", "id": "texto", "label": "Texto", "default": "Pasos concretos para 10 minutos." }
+    ] }
+  ],
+  "max_blocks": 8,
+  "presets": [ { "name": "Casa – Qué incluye", "blocks": [ { "type": "hoja" }, { "type": "hoja" }, { "type": "hoja" }, { "type": "hoja" } ] } ]
+}
+{% endschema %}

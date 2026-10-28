@@ -1,0 +1,53 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-faq"{% if section.settings.ancla != blank %} id="{{ section.settings.ancla }}"{% endif %}>
+  <div class="cc-contenedor cc-contenedor--estrecho">
+    <div class="cc-cabecera cc-centro cc-aparece" style="margin-bottom: 36px">
+      <h2 class="cc-titulo">{{ section.settings.titulo }}</h2>
+    </div>
+    <div class="cc-faq__lista cc-aparece">
+      {%- for block in section.blocks -%}
+        <details{% if forloop.first and section.settings.primera_abierta %} open{% endif %} {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.pregunta }}</summary>
+          <div class="cc-faq__respuesta">{{ block.settings.respuesta }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Preguntas",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Preguntas frecuentes" },
+    { "type": "text", "id": "ancla", "label": "Nombre del ancla", "default": "preguntas" },
+    { "type": "checkbox", "id": "primera_abierta", "label": "Primera pregunta abierta", "default": false },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 52 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    { "type": "pregunta", "name": "Pregunta", "settings": [
+      { "type": "text", "id": "pregunta", "label": "Pregunta", "default": "¿Cómo recibo el reto?" },
+      { "type": "richtext", "id": "respuesta", "label": "Respuesta", "default": "<p>Al momento, en tu email.</p>" }
+    ] }
+  ],
+  "presets": [ { "name": "Casa – Preguntas", "blocks": [ { "type": "pregunta" } ] } ]
+}
+{% endschema %}

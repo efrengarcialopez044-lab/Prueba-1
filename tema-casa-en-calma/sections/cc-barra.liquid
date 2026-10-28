@@ -1,0 +1,27 @@
+{%- liquid
+  assign p = section.settings.producto
+  if p == blank
+    assign p = product
+  endif
+-%}
+{%- if p != blank -%}
+  <div class="cc-barra" data-cc-barra>
+    <div><small>{{ section.settings.nota }}</small><strong>{{ p.price | money }}</strong></div>
+    <a class="cc-btn" href="#{{ section.settings.destino | default: 'comprar' }}">{{ section.settings.boton_texto }}</a>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Casa – Botón fijo móvil",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "Solo se ve en el móvil, cuando la clienta ya ha pasado el botón de la portada." },
+    { "type": "product", "id": "producto", "label": "Producto (vacío = el de la página)" },
+    { "type": "text", "id": "nota", "label": "Texto pequeño", "default": "Precio de lanzamiento" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Empezar el reto" },
+    { "type": "text", "id": "destino", "label": "Ancla a la que lleva", "default": "comprar" }
+  ],
+  "presets": [ { "name": "Casa – Botón fijo móvil" } ]
+}
+{% endschema %}

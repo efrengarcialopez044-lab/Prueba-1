@@ -1,0 +1,80 @@
+{%- liquid
+  assign p = section.settings.producto
+  if p == blank
+    assign p = product
+  endif
+  assign v = p.selected_or_first_available_variant
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  #shopify-section-{{ section.id }} .cc-cta__caja { background: {{ section.settings.color_caja }}; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.62 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-cta" id="comprar">
+  <div class="cc-contenedor" style="max-width: 1000px">
+    <div class="cc-cta__caja cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo">{{ section.settings.titulo }}</h2>
+      {%- if section.settings.texto != blank -%}<div class="cc-texto">{{ section.settings.texto }}</div>{%- endif -%}
+      {%- if v != blank -%}
+        <p class="cc-cta__precio">
+          {%- if v.compare_at_price > v.price -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}
+          <strong>{{ v.price | money }}</strong>
+        </p>
+      {%- endif -%}
+      {%- if section.settings.fecha_fin != blank -%}
+        <div class="cc-cuenta" data-cc-hasta="{{ section.settings.fecha_fin | escape }}" role="timer" aria-label="Tiempo restante de la oferta">
+          <div><strong data-d>00</strong><span>días</span></div>
+          <div><strong data-h>00</strong><span>horas</span></div>
+          <div><strong data-m>00</strong><span>min</span></div>
+          <div><strong data-s>00</strong><span>seg</span></div>
+        </div>
+        {%- if section.settings.texto_fin != blank -%}<p class="cc-cta__legal" data-cc-fin-oferta hidden style="margin: 0 0 24px">{{ section.settings.texto_fin }}</p>{%- endif -%}
+      {%- endif -%}
+      <div class="cc-centro">
+        {% render 'cc-compra', p: p, extra: section.settings.extra, mostrar_extra: section.settings.mostrar_extra, extra_texto: section.settings.extra_texto, boton_texto: section.settings.boton_texto, ancla: false, sufijo: section.id %}
+      </div>
+      {%- if section.settings.legal != blank -%}<p class="cc-cta__legal">{{ section.settings.legal }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Llamada final",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Precio de lanzamiento" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Empieza hoy. Tu casa te lo agradecerá." },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "product", "id": "producto", "label": "Producto (vacío = el de la página)" },
+    { "type": "paragraph", "content": "Para mostrar el precio anterior tachado, pon el «Precio de comparación» en el producto. Solo si ese precio ha existido de verdad." },
+    { "type": "header", "content": "Cuenta atrás" },
+    { "type": "text", "id": "fecha_fin", "label": "Fin de la oferta (AAAA-MM-DDTHH:MM, vacío = sin cuenta atrás)", "info": "Pon una fecha real. Cuando llegue, la cuenta atrás desaparece sola. Ejemplo: 2026-11-30T23:59" },
+    { "type": "text", "id": "texto_fin", "label": "Texto cuando termina la oferta", "default": "La oferta de lanzamiento ha terminado." },
+    { "type": "header", "content": "Compra" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Comprar ahora" },
+    { "type": "checkbox", "id": "mostrar_extra", "label": "Ofrecer un producto extra", "default": true },
+    { "type": "product", "id": "extra", "label": "Producto extra" },
+    { "type": "text", "id": "extra_texto", "label": "Texto de la oferta extra", "default": "Añade también el" },
+    { "type": "text", "id": "legal", "label": "Texto pequeño", "default": "Pago seguro · PDF en tu email al instante · Garantía de 14 días" },
+    { "type": "color", "id": "color_caja", "label": "Color de la caja", "default": "#2B2622" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 56 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "Casa – Llamada final" } ]
+}
+{% endschema %}

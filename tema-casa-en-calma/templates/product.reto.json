@@ -1,0 +1,299 @@
+{
+  "sections": {
+    "portada": {
+      "type": "cc-hero",
+      "settings": {
+        "antetitulo": "Reto descargable · PDF imprimible",
+        "titulo": "Tu casa ordenada en 21 días, <em>10 minutos al día</em>",
+        "texto": "<p>Un reto sencillo, una checklist por día y cero agobios. Empiezas hoy con un cajón y en tres semanas tu casa respira.</p>",
+        "sellos": "Descarga inmediata\nGarantía de 14 días\nImprime o usa en el móvil",
+        "boton_texto": "Quiero mi casa en orden",
+        "enlace_texto": "Ver qué incluye",
+        "enlace_url": "#incluye",
+        "mostrar_extra": false,
+        "extra": "planner-de-limpieza-semanal",
+        "extra_texto": "Añade también el",
+        "portada_mini": "Reto",
+        "portada_numero": "21",
+        "portada_titulo": "días para ordenar tu casa",
+        "portada_lineas": "Día 1 · Un cajón\nDía 2 · La encimera\nDía 3 · El recibidor",
+        "color_portada": "#5E6E52",
+        "color_circulo": "#E4E8DA",
+        "fuerza_3d": 10,
+        "chapa_numero": 21,
+        "chapa_texto": "días · 10 min\nal día",
+        "titulo_tamano": 68,
+        "texto_tamano": 20,
+        "color_fondo": "#F6F1E7",
+        "padding_top": 64,
+        "padding_bottom": 88
+      }
+    },
+    "problema": {
+      "type": "cc-problema",
+      "settings": {
+        "p_ante": "El problema",
+        "p_titulo": "Llegas a casa y el desorden te está esperando",
+        "p_lista": "No sabes por dónde empezar y lo vas dejando.\nOrdenas un sábado entero y en una semana vuelve todo.\nTe agobia ver tantas cosas fuera de su sitio.",
+        "s_ante": "La solución",
+        "s_titulo": "Una tarea pequeña al día. Sin pensar, sin maratones.",
+        "s_lista": "Cada día sabes exactamente qué hacer: una zona, una checklist.\n10 minutos con el temporizador y lo dejas. Cumplido.\nAl final, hábitos fáciles para que el orden se quede.",
+        "color_fondo": "#FFFDF8",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "incluye": {
+      "type": "cc-incluye",
+      "settings": {
+        "antetitulo": "Qué incluye",
+        "titulo": "Todo lo que necesitas, en un solo PDF",
+        "texto": "<p>26 páginas para imprimir en casa o marcar en el móvil. Diseñadas para que apetezca usarlas.</p>",
+        "ancla": "incluye",
+        "columnas": 4,
+        "titulo_tamano": 52,
+        "color_fondo": "#F6F1E7",
+        "padding_top": 104,
+        "padding_bottom": 104
+      },
+      "blocks": {
+        "h1": {
+          "type": "hoja",
+          "settings": {
+            "imagen": "shopify://shop_images/reto21-pagina-3.jpg",
+            "titulo": "Calendario del reto",
+            "texto": "21 días, de lo más fácil a lo más grande. Pégalo en la nevera."
+          }
+        },
+        "h2": {
+          "type": "hoja",
+          "settings": {
+            "imagen": "shopify://shop_images/reto21-pagina-4.jpg",
+            "titulo": "21 checklists diarias",
+            "texto": "Pasos concretos para 10 minutos, con versión exprés de 5."
+          }
+        },
+        "h3": {
+          "type": "hoja",
+          "settings": {
+            "imagen": "shopify://shop_images/reto21-pagina-25.jpg",
+            "titulo": "Método de las 3 cajas",
+            "texto": "Decide rápido qué se queda, qué se dona y qué se tira."
+          }
+        },
+        "h4": {
+          "type": "hoja",
+          "settings": {
+            "imagen": "shopify://shop_images/reto21-pagina-26.jpg",
+            "titulo": "Plan para mantenerlo",
+            "texto": "Hábitos de 5 minutos para que el orden no se vaya."
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3",
+        "h4"
+      ]
+    },
+    "pasos": {
+      "type": "cc-pasos",
+      "settings": {
+        "antetitulo": "En 3 pasos",
+        "titulo": "Cómo funciona",
+        "ancla": "como-funciona",
+        "color_tarjeta": "#F6F1E7",
+        "titulo_tamano": 52,
+        "color_fondo": "#E4E8DA",
+        "padding_top": 104,
+        "padding_bottom": 104
+      },
+      "blocks": {
+        "p1": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Compra y descarga",
+            "texto": "Pagas y recibes el PDF en tu email al momento."
+          }
+        },
+        "p2": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Imprime o abre en el móvil",
+            "texto": "Pega el calendario en la nevera o márcalo en tu teléfono."
+          }
+        },
+        "p3": {
+          "type": "paso",
+          "settings": {
+            "titulo": "10 minutos al día",
+            "texto": "Sigue la checklist del día, tacha y listo. En 21 días, otra casa."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ]
+    },
+    "testimonios": {
+      "type": "cc-testimonios",
+      "settings": {
+        "antetitulo": "Opiniones",
+        "titulo": "Lo que dicen quienes ya lo han hecho",
+        "titulo_tamano": 48,
+        "color_fondo": "#F6F1E7",
+        "padding_top": 104,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "t1": {
+          "type": "testimonio",
+          "settings": {
+            "texto": "[Testimonio real de una clienta]",
+            "nombre": "[Nombre], [ciudad]",
+            "estrellas": 5
+          }
+        },
+        "t2": {
+          "type": "testimonio",
+          "settings": {
+            "texto": "[Testimonio real de una clienta]",
+            "nombre": "[Nombre], [ciudad]",
+            "estrellas": 5
+          }
+        },
+        "t3": {
+          "type": "testimonio",
+          "settings": {
+            "texto": "[Testimonio real de una clienta]",
+            "nombre": "[Nombre], [ciudad]",
+            "estrellas": 5
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ]
+    },
+    "garantia": {
+      "type": "cc-garantia",
+      "settings": {
+        "dias": 14,
+        "titulo": "Garantía de devolución de 14 días",
+        "texto": "<p>Haz el reto. Si en 14 días no notas tu casa más ordenada, escríbenos y te devolvemos el dinero. Sin preguntas.</p>",
+        "color_caja": "#F1EADD",
+        "color_fondo": "#F6F1E7",
+        "padding_top": 32,
+        "padding_bottom": 104
+      }
+    },
+    "preguntas": {
+      "type": "cc-faq",
+      "settings": {
+        "titulo": "Preguntas frecuentes",
+        "ancla": "preguntas",
+        "primera_abierta": false,
+        "titulo_tamano": 52,
+        "color_fondo": "#FFFDF8",
+        "padding_top": 104,
+        "padding_bottom": 104
+      },
+      "blocks": {
+        "q0": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Cómo recibo el reto?",
+            "respuesta": "<p>Justo después de pagar te llega un email con el enlace para descargar el PDF. También lo verás en la página de confirmación del pedido.</p>"
+          }
+        },
+        "q1": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Necesito imprimirlo?",
+            "respuesta": "<p>No. Puedes imprimirlo en A4 o usarlo en el móvil o la tablet marcando las casillas con cualquier app que abra PDF.</p>"
+          }
+        },
+        "q2": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Y si un día no puedo?",
+            "respuesta": "<p>No pasa nada. El reto no caduca: retómalo al día siguiente donde lo dejaste. Además, cada día tiene una versión exprés de 5 minutos.</p>"
+          }
+        },
+        "q3": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Sirve para un piso pequeño o con niños?",
+            "respuesta": "<p>Sí. Las tareas son por zonas y se adaptan a cualquier casa. Hay un día pensado para juguetes y zonas de niños.</p>"
+          }
+        },
+        "q4": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Qué es el Planner de limpieza semanal?",
+            "respuesta": "<p>Un complemento opcional por 3 €: un plan de limpieza por días con tareas de 15 minutos, para mantener la casa cuando ya la tengas ordenada.</p>"
+          }
+        },
+        "q5": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Cómo funciona la garantía?",
+            "respuesta": "<p>Si en 14 días el reto no te ha ayudado, escríbenos y te devolvemos el dinero.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ]
+    },
+    "cierre": {
+      "type": "cc-cta",
+      "settings": {
+        "antetitulo": "Precio de lanzamiento",
+        "titulo": "Empieza hoy. Tu casa te lo agradecerá.",
+        "texto": "<p>Menos de lo que cuesta un café a la semana, y te acompaña 21 días.</p>",
+        "fecha_fin": "",
+        "texto_fin": "La oferta de lanzamiento ha terminado.",
+        "boton_texto": "Comprar ahora",
+        "mostrar_extra": true,
+        "extra": "planner-de-limpieza-semanal",
+        "extra_texto": "Añade también el",
+        "legal": "Pago seguro · PDF en tu email al instante · Garantía de 14 días",
+        "color_caja": "#2B2622",
+        "titulo_tamano": 56,
+        "color_fondo": "#F6F1E7",
+        "padding_top": 104,
+        "padding_bottom": 120
+      }
+    },
+    "barra": {
+      "type": "cc-barra",
+      "settings": {
+        "nota": "Precio de lanzamiento",
+        "boton_texto": "Empezar el reto",
+        "destino": "comprar"
+      }
+    }
+  },
+  "order": [
+    "portada",
+    "problema",
+    "incluye",
+    "pasos",
+    "testimonios",
+    "garantia",
+    "preguntas",
+    "cierre",
+    "barra"
+  ]
+}

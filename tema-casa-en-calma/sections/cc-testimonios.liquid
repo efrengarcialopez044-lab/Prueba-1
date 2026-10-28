@@ -1,0 +1,63 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-testimonios">
+  <div class="cc-contenedor">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo">{{ section.settings.titulo }}</h2>
+    </div>
+    <div class="cc-testimonios__grid">
+      {%- for block in section.blocks -%}
+        <figure class="cc-testimonio cc-aparece" style="--cc-retraso: {{ forloop.index0 | times: 0.1 }}s" data-cc-tilt {{ block.shopify_attributes }}>
+          {%- if block.settings.estrellas > 0 -%}
+            <p class="cc-estrellas" aria-label="{{ block.settings.estrellas }} de 5 estrellas">{% for i in (1..block.settings.estrellas) %}★{% endfor %}</p>
+          {%- endif -%}
+          <blockquote>“{{ block.settings.texto }}”</blockquote>
+          <figcaption>
+            {%- if block.settings.foto != blank -%}{{ block.settings.foto | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+            <span>{{ block.settings.nombre }}</span>
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Testimonios",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "Usa solo opiniones reales de clientas. Inventarlas es ilegal y puede costarte la tienda." },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Opiniones" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Lo que dicen quienes ya lo han hecho" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    { "type": "testimonio", "name": "Testimonio", "settings": [
+      { "type": "textarea", "id": "texto", "label": "Testimonio", "default": "[Testimonio real de una clienta]" },
+      { "type": "text", "id": "nombre", "label": "Nombre y ciudad", "default": "[Nombre], [ciudad]" },
+      { "type": "image_picker", "id": "foto", "label": "Foto (opcional)" },
+      { "type": "range", "id": "estrellas", "label": "Estrellas", "min": 0, "max": 5, "step": 1, "default": 5 }
+    ] }
+  ],
+  "max_blocks": 9,
+  "presets": [ { "name": "Casa – Testimonios", "blocks": [ { "type": "testimonio" }, { "type": "testimonio" }, { "type": "testimonio" } ] } ]
+}
+{% endschema %}

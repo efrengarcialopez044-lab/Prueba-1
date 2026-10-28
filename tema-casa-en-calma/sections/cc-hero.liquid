@@ -1,0 +1,113 @@
+{%- liquid
+  assign p = section.settings.producto
+  if p == blank
+    assign p = product
+  endif
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  #shopify-section-{{ section.id }} .cc-texto { font-size: {{ section.settings.texto_tamano }}px; }
+  #shopify-section-{{ section.id }} .cc-cuaderno__portada { --cc-portada: {{ section.settings.color_portada }}; }
+  #shopify-section-{{ section.id }} .cc-escena__circulo { background: {{ section.settings.color_circulo }}; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.62 | round }}px; }
+  }
+{% endstyle %}
+
+<section class="cc-section cc-hero">
+  <div class="cc-contenedor cc-hero__grid">
+    <div>
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante cc-aparece">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h1 class="cc-titulo cc-aparece" style="--cc-retraso:.06s">{{ section.settings.titulo }}</h1>
+      {%- if section.settings.texto != blank -%}<div class="cc-texto cc-aparece" style="--cc-retraso:.12s; margin-bottom: 30px; max-width: 540px">{{ section.settings.texto }}</div>{%- endif -%}
+      <div class="cc-aparece" style="--cc-retraso:.18s">
+        {% render 'cc-compra', p: p, extra: section.settings.extra, mostrar_extra: section.settings.mostrar_extra, extra_texto: section.settings.extra_texto, boton_texto: section.settings.boton_texto, enlace_texto: section.settings.enlace_texto, enlace_url: section.settings.enlace_url, ancla: true, sufijo: section.id %}
+      </div>
+      {%- if section.settings.sellos != blank -%}
+        {%- assign sellos = section.settings.sellos | newline_to_br | split: '<br />' -%}
+        <ul class="cc-hero__sellos cc-aparece" style="--cc-retraso:.24s">
+          {%- for s in sellos -%}{%- assign t = s | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}{{ t }}</li>{%- endif -%}{%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="cc-escena" data-cc-escena data-cc-fuerza="{{ section.settings.fuerza_3d | divided_by: 10.0 }}">
+      <div class="cc-escena__circulo" data-cc-parallax="0.06" aria-hidden="true"></div>
+      <div class="cc-cuaderno__flota">
+        <div class="cc-cuaderno" data-cc-cuaderno role="img" aria-label="{{ section.settings.portada_numero }} {{ section.settings.portada_titulo | escape }}">
+          <div class="cc-cuaderno__trasera"></div>
+          <div class="cc-cuaderno__hojas"></div>
+          <div class="cc-cuaderno__portada">
+            {%- if section.settings.portada_imagen != blank -%}
+              {{ section.settings.portada_imagen | image_url: width: 800 | image_tag: loading: 'eager', alt: '' }}
+            {%- else -%}
+              <div>
+                <p class="cc-cuaderno__mini">{{ section.settings.portada_mini }}</p>
+                <p class="cc-cuaderno__num">{{ section.settings.portada_numero }}</p>
+                <p class="cc-cuaderno__tit">{{ section.settings.portada_titulo }}</p>
+              </div>
+              <div class="cc-cuaderno__items">
+                {%- assign lineas = section.settings.portada_lineas | newline_to_br | split: '<br />' -%}
+                {%- for l in lineas -%}{%- assign t = l | strip -%}{%- if t != blank -%}<span><i>{% if forloop.first %}✓{% endif %}</i>{{ t }}</span>{%- endif -%}{%- endfor -%}
+                <div class="cc-cuaderno__raya"></div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- if section.settings.chapa_numero > 0 -%}
+        <div class="cc-chapa"><strong data-cc-contar="{{ section.settings.chapa_numero }}">{{ section.settings.chapa_numero }}</strong><span>{{ section.settings.chapa_texto | newline_to_br }}</span></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Portada",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Reto descargable · PDF imprimible" },
+    { "type": "text", "id": "titulo", "label": "Titular (usa <em>…</em> para la parte en cursiva)", "default": "Tu casa ordenada en 21 días, <em>10 minutos al día</em>" },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Un reto sencillo, una checklist por día y cero agobios.</p>" },
+    { "type": "textarea", "id": "sellos", "label": "Ventajas bajo el botón (una por línea)", "default": "Descarga inmediata\nGarantía de 14 días\nImprime o usa en el móvil" },
+    { "type": "header", "content": "Compra" },
+    { "type": "product", "id": "producto", "label": "Producto (vacío = el de la página)" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Quiero mi casa en orden" },
+    { "type": "text", "id": "enlace_texto", "label": "Enlace secundario – texto", "default": "Ver qué incluye" },
+    { "type": "url", "id": "enlace_url", "label": "Enlace secundario – dirección" },
+    { "type": "checkbox", "id": "mostrar_extra", "label": "Ofrecer un producto extra junto al botón", "default": true },
+    { "type": "product", "id": "extra", "label": "Producto extra" },
+    { "type": "text", "id": "extra_texto", "label": "Texto de la oferta extra", "default": "Añade también el" },
+    { "type": "header", "content": "Cuaderno 3D" },
+    { "type": "image_picker", "id": "portada_imagen", "label": "Imagen de portada (vacío = portada con textos)" },
+    { "type": "text", "id": "portada_mini", "label": "Portada – texto pequeño", "default": "Reto" },
+    { "type": "text", "id": "portada_numero", "label": "Portada – número", "default": "21" },
+    { "type": "text", "id": "portada_titulo", "label": "Portada – título", "default": "días para ordenar tu casa" },
+    { "type": "textarea", "id": "portada_lineas", "label": "Portada – lista (una por línea)", "default": "Día 1 · Un cajón\nDía 2 · La encimera\nDía 3 · El recibidor" },
+    { "type": "color", "id": "color_portada", "label": "Color de la portada", "default": "#5E6E52" },
+    { "type": "color", "id": "color_circulo", "label": "Color del círculo de fondo", "default": "#E4E8DA" },
+    { "type": "range", "id": "fuerza_3d", "label": "Intensidad del giro 3D", "min": 0, "max": 20, "step": 1, "default": 10 },
+    { "type": "range", "id": "chapa_numero", "label": "Contador animado (0 = ocultar)", "min": 0, "max": 99, "step": 1, "default": 21 },
+    { "type": "textarea", "id": "chapa_texto", "label": "Texto del contador", "default": "días · 10 min\nal día" },
+    { "type": "header", "content": "Tipografía" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del titular", "min": 32, "max": 96, "step": 2, "unit": "px", "default": 68 },
+    { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 14, "max": 26, "step": 1, "unit": "px", "default": 20 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 88 }
+  ],
+  "presets": [ { "name": "Casa – Portada" } ]
+}
+{% endschema %}

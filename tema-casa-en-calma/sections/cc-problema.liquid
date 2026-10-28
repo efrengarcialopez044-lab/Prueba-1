@@ -1,0 +1,52 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+{% endstyle %}
+
+<section class="cc-section cc-problema">
+  <div class="cc-contenedor">
+    <div class="cc-dos">
+      <div class="cc-tarjeta cc-tarjeta--problema cc-aparece" data-cc-tilt>
+        <p class="cc-ante">{{ section.settings.p_ante }}</p>
+        <h2 class="cc-titulo">{{ section.settings.p_titulo }}</h2>
+        {%- assign lineas = section.settings.p_lista | newline_to_br | split: '<br />' -%}
+        <ul class="cc-puntos">{%- for l in lineas -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-x' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+      </div>
+      <div class="cc-tarjeta cc-tarjeta--solucion cc-aparece" style="--cc-retraso:.1s" data-cc-tilt>
+        <p class="cc-ante">{{ section.settings.s_ante }}</p>
+        <h2 class="cc-titulo">{{ section.settings.s_titulo }}</h2>
+        {%- assign lineas = section.settings.s_lista | newline_to_br | split: '<br />' -%}
+        <ul class="cc-puntos">{%- for l in lineas -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Problema/solución",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "El problema" },
+    { "type": "text", "id": "p_ante", "label": "Antetítulo", "default": "El problema" },
+    { "type": "text", "id": "p_titulo", "label": "Título", "default": "Llegas a casa y el desorden te está esperando" },
+    { "type": "textarea", "id": "p_lista", "label": "Lista (una por línea)", "default": "No sabes por dónde empezar y lo vas dejando." },
+    { "type": "header", "content": "La solución" },
+    { "type": "text", "id": "s_ante", "label": "Antetítulo", "default": "La solución" },
+    { "type": "text", "id": "s_titulo", "label": "Título", "default": "Una tarea pequeña al día" },
+    { "type": "textarea", "id": "s_lista", "label": "Lista (una por línea)", "default": "Cada día sabes exactamente qué hacer." }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "Casa – Problema/solución" } ]
+}
+{% endschema %}
