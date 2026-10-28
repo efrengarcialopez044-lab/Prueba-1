@@ -1,0 +1,109 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-mosaico__grid { --mx-cols: {{ section.settings.columnas }}; }
+  #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-tile__titulo { font-size: {{ section.settings.tile_titulo_tamano }}px; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.62 | round }}px; }
+    #shopify-section-{{ section.id }} .mx-tile__titulo { font-size: {{ section.settings.tile_titulo_tamano | times: 0.8 | round }}px; }
+  }
+{% endstyle %}
+
+<section class="mx-section mx-mosaico"{% if section.settings.ancla != blank %} id="{{ section.settings.ancla }}"{% endif %}>
+  <div class="mx-contenedor">
+    {%- if section.settings.titulo != blank or section.settings.antetitulo != blank -%}
+      <div class="mx-mosaico__cabecera mx-centro mx-aparece">
+        {%- if section.settings.antetitulo != blank -%}<span class="mx-ante">{{ section.settings.antetitulo }}</span>{%- endif -%}
+        {%- if section.settings.titulo != blank -%}<h2 class="mx-titulo">{{ section.settings.titulo }}</h2>{%- endif -%}
+        {%- if section.settings.texto != blank -%}<div class="mx-sub">{{ section.settings.texto }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="mx-mosaico__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign p = block.settings.producto
+          assign img = block.settings.imagen
+          if img == blank and p != blank
+            assign img = p.featured_media.preview_image
+          endif
+          assign oscuro = false
+          assign brillo = block.settings.color_fondo | color_brightness
+          if brillo < 120
+            assign oscuro = true
+          endif
+        -%}
+        <article class="mx-tile mx-escala{% if oscuro %} mx-tile--oscuro{% endif %}" style="--tile-bg: {{ block.settings.color_fondo }}; --tile-fg: {{ block.settings.color_texto }}; --tile-ante: {{ block.settings.color_ante }}; --mx-retraso: {{ forloop.index0 | times: 0.1 }}s" {{ block.shopify_attributes }}>
+          {%- if p != blank -%}<a class="mx-tile__enlace" href="{{ p.url }}" aria-label="{{ p.title | escape }}"></a>{%- endif -%}
+          {%- if block.settings.antetitulo != blank -%}<span class="mx-ante">{{ block.settings.antetitulo }}</span>{%- endif -%}
+          <h3 class="mx-tile__titulo">{{ block.settings.titulo | default: p.title }}</h3>
+          {%- if block.settings.lema != blank -%}<p class="mx-tile__lema">{{ block.settings.lema }}</p>{%- endif -%}
+          {%- if p != blank and block.settings.mostrar_precio -%}<p class="mx-tile__precio">{{ block.settings.precio_prefijo }} {{ p.price | money }}</p>{%- endif -%}
+          {%- if p != blank -%}
+            <div class="mx-botones">
+              {%- if block.settings.boton_texto != blank -%}
+                {%- form 'product', p -%}
+                  <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
+                  {%- if block.settings.directo_pago -%}<input type="hidden" name="return_to" value="/checkout">{%- endif -%}
+                  <button type="submit" class="mx-btn"{% unless p.available %} disabled{% endunless %}>{{ block.settings.boton_texto }}</button>
+                {%- endform -%}
+              {%- endif -%}
+              {%- if block.settings.enlace_texto != blank -%}<a class="mx-link" href="{{ p.url }}">{{ block.settings.enlace_texto }}</a>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if img != blank -%}
+            <div class="mx-tile__media">{{ img | image_url: width: 1200 | image_tag: widths: '500, 800, 1200', sizes: '(max-width: 989px) 100vw, 50vw', loading: 'lazy', alt: img.alt }}</div>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Productos",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Cabecera" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Elige el tuyo." },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "text", "id": "ancla", "label": "Nombre del ancla (para enlazar con /#nombre)", "default": "productos" },
+    { "type": "header", "content": "Diseño" },
+    { "type": "range", "id": "columnas", "label": "Columnas en ordenador", "min": 1, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 96, "step": 2, "unit": "px", "default": 56 },
+    { "type": "range", "id": "tile_titulo_tamano", "label": "Tamaño del nombre en cada tarjeta", "min": 22, "max": 64, "step": 2, "unit": "px", "default": 40 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    { "type": "producto", "name": "Tarjeta de producto", "settings": [
+      { "type": "product", "id": "producto", "label": "Producto" },
+      { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Nuevo" },
+      { "type": "text", "id": "titulo", "label": "Nombre (vacío = el del producto)" },
+      { "type": "text", "id": "lema", "label": "Frase corta" },
+      { "type": "checkbox", "id": "mostrar_precio", "label": "Mostrar precio", "default": true },
+      { "type": "text", "id": "precio_prefijo", "label": "Texto antes del precio", "default": "Por" },
+      { "type": "text", "id": "boton_texto", "label": "Botón de compra – texto", "default": "Comprar" },
+      { "type": "checkbox", "id": "directo_pago", "label": "El botón lleva directo al pago", "default": true },
+      { "type": "text", "id": "enlace_texto", "label": "Enlace – texto", "default": "Más información" },
+      { "type": "image_picker", "id": "imagen", "label": "Imagen (vacío = foto del producto)" },
+      { "type": "color", "id": "color_fondo", "label": "Color de fondo", "default": "#F5F5F7" },
+      { "type": "color", "id": "color_texto", "label": "Color del texto", "default": "#1D1D1F" },
+      { "type": "color", "id": "color_ante", "label": "Color del antetítulo", "default": "#BF4800" }
+    ] }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Plano – Productos", "blocks": [ { "type": "producto" }, { "type": "producto" } ] } ]
+}
+{% endschema %}

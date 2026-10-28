@@ -1,0 +1,227 @@
+{
+  "sections": {
+    "principal": {
+      "type": "mx-producto",
+      "settings": {
+        "antetitulo": "Producto digital · Descarga inmediata",
+        "mostrar_lema": true,
+        "precio_nota": "Pago único · IVA incluido",
+        "boton_texto": "Añadir a la bolsa",
+        "agotado_texto": "No disponible",
+        "pago_rapido": true,
+        "barra_movil": true,
+        "mostrar_descripcion": true,
+        "aviso": "Producto digital: no se envía nada físico.",
+        "color_galeria": "#F5F5F7",
+        "titulo_tamano": 40,
+        "precio_tamano": 30,
+        "texto_tamano": 17,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 40,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "g1": {
+          "type": "garantia",
+          "settings": {
+            "icono": "rayo",
+            "titulo": "Descarga inmediata",
+            "texto": "El enlace llega a tu email al momento."
+          }
+        },
+        "g2": {
+          "type": "garantia",
+          "settings": {
+            "icono": "infinito",
+            "titulo": "Pago único",
+            "texto": "Sin suscripciones. Tuyo para siempre."
+          }
+        },
+        "g3": {
+          "type": "garantia",
+          "settings": {
+            "icono": "candado",
+            "titulo": "Pago seguro",
+            "texto": "Tarjeta, Apple Pay o Google Pay."
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3"
+      ]
+    },
+    "capturas": {
+      "type": "mx-capturas",
+      "settings": {
+        "titulo": "Échale un vistazo por dentro.",
+        "mostrar_textos": true,
+        "titulo_tamano": 48,
+        "color_fondo": "#F5F5F7",
+        "padding_top": 96,
+        "padding_bottom": 80
+      }
+    },
+    "ventajas": {
+      "type": "mx-ventajas",
+      "settings": {
+        "titulo": "Empiezas en dos minutos.",
+        "columnas": 3,
+        "tarjetas_blancas": false,
+        "titulo_tamano": 48,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 96,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "p1": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "candado",
+            "titulo": "1. Compras",
+            "texto": "Pago seguro con tarjeta, Apple Pay o Google Pay."
+          }
+        },
+        "p2": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "descarga",
+            "titulo": "2. Descargas",
+            "texto": "Te llega el enlace al email nada más pagar."
+          }
+        },
+        "p3": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "lapiz",
+            "titulo": "3. Empiezas",
+            "texto": "Ábrelo en tu app de notas o en tu hoja de cálculo."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ]
+    },
+    "preguntas": {
+      "type": "mx-faq",
+      "settings": {
+        "titulo": "Preguntas frecuentes.",
+        "ancla": "preguntas",
+        "primera_abierta": false,
+        "titulo_tamano": 48,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 48,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "q1": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Cómo recibo mi compra?",
+            "respuesta": "<p>Justo después de pagar te llega un email con el enlace de descarga. No se envía nada físico.</p>"
+          }
+        },
+        "q2": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Qué necesito para el Planner Digital?",
+            "respuesta": "<p>Una tablet (iPad o Android) y una app de notas que abra PDF, como GoodNotes, Notability, Noteshelf o Xodo.</p>"
+          }
+        },
+        "q3": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Y para el Kit Finanzas?",
+            "respuesta": "<p>Microsoft Excel o una cuenta gratuita de Google para usar Google Sheets. Funciona en ordenador, tablet y móvil.</p>"
+          }
+        },
+        "q4": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Es un pago único?",
+            "respuesta": "<p>Sí. Pagas una vez y es tuyo para siempre, sin suscripciones.</p>"
+          }
+        },
+        "q5": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Y si tengo un problema con el archivo?",
+            "respuesta": "<p>Escríbenos y te ayudamos. Al ser contenido digital, una vez descargado no admite devolución, pero cualquier problema con el archivo lo solucionamos.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ]
+    },
+    "otros": {
+      "type": "mx-mosaico",
+      "settings": {
+        "titulo": "Completa tu 2027.",
+        "ancla": "",
+        "columnas": 2,
+        "titulo_tamano": 48,
+        "tile_titulo_tamano": 36,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 0,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "t1": {
+          "type": "producto",
+          "settings": {
+            "producto": "planner-digital-2027-norte",
+            "antetitulo": "Nuevo",
+            "titulo": "Planner Digital 2027",
+            "lema": "Todo tu año en tu tablet. Toca una pestaña y saltas al mes.",
+            "mostrar_precio": true,
+            "precio_prefijo": "Por",
+            "boton_texto": "Comprar",
+            "directo_pago": true,
+            "enlace_texto": "Más información",
+            "color_fondo": "#F5F5F7",
+            "color_texto": "#1D1D1F",
+            "color_ante": "#BF4800"
+          }
+        },
+        "t2": {
+          "type": "producto",
+          "settings": {
+            "producto": "kit-finanzas-personales-2027-plantilla-de-presupuesto-excel-y-google-sheets",
+            "antetitulo": "Nuevo",
+            "titulo": "Kit Finanzas 2027",
+            "lema": "Tu presupuesto en Excel y Google Sheets. Todo se calcula solo.",
+            "mostrar_precio": true,
+            "precio_prefijo": "Por",
+            "boton_texto": "Comprar",
+            "directo_pago": true,
+            "enlace_texto": "Más información",
+            "color_fondo": "#1D1D1F",
+            "color_texto": "#F5F5F7",
+            "color_ante": "#FF9F0A",
+            "imagen": "shopify://shop_images/plano-finanzas-oscuro.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2"
+      ]
+    }
+  },
+  "order": [
+    "principal",
+    "capturas",
+    "ventajas",
+    "preguntas",
+    "otros"
+  ]
+}

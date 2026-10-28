@@ -1,0 +1,66 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+{%- liquid
+  assign fuente = product
+  if section.settings.producto != blank
+    assign fuente = section.settings.producto
+  endif
+-%}
+<section class="mx-section mx-carrusel" data-mx-carrusel>
+  <div class="mx-contenedor mx-aparece">
+    {%- if section.settings.titulo != blank -%}<h2 class="mx-titulo">{{ section.settings.titulo }}</h2>{%- endif -%}
+    {%- if section.settings.texto != blank -%}<div class="mx-sub" style="margin:0">{{ section.settings.texto }}</div>{%- endif -%}
+  </div>
+  <div class="mx-carrusel__pista" data-mx-pista>
+    {%- if fuente.media.size > 0 -%}
+      {%- for m in fuente.media limit: 12 -%}
+        <div class="mx-carrusel__item mx-aparece" style="--mx-retraso: {{ forloop.index0 | times: 0.06 }}s">
+          <figure>
+            {{ m.preview_image | image_url: width: 1440 | image_tag: widths: '600, 1000, 1440', sizes: '(max-width: 749px) 78vw, 720px', loading: 'lazy', alt: m.alt }}
+            {%- if section.settings.mostrar_textos and m.alt != blank -%}<figcaption>{{ m.alt }}</figcaption>{%- endif -%}
+          </figure>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..3) -%}<div class="mx-carrusel__item">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>{%- endfor -%}
+    {%- endif -%}
+  </div>
+  <div class="mx-contenedor">
+    <div class="mx-carrusel__flechas">
+      <button type="button" data-mx-mover="-1" aria-label="Anterior">‹</button>
+      <button type="button" data-mx-mover="1" aria-label="Siguiente">›</button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Capturas",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "Muestra en carrusel las fotos del producto. En la página de producto usa sus propias fotos; en otras páginas, elige el producto." },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Échale un vistazo por dentro." },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "product", "id": "producto", "label": "Producto (solo fuera de la página de producto)" },
+    { "type": "checkbox", "id": "mostrar_textos", "label": "Mostrar la descripción de cada foto", "default": true },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Plano – Capturas" } ]
+}
+{% endschema %}

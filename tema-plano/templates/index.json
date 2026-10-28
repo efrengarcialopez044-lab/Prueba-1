@@ -1,0 +1,305 @@
+{
+  "sections": {
+    "portada": {
+      "type": "mx-hero",
+      "settings": {
+        "antetitulo": "Nuevo · Edición 2027",
+        "titulo": "Tu tiempo y tu dinero. En orden.",
+        "degradado": false,
+        "texto": "<p>Plantillas digitales claras y bonitas para planificar tu año y controlar tus gastos. Descárgalas hoy y empieza en minutos.</p>",
+        "sellos": "Descarga inmediata\nPago único, sin suscripciones\nEn español",
+        "boton_texto": "Ver productos",
+        "boton_url": "/#productos",
+        "enlace_texto": "Cómo funciona",
+        "enlace_url": "/#como-funciona",
+        "imagen": "shopify://shop_images/plano-hero.jpg",
+        "imagen_ancho": 1400,
+        "alineacion": "center",
+        "titulo_tamano": 88,
+        "texto_tamano": 24,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 96,
+        "padding_bottom": 40
+      }
+    },
+    "productos": {
+      "type": "mx-mosaico",
+      "settings": {
+        "antetitulo": "",
+        "titulo": "Elige el tuyo.",
+        "ancla": "productos",
+        "columnas": 2,
+        "titulo_tamano": 56,
+        "tile_titulo_tamano": 40,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "t1": {
+          "type": "producto",
+          "settings": {
+            "producto": "planner-digital-2027-norte",
+            "antetitulo": "Nuevo",
+            "titulo": "Planner Digital 2027",
+            "lema": "Todo tu año en tu tablet. Toca una pestaña y saltas al mes.",
+            "mostrar_precio": true,
+            "precio_prefijo": "Por",
+            "boton_texto": "Comprar",
+            "directo_pago": true,
+            "enlace_texto": "Más información",
+            "color_fondo": "#F5F5F7",
+            "color_texto": "#1D1D1F",
+            "color_ante": "#BF4800"
+          }
+        },
+        "t2": {
+          "type": "producto",
+          "settings": {
+            "producto": "kit-finanzas-personales-2027-plantilla-de-presupuesto-excel-y-google-sheets",
+            "antetitulo": "Nuevo",
+            "titulo": "Kit Finanzas 2027",
+            "lema": "Tu presupuesto en Excel y Google Sheets. Todo se calcula solo.",
+            "mostrar_precio": true,
+            "precio_prefijo": "Por",
+            "boton_texto": "Comprar",
+            "directo_pago": true,
+            "enlace_texto": "Más información",
+            "color_fondo": "#1D1D1F",
+            "color_texto": "#F5F5F7",
+            "color_ante": "#FF9F0A",
+            "imagen": "shopify://shop_images/plano-finanzas-oscuro.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2"
+      ]
+    },
+    "planner": {
+      "type": "mx-destacado",
+      "settings": {
+        "antetitulo": "Planner Digital 2027",
+        "titulo": "Un cuaderno de verdad. Dentro de tu iPad.",
+        "texto": "<p>Un único PDF con pestañas enlazadas. Escribes con tu lápiz en GoodNotes o Notability y te mueves por el año con un toque.</p>",
+        "puntos": "Vistas anual, mensual, semanal y diaria\nHábitos, metas y páginas de notas\nVersión clara y oscura incluidas",
+        "producto": "planner-digital-2027-norte",
+        "boton_texto": "Comprar",
+        "enlace_texto": "Ver qué incluye",
+        "imagen_lado": "derecha",
+        "caja": true,
+        "color_caja": "#F5F5F7",
+        "color_texto": "#1D1D1F",
+        "color_ante": "#BF4800",
+        "titulo_tamano": 48,
+        "texto_tamano": 19,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 64,
+        "padding_bottom": 12
+      }
+    },
+    "finanzas": {
+      "type": "mx-destacado",
+      "settings": {
+        "antetitulo": "Kit Finanzas 2027",
+        "titulo": "Sabe a dónde va cada euro.",
+        "texto": "<p>Apunta tus gastos y el kit hace el resto: presupuesto mensual, resumen anual y un plan para salir de deudas. Sin apps y sin conectar tu banco.</p>",
+        "puntos": "Excel y Google Sheets, en euros\nAlertas cuando te pasas del presupuesto\nGuía rápida con la regla 50/30/20",
+        "producto": "kit-finanzas-personales-2027-plantilla-de-presupuesto-excel-y-google-sheets",
+        "boton_texto": "Comprar",
+        "enlace_texto": "Ver qué incluye",
+        "imagen_lado": "izquierda",
+        "caja": true,
+        "color_caja": "#F5F5F7",
+        "color_texto": "#1D1D1F",
+        "color_ante": "#0071E3",
+        "titulo_tamano": 48,
+        "texto_tamano": 19,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 12,
+        "padding_bottom": 64
+      }
+    },
+    "ventajas": {
+      "type": "mx-ventajas",
+      "settings": {
+        "antetitulo": "",
+        "titulo": "Pensado para que empieces hoy.",
+        "texto": "",
+        "columnas": 4,
+        "tarjetas_blancas": true,
+        "titulo_tamano": 48,
+        "color_fondo": "#F5F5F7",
+        "padding_top": 96,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "v1": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "rayo",
+            "titulo": "Descarga inmediata",
+            "texto": "Pagas y recibes el enlace en tu email al momento."
+          }
+        },
+        "v2": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "infinito",
+            "titulo": "Pago único",
+            "texto": "Sin suscripciones. Es tuyo para siempre."
+          }
+        },
+        "v3": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "tablet",
+            "titulo": "En tus dispositivos",
+            "texto": "iPad, tablet Android, ordenador y móvil."
+          }
+        },
+        "v4": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "mensaje",
+            "titulo": "Te ayudamos",
+            "texto": "¿Alguna duda con el archivo? Escríbenos y lo resolvemos."
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ]
+    },
+    "como-funciona": {
+      "type": "mx-ventajas",
+      "settings": {
+        "antetitulo": "Cómo funciona",
+        "titulo": "Tres pasos. Dos minutos.",
+        "columnas": 3,
+        "tarjetas_blancas": false,
+        "titulo_tamano": 48,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 96,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "p1": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "candado",
+            "titulo": "1. Compras",
+            "texto": "Pago seguro con tarjeta, Apple Pay o Google Pay."
+          }
+        },
+        "p2": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "descarga",
+            "titulo": "2. Descargas",
+            "texto": "Te llega el enlace al email nada más pagar."
+          }
+        },
+        "p3": {
+          "type": "ventaja",
+          "settings": {
+            "icono": "lapiz",
+            "titulo": "3. Empiezas",
+            "texto": "Ábrelo en tu app de notas o en tu hoja de cálculo y listo."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ]
+    },
+    "preguntas": {
+      "type": "mx-faq",
+      "settings": {
+        "titulo": "Preguntas frecuentes.",
+        "ancla": "preguntas",
+        "primera_abierta": false,
+        "titulo_tamano": 48,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 48,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "q1": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Cómo recibo mi compra?",
+            "respuesta": "<p>Justo después de pagar te llega un email con el enlace de descarga. No se envía nada físico.</p>"
+          }
+        },
+        "q2": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Qué necesito para el Planner Digital?",
+            "respuesta": "<p>Una tablet (iPad o Android) y una app de notas que abra PDF, como GoodNotes, Notability, Noteshelf o Xodo.</p>"
+          }
+        },
+        "q3": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Y para el Kit Finanzas?",
+            "respuesta": "<p>Microsoft Excel o una cuenta gratuita de Google para usar Google Sheets. Funciona en ordenador, tablet y móvil.</p>"
+          }
+        },
+        "q4": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Es un pago único?",
+            "respuesta": "<p>Sí. Pagas una vez y es tuyo para siempre, sin suscripciones.</p>"
+          }
+        },
+        "q5": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Y si tengo un problema con el archivo?",
+            "respuesta": "<p>Escríbenos y te ayudamos. Al ser contenido digital, una vez descargado no admite devolución, pero cualquier problema con el archivo lo solucionamos.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ]
+    },
+    "cierre": {
+      "type": "mx-cta",
+      "settings": {
+        "titulo": "Empieza 2027 con orden.",
+        "texto": "<p>Planifica tu año y controla tu dinero desde hoy.</p>",
+        "boton_texto": "Ver productos",
+        "boton_url": "/#productos",
+        "legal": "Pago seguro · Descarga inmediata en tu email",
+        "color_caja": "#1D1D1F",
+        "color_texto": "#F5F5F7",
+        "titulo_tamano": 64,
+        "color_fondo": "#FFFFFF",
+        "padding_top": 0,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": [
+    "portada",
+    "productos",
+    "planner",
+    "finanzas",
+    "ventajas",
+    "como-funciona",
+    "preguntas",
+    "cierre"
+  ]
+}

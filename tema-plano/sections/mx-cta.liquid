@@ -1,0 +1,53 @@
+{%- assign p = section.settings.producto -%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.62 | round }}px; } }
+{% endstyle %}
+
+<section class="mx-section mx-cta">
+  <div class="mx-contenedor">
+    <div class="mx-cta__caja mx-escala" style="--caja-bg: {{ section.settings.color_caja }}; --caja-fg: {{ section.settings.color_texto }}">
+      {%- if section.settings.titulo != blank -%}<h2 class="mx-titulo">{{ section.settings.titulo }}</h2>{%- endif -%}
+      {%- if section.settings.texto != blank -%}<div class="mx-sub">{{ section.settings.texto }}</div>{%- endif -%}
+      <div class="mx-botones">
+        {%- if section.settings.boton_texto != blank -%}<a class="mx-btn mx-btn--grande" href="{{ section.settings.boton_url | default: p.url | default: '#' }}">{{ section.settings.boton_texto }}</a>{%- endif -%}
+        {%- if section.settings.enlace_texto != blank -%}<a class="mx-link" style="color:#2997FF" href="{{ section.settings.enlace_url | default: '#' }}">{{ section.settings.enlace_texto }}</a>{%- endif -%}
+      </div>
+      {%- if section.settings.legal != blank -%}<p class="mx-cta__legal">{{ section.settings.legal }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Llamada final",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Empieza 2027 con orden." },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Descarga inmediata. Pago único.</p>" },
+    { "type": "product", "id": "producto", "label": "Producto (para el botón)" },
+    { "type": "text", "id": "boton_texto", "label": "Botón – texto", "default": "Ver productos" },
+    { "type": "url", "id": "boton_url", "label": "Botón – dirección (vacío = producto)" },
+    { "type": "text", "id": "enlace_texto", "label": "Enlace – texto" },
+    { "type": "url", "id": "enlace_url", "label": "Enlace – dirección" },
+    { "type": "text", "id": "legal", "label": "Texto pequeño", "default": "Pago seguro · Descarga inmediata en tu email" },
+    { "type": "color", "id": "color_caja", "label": "Color de la caja", "default": "#1D1D1F" },
+    { "type": "color", "id": "color_texto", "label": "Color del texto", "default": "#F5F5F7" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 96, "step": 2, "unit": "px", "default": 64 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Plano – Llamada final" } ]
+}
+{% endschema %}

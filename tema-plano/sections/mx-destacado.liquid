@@ -1,0 +1,85 @@
+{%- liquid
+  assign p = section.settings.producto
+  assign img = section.settings.imagen
+  if img == blank and p != blank
+    assign img = p.featured_media.preview_image
+  endif
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-sub { font-size: {{ section.settings.texto_tamano }}px; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; }
+  }
+{% endstyle %}
+
+<section class="mx-section mx-destacado{% if section.settings.imagen_lado == 'izquierda' %} mx-destacado--invertido{% endif %}{% unless section.settings.caja %} mx-destacado--sin-caja{% endunless %}"{% if section.settings.ancla != blank %} id="{{ section.settings.ancla }}"{% endif %}>
+  <div class="mx-contenedor">
+    <div class="mx-destacado__caja mx-aparece" style="--caja-bg: {{ section.settings.color_caja }}; --caja-fg: {{ section.settings.color_texto }}; --mx-ante-color: {{ section.settings.color_ante }}">
+      <div class="mx-destacado__texto">
+        {%- if section.settings.antetitulo != blank -%}<span class="mx-ante">{{ section.settings.antetitulo }}</span>{%- endif -%}
+        {%- if section.settings.titulo != blank -%}<h2 class="mx-titulo">{{ section.settings.titulo }}</h2>{%- endif -%}
+        {%- if section.settings.texto != blank -%}<div class="mx-sub">{{ section.settings.texto }}</div>{%- endif -%}
+        {%- if section.settings.puntos != blank -%}
+          {%- assign lineas = section.settings.puntos | newline_to_br | split: '<br />' -%}
+          <ul class="mx-puntos">{%- for l in lineas -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}{%- endfor -%}</ul>
+        {%- endif -%}
+        <div class="mx-botones">
+          {%- if section.settings.boton_texto != blank -%}<a class="mx-btn" href="{{ section.settings.boton_url | default: p.url | default: '#' }}">{{ section.settings.boton_texto }}</a>{%- endif -%}
+          {%- if section.settings.enlace_texto != blank -%}<a class="mx-link" href="{{ section.settings.enlace_url | default: p.url | default: '#' }}">{{ section.settings.enlace_texto }}</a>{%- endif -%}
+        </div>
+      </div>
+      <div class="mx-destacado__media">
+        {%- if img != blank -%}
+          {{ img | image_url: width: 1400 | image_tag: widths: '600, 900, 1400', sizes: '(max-width: 989px) 100vw, 50vw', loading: 'lazy', alt: img.alt }}
+        {%- else -%}
+          {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Destacado",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Planner Digital 2027" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Tu año entero, en tu tablet." },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Toca una pestaña y saltas al mes.</p>" },
+    { "type": "textarea", "id": "puntos", "label": "Puntos con check (uno por línea)" },
+    { "type": "text", "id": "ancla", "label": "Nombre del ancla (para enlazar con /#nombre)" },
+    { "type": "header", "content": "Producto y botones" },
+    { "type": "product", "id": "producto", "label": "Producto (para foto y enlaces)" },
+    { "type": "text", "id": "boton_texto", "label": "Botón – texto", "default": "Comprar" },
+    { "type": "url", "id": "boton_url", "label": "Botón – dirección (vacío = producto)" },
+    { "type": "text", "id": "enlace_texto", "label": "Enlace – texto", "default": "Ver qué incluye" },
+    { "type": "url", "id": "enlace_url", "label": "Enlace – dirección (vacío = producto)" },
+    { "type": "header", "content": "Imagen y estilo" },
+    { "type": "image_picker", "id": "imagen", "label": "Imagen (vacío = foto del producto)" },
+    { "type": "select", "id": "imagen_lado", "label": "Lado de la imagen", "options": [ { "value": "derecha", "label": "Derecha" }, { "value": "izquierda", "label": "Izquierda" } ], "default": "derecha" },
+    { "type": "checkbox", "id": "caja", "label": "Mostrar caja de color", "default": true },
+    { "type": "color", "id": "color_caja", "label": "Color de la caja", "default": "#F5F5F7" },
+    { "type": "color", "id": "color_texto", "label": "Color del texto", "default": "#1D1D1F" },
+    { "type": "color", "id": "color_ante", "label": "Color del antetítulo", "default": "#BF4800" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 14, "max": 28, "step": 1, "unit": "px", "default": 19 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Plano – Destacado" } ]
+}
+{% endschema %}

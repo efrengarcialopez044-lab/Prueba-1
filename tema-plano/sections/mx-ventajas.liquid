@@ -1,0 +1,67 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-ventajas__grid { --mx-cols: {{ section.settings.columnas }}; }
+  #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="mx-section mx-ventajas{% if section.settings.tarjetas_blancas %} mx-ventajas--blanco{% endif %}">
+  <div class="mx-contenedor">
+    <div class="mx-centro mx-aparece">
+      {%- if section.settings.antetitulo != blank -%}<span class="mx-ante">{{ section.settings.antetitulo }}</span>{%- endif -%}
+      {%- if section.settings.titulo != blank -%}<h2 class="mx-titulo">{{ section.settings.titulo }}</h2>{%- endif -%}
+      {%- if section.settings.texto != blank -%}<div class="mx-sub">{{ section.settings.texto }}</div>{%- endif -%}
+    </div>
+    <div class="mx-ventajas__grid">
+      {%- for block in section.blocks -%}
+        <div class="mx-ventaja mx-aparece" style="--mx-retraso: {{ forloop.index0 | times: 0.08 }}s" {{ block.shopify_attributes }}>
+          {% render 'mx-icono', nombre: block.settings.icono %}
+          <h3>{{ block.settings.titulo }}</h3>
+          {%- if block.settings.texto != blank -%}<p>{{ block.settings.texto }}</p>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Ventajas",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Por qué Plano." },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "range", "id": "columnas", "label": "Columnas en ordenador", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "tarjetas_blancas", "label": "Tarjetas blancas (para fondos grises)", "default": false },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    { "type": "ventaja", "name": "Ventaja", "settings": [
+      { "type": "select", "id": "icono", "label": "Icono", "options": [
+        { "value": "descarga", "label": "Descarga" }, { "value": "infinito", "label": "Infinito" }, { "value": "candado", "label": "Candado" },
+        { "value": "tablet", "label": "Tablet" }, { "value": "portatil", "label": "Portátil" }, { "value": "movil", "label": "Móvil" },
+        { "value": "calendario", "label": "Calendario" }, { "value": "grafico", "label": "Gráfico" }, { "value": "euro", "label": "Euro" },
+        { "value": "check", "label": "Check" }, { "value": "rayo", "label": "Rayo" }, { "value": "escudo", "label": "Escudo" },
+        { "value": "lapiz", "label": "Lápiz" }, { "value": "idioma", "label": "Idioma" }, { "value": "mensaje", "label": "Mensaje" }
+      ], "default": "descarga" },
+      { "type": "text", "id": "titulo", "label": "Título", "default": "Descarga inmediata" },
+      { "type": "textarea", "id": "texto", "label": "Texto", "default": "Lo recibes en tu email al momento." }
+    ] }
+  ],
+  "max_blocks": 8,
+  "presets": [ { "name": "Plano – Ventajas", "blocks": [ { "type": "ventaja" }, { "type": "ventaja" }, { "type": "ventaja" }, { "type": "ventaja" } ] } ]
+}
+{% endschema %}

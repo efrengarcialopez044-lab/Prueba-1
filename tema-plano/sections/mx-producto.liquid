@@ -1,0 +1,146 @@
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign primera = product.featured_media
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-pdp__titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-pdp__precio strong { font-size: {{ section.settings.precio_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-rte, #shopify-section-{{ section.id }} .mx-pdp__lema { font-size: {{ section.settings.texto_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-pdp__principal { background: {{ section.settings.color_galeria }}; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .mx-pdp__titulo { font-size: {{ section.settings.titulo_tamano | times: 0.74 | round }}px; }
+  }
+{% endstyle %}
+
+<section class="mx-section mx-pdp">
+  <div class="mx-contenedor">
+    <div class="mx-pdp__grid">
+      <div class="mx-pdp__galeria mx-escala" data-mx-galeria>
+        <div class="mx-pdp__principal">
+          {%- if product.media.size > 0 -%}
+            <img data-mx-principal src="{{ primera.preview_image | image_url: width: 1600 }}" srcset="{{ primera.preview_image | image_url: width: 800 }} 800w, {{ primera.preview_image | image_url: width: 1600 }} 1600w" sizes="(max-width: 989px) 100vw, 56vw" width="{{ primera.preview_image.width }}" height="{{ primera.preview_image.height }}" alt="{{ primera.alt | default: product.title | escape }}" loading="eager" fetchpriority="high">
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="mx-pdp__mini">
+            {%- for m in product.media limit: 12 -%}
+              <button type="button" class="{% if forloop.first %}is-on{% endif %}" data-mx-mini="{{ m.preview_image | image_url: width: 1600 }}" data-mx-alt="{{ m.alt | escape }}" aria-label="Ver imagen {{ forloop.index }}">
+                <img src="{{ m.preview_image | image_url: width: 200 }}" alt="" loading="lazy" width="84" height="84">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="mx-pdp__compra mx-aparece" style="--mx-retraso:.1s" data-mx-producto data-mx-moneda="{{ shop.money_format | strip_html | escape }}">
+        {%- if section.settings.antetitulo != blank -%}<span class="mx-ante">{{ section.settings.antetitulo }}</span>{%- endif -%}
+        <h1 class="mx-pdp__titulo">{{ product.title }}</h1>
+        {%- if section.settings.mostrar_lema and product.description != blank -%}
+          <p class="mx-pdp__lema">{{ product.description | strip_html | split: '.' | first | strip }}.</p>
+        {%- endif -%}
+
+        <div class="mx-pdp__precio">
+          <strong data-mx-precio>{{ v.price | money }}</strong>
+          <s data-mx-tachado{% unless v.compare_at_price > v.price %} hidden{% endunless %}>{% if v.compare_at_price > v.price %}{{ v.compare_at_price | money }}{% endif %}</s>
+          {%- if section.settings.precio_nota != blank -%}<small>{{ section.settings.precio_nota }}</small>{%- endif -%}
+        </div>
+
+        {%- form 'product', product, id: 'mx-form-producto' -%}
+          <input type="hidden" name="id" value="{{ v.id }}">
+          {%- unless product.has_only_default_variant -%}
+            <fieldset class="mx-pdp__variantes">
+              {%- for opcion in product.options_with_values -%}
+                <div>
+                  <label for="mx-opcion-{{ forloop.index }}">{{ opcion.name }}</label>
+                  <select id="mx-opcion-{{ forloop.index }}" data-mx-opcion>
+                    {%- for valor in opcion.values -%}<option value="{{ valor | escape }}"{% if opcion.selected_value == valor %} selected{% endif %}>{{ valor }}</option>{%- endfor -%}
+                  </select>
+                </div>
+              {%- endfor -%}
+            </fieldset>
+            <script type="application/json" data-mx-variantes>
+              [{%- for x in product.variants -%}{"id": {{ x.id }}, "available": {{ x.available | json }}, "price": {{ x.price }}, "compare_at_price": {{ x.compare_at_price | default: 0 }}, "options": {{ x.options | json }}}{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+            </script>
+          {%- endunless -%}
+          <div data-mx-ancla-compra>
+            <button type="submit" name="add" class="mx-btn mx-btn--grande mx-btn--bloque" data-mx-comprar data-mx-normal="{{ section.settings.boton_texto | escape }}" data-mx-agotado="{{ section.settings.agotado_texto | escape }}"{% unless v.available %} disabled{% endunless %}>{% if v.available %}{{ section.settings.boton_texto }}{% else %}{{ section.settings.agotado_texto }}{% endif %}</button>
+            {%- if section.settings.pago_rapido -%}{{ form | payment_button }}{%- endif -%}
+          </div>
+        {%- endform -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="mx-garantias">
+            {%- for block in section.blocks -%}
+              <li {{ block.shopify_attributes }}>{% render 'mx-icono', nombre: block.settings.icono %}<span><strong>{{ block.settings.titulo }}</strong>{{ block.settings.texto }}</span></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.mostrar_descripcion and product.description != blank -%}
+          <div class="mx-pdp__descripcion mx-rte">{{ product.description }}</div>
+        {%- endif -%}
+        {%- if section.settings.aviso != blank -%}<p class="mx-aviso">{{ section.settings.aviso }}</p>{%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.barra_movil -%}
+    <div class="mx-barra" data-mx-barra>
+      <strong>{{ v.price | money }}</strong>
+      <button type="submit" form="mx-form-producto" name="add" class="mx-btn"{% unless v.available %} disabled{% endunless %}>{{ section.settings.boton_texto }}</button>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Producto",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "El título, el precio, las fotos y la descripción salen del producto (Productos en tu panel). Así esta misma plantilla sirve para todos tus productos." },
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Producto digital · Descarga inmediata" },
+    { "type": "checkbox", "id": "mostrar_lema", "label": "Mostrar la primera frase de la descripción bajo el título", "default": true },
+    { "type": "text", "id": "precio_nota", "label": "Nota junto al precio", "default": "Pago único · IVA incluido" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Añadir a la bolsa" },
+    { "type": "text", "id": "agotado_texto", "label": "Texto si no está disponible", "default": "No disponible" },
+    { "type": "checkbox", "id": "pago_rapido", "label": "Mostrar botón de pago rápido", "default": true },
+    { "type": "checkbox", "id": "barra_movil", "label": "Barra de compra fija en el móvil", "default": true },
+    { "type": "checkbox", "id": "mostrar_descripcion", "label": "Mostrar la descripción completa", "default": true },
+    { "type": "text", "id": "aviso", "label": "Aviso pequeño al final", "default": "Producto digital: no se envía nada físico." },
+    { "type": "header", "content": "Estilo" },
+    { "type": "color", "id": "color_galeria", "label": "Fondo de la galería", "default": "#F5F5F7" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 64, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "precio_tamano", "label": "Tamaño del precio", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 30 },
+    { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 13, "max": 22, "step": 1, "unit": "px", "default": 17 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 80 }
+  ],
+  "blocks": [
+    { "type": "garantia", "name": "Garantía", "settings": [
+      { "type": "select", "id": "icono", "label": "Icono", "options": [
+        { "value": "descarga", "label": "Descarga" }, { "value": "infinito", "label": "Infinito" }, { "value": "candado", "label": "Candado" },
+        { "value": "escudo", "label": "Escudo" }, { "value": "rayo", "label": "Rayo" }, { "value": "tablet", "label": "Tablet" },
+        { "value": "portatil", "label": "Portátil" }, { "value": "check", "label": "Check" }, { "value": "mensaje", "label": "Mensaje" }
+      ], "default": "descarga" },
+      { "type": "text", "id": "titulo", "label": "Título", "default": "Descarga inmediata" },
+      { "type": "text", "id": "texto", "label": "Texto", "default": "En tu email al momento." }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [ { "name": "Plano – Producto" } ]
+}
+{% endschema %}

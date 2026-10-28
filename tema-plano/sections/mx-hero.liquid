@@ -1,0 +1,92 @@
+{%- liquid
+  assign p = section.settings.producto
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-sub { font-size: {{ section.settings.texto_tamano }}px; }
+  #shopify-section-{{ section.id }} .mx-hero__media { max-width: {{ section.settings.imagen_ancho }}px; }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .mx-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.56 | round }}px; }
+    #shopify-section-{{ section.id }} .mx-sub { font-size: {{ section.settings.texto_tamano | times: 0.86 | round }}px; }
+  }
+{% endstyle %}
+
+<section class="mx-section mx-hero{% if section.settings.alineacion == 'left' %} mx-hero--izquierda{% endif %}">
+  <div class="mx-contenedor">
+    {%- if section.settings.antetitulo != blank -%}<span class="mx-ante mx-aparece">{{ section.settings.antetitulo }}</span>{%- endif -%}
+    {%- if section.settings.titulo != blank -%}
+      <h2 class="mx-titulo mx-aparece" style="--mx-retraso:.08s">{% if section.settings.degradado %}<span class="mx-gradiente">{{ section.settings.titulo }}</span>{% else %}{{ section.settings.titulo }}{% endif %}</h2>
+    {%- endif -%}
+    {%- if section.settings.texto != blank -%}<div class="mx-sub mx-aparece" style="--mx-retraso:.16s">{{ section.settings.texto }}</div>{%- endif -%}
+    {%- if p != blank and section.settings.mostrar_precio -%}
+      <p class="mx-hero__precio mx-aparece" style="--mx-retraso:.2s">{{ section.settings.precio_prefijo }} {{ p.price | money }}</p>
+    {%- endif -%}
+    <div class="mx-botones mx-aparece" style="--mx-retraso:.24s">
+      {%- if section.settings.boton_texto != blank -%}
+        <a class="mx-btn" href="{{ section.settings.boton_url | default: p.url | default: '#' }}">{{ section.settings.boton_texto }}</a>
+      {%- endif -%}
+      {%- if section.settings.enlace_texto != blank -%}
+        <a class="mx-link" href="{{ section.settings.enlace_url | default: '#' }}">{{ section.settings.enlace_texto }}</a>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.sellos != blank -%}
+      {%- assign sellos = section.settings.sellos | newline_to_br | split: '<br />' -%}
+      <ul class="mx-hero__sellos mx-aparece" style="--mx-retraso:.3s">
+        {%- for s in sellos -%}{%- assign t = s | strip -%}{%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}{%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.imagen != blank -%}
+    <div class="mx-hero__media mx-escala" style="--mx-retraso:.25s">
+      {{ section.settings.imagen | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.imagen.alt }}
+    </div>
+  {%- elsif p.featured_media != blank -%}
+    <div class="mx-hero__media mx-escala" style="--mx-retraso:.25s">
+      {{ p.featured_media.preview_image | image_url: width: 2000 | image_tag: widths: '750, 1100, 1500, 2000', sizes: '100vw', loading: 'eager', alt: p.title }}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Plano – Portada",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Nuevo · Colección 2027" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Organiza tu año. Sin complicaciones." },
+    { "type": "checkbox", "id": "degradado", "label": "Título con degradado de color", "default": false },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Plantillas digitales para planificar tu tiempo y tu dinero.</p>" },
+    { "type": "textarea", "id": "sellos", "label": "Ventajas bajo los botones (una por línea)" },
+    { "type": "header", "content": "Producto y botones" },
+    { "type": "product", "id": "producto", "label": "Producto (para precio, foto y botón)" },
+    { "type": "checkbox", "id": "mostrar_precio", "label": "Mostrar precio del producto", "default": false },
+    { "type": "text", "id": "precio_prefijo", "label": "Texto antes del precio", "default": "Desde" },
+    { "type": "text", "id": "boton_texto", "label": "Botón – texto", "default": "Ver productos" },
+    { "type": "url", "id": "boton_url", "label": "Botón – dirección (vacío = producto)" },
+    { "type": "text", "id": "enlace_texto", "label": "Enlace secundario – texto", "default": "Más información" },
+    { "type": "url", "id": "enlace_url", "label": "Enlace secundario – dirección" },
+    { "type": "header", "content": "Imagen" },
+    { "type": "image_picker", "id": "imagen", "label": "Imagen (vacío = foto del producto)" },
+    { "type": "range", "id": "imagen_ancho", "label": "Ancho máximo de la imagen", "min": 600, "max": 1600, "step": 50, "unit": "px", "default": 1400 },
+    { "type": "header", "content": "Tipografía" },
+    { "type": "select", "id": "alineacion", "label": "Alineación", "options": [ { "value": "center", "label": "Centro" }, { "value": "left", "label": "Izquierda" } ], "default": "center" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 32, "max": 120, "step": 2, "unit": "px", "default": 80 },
+    { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 14, "max": 32, "step": 1, "unit": "px", "default": 24 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "Plano – Portada" } ]
+}
+{% endschema %}
