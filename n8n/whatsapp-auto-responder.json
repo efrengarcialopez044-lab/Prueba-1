@@ -1,0 +1,79 @@
+{
+  "name": "WhatsApp - Respuestas automáticas",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ]
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "WhatsApp Trigger",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "a1b2c3d4-0001-4000-8000-0000000000ff"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== CONFIGURACIÓN =====\nconst ZONA_HORARIA = 'America/Mexico_City';\nconst HORARIO = { activo: true, dias: [1, 2, 3, 4, 5], inicio: 9 * 60, fin: 18 * 60 };\nconst ESPERA_MINUTOS = 60; // no repetir la respuesta por defecto a la misma persona\n\nconst FUERA_DE_HORARIO = '¡Hola! 👋 Ahora mismo estoy fuera de horario (lunes a viernes de 9:00 a 18:00). Te responderé en cuanto pueda.';\nconst POR_DEFECTO = '¡Gracias por escribir! Este es un mensaje automático. Te responderé lo antes posible.';\nconst REGLAS = [\n  { palabras: ['hola', 'buenas', 'buenos dias'], respuesta: '¡Hola! 👋 Gracias por tu mensaje. En breve te atiendo.' },\n  { palabras: ['precio', 'costo', 'cuanto cuesta'], respuesta: 'Con gusto te comparto precios. ¿Qué producto o servicio te interesa?' },\n  { palabras: ['horario', 'abren', 'cierran'], respuesta: 'Nuestro horario es de lunes a viernes de 9:00 a 18:00.' },\n  { palabras: ['ubicacion', 'direccion', 'donde estan'], respuesta: 'Te comparto nuestra ubicación: (pon aquí tu dirección o enlace de Google Maps).' },\n];\n// =========================\n\nconst normalizar = (t) => ` ${String(t || '').toLowerCase().normalize('NFD')\n  .replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9ñ\\s]/g, ' ').replace(/\\s+/g, ' ').trim()} `;\n\nconst ahora = new Date();\nconst partes = new Intl.DateTimeFormat('en-US', {\n  timeZone: ZONA_HORARIA, weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',\n}).formatToParts(ahora);\nconst val = (tipo) => partes.find((p) => p.type === tipo).value;\nconst dia = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(val('weekday'));\nconst minutos = Number(val('hour')) * 60 + Number(val('minute'));\nconst enHorario = !HORARIO.activo\n  || (HORARIO.dias.includes(dia) && minutos >= HORARIO.inicio && minutos < HORARIO.fin);\n\n// Memoria entre ejecuciones (solo funciona con el flujo activado, no en pruebas manuales)\nconst memoria = $getWorkflowStaticData('global');\nmemoria.ultima = memoria.ultima || {};\n\nconst salida = [];\nfor (const item of $input.all()) {\n  const datos = item.json;\n  const mensaje = (datos.messages || [])[0];\n  if (!mensaje) continue; // avisos de entregado/leído, no son mensajes\n  const de = mensaje.from;\n  const texto = normalizar(mensaje.text?.body ?? mensaje.button?.text ?? '');\n\n  let respuesta;\n  let respetaEspera = true;\n  if (!enHorario) {\n    respuesta = FUERA_DE_HORARIO;\n  } else {\n    const regla = REGLAS.find((r) => r.palabras.some((p) => texto.includes(normalizar(p))));\n    if (regla) {\n      respuesta = regla.respuesta;\n      respetaEspera = false;\n    } else {\n      respuesta = POR_DEFECTO;\n    }\n  }\n\n  const ultima = memoria.ultima[de];\n  if (respetaEspera && ultima && ahora.getTime() - ultima < ESPERA_MINUTOS * 60 * 1000) continue;\n  memoria.ultima[de] = ahora.getTime();\n\n  salida.push({ json: { para: de, respuesta, phoneNumberId: datos.metadata?.phone_number_id } });\n}\nreturn salida;\n"
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000002",
+      "name": "Decidir respuesta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "={{ $json.phoneNumberId }}",
+        "recipientPhoneNumber": "={{ $json.para }}",
+        "textBody": "={{ $json.respuesta }}",
+        "additionalFields": {}
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000003",
+      "name": "Enviar respuesta",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        480,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Decidir respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decidir respuesta": {
+      "main": [
+        [
+          {
+            "node": "Enviar respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
