@@ -15,3 +15,10 @@
 - Reto 21 días (gid://shopify/Product/10503775486281, variante 55783414890825) y Planner limpieza (gid://shopify/Product/10503775551817, variante 55783414956361): con archivo adjunto y en estado ACTIVO en la Tienda online.
 - Tema "Casa en Calma – Reto 21 días" (190706745673) sin publicar todavía: la API no deja publicarlo, lo tiene que hacer la dueña desde el admin. La contraseña de la tienda también se quita desde el admin.
 - Anuncios en vídeo en anuncios/.
+
+## 29/10 – Tienda en vivo
+- Tema Casa en Calma publicado y tienda sin contraseña. Portada, página del reto y /collections/all funcionan.
+- Compra probada en móvil: el botón «Empieza hoy» lleva al checkout con BIENVENIDA aplicado (12,00 € → 9,99 €). Formas de pago: tarjeta, PayPal, Shop Pay y Google Pay.
+- Entrega probada con el pedido de prueba #1001 (0 €): llegan el email de confirmación y el de descarga.
+- AMIGAS21 borrado.
+- Pendiente (dueña): cambiar el nombre de la tienda de «Mi tienda» a «Casa en Calma» y traducir el email de la app Digital Downloads.
