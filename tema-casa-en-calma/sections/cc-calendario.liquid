@@ -1,0 +1,70 @@
+{%- assign tareas = section.settings.tareas | newline_to_br | split: '<br />' -%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-calendario" data-cc-calendario>
+  <div class="cc-contenedor" style="max-width: 1000px">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h2>
+      {%- if section.settings.texto != blank -%}<div class="cc-texto">{{ section.settings.texto }}</div>{%- endif -%}
+    </div>
+    <div class="cc-cal cc-aparece">
+      <div class="cc-cal__semanas">
+        {%- for s in (1..3) -%}
+          {%- assign clave = 'semana_' | append: s -%}
+          <p class="cc-cal__semana">{{ section.settings[clave] }}</p>
+          <div class="cc-cal__fila" role="list">
+            {%- for d in (1..7) -%}
+              {%- assign n = s | minus: 1 | times: 7 | plus: d -%}
+              {%- assign i = n | minus: 1 -%}
+              {%- assign t = tareas[i] | strip -%}
+              <button type="button" class="cc-cal__dia{% if n == 1 %} is-activo{% endif %}" role="listitem" data-cc-dia="{{ n }}" data-cc-tarea="{{ t | escape }}" aria-label="Día {{ n }}: {{ t | escape }}" style="--i: {{ i }}">
+                <strong>{{ n }}</strong><span>{{ t }}</span>
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="cc-cal__detalle" aria-live="polite">
+        <p class="cc-cal__num">Día <span data-cc-dia-num>1</span></p>
+        <p class="cc-cal__tarea" data-cc-dia-tarea>{{ tareas[0] | strip }}</p>
+        <p class="cc-cal__pie">{{ section.settings.pie }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Calendario 21",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Tu calendario" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Un día, una zona" },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "text", "id": "semana_1", "label": "Semana 1 – nombre", "default": "Semana 1 · Zonas rápidas" },
+    { "type": "text", "id": "semana_2", "label": "Semana 2 – nombre", "default": "Semana 2 · Cocina y baño" },
+    { "type": "text", "id": "semana_3", "label": "Semana 3 – nombre", "default": "Semana 3 · Armarios" },
+    { "type": "textarea", "id": "tareas", "label": "Las 21 tareas (una por línea, en orden)", "default": "Un cajón\nLa encimera\nEl recibidor" },
+    { "type": "text", "id": "pie", "label": "Texto bajo la tarea", "default": "10 minutos con el temporizador y listo." },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "Casa – Calendario 21" } ]
+}
+{% endschema %}

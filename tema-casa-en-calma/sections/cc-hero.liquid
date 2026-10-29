@@ -25,7 +25,7 @@
 
 {%- if section.settings.barra_progreso -%}<div class="cc-progreso" data-cc-progreso aria-hidden="true"><i></i></div>{%- endif -%}
 
-<section class="cc-section cc-hero">
+<section class="cc-section cc-hero{% if section.settings.composicion == 'centro' %} cc-hero--centro{% endif %}">
   <div class="cc-contenedor cc-hero__grid">
     <div>
       {%- if section.settings.antetitulo != blank -%}<p class="cc-ante cc-aparece">{{ section.settings.antetitulo }}</p>{%- endif -%}
@@ -79,7 +79,7 @@
       {%- if section.settings.ficha_3 != blank -%}<div class="cc-capa cc-ficha cc-ficha--3" data-cc-prof="1.1" aria-hidden="true"><i>{% render 'cc-check' %}</i>{{ section.settings.ficha_3 }}</div>{%- endif -%}
       {%- if section.settings.chapa_numero > 0 -%}
         <div class="cc-capa cc-sello-giro" data-cc-prof="0.5" aria-hidden="true">
-          <svg viewBox="0 0 120 120"><defs><path id="cc-circ-{{ section.id }}" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><circle cx="60" cy="60" r="58" fill="#FFFDF8"/><text font-family="DM Sans, sans-serif" font-size="10.5" font-weight="600" letter-spacing="2.6" fill="#5E6E52"><textPath href="#cc-circ-{{ section.id }}">{{ section.settings.chapa_texto | upcase | escape }}</textPath></text></svg>
+          <svg viewBox="0 0 120 120"><defs><path id="cc-circ-{{ section.id }}" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><circle cx="60" cy="60" r="58" fill="#FFFBF9"/><text font-family="DM Sans, sans-serif" font-size="10.5" font-weight="600" letter-spacing="2.6" fill="#8C5A66"><textPath href="#cc-circ-{{ section.id }}">{{ section.settings.chapa_texto | upcase | escape }}</textPath></text></svg>
           <strong data-cc-contar="{{ section.settings.chapa_numero }}">{{ section.settings.chapa_numero }}</strong>
         </div>
       {%- endif -%}
@@ -96,6 +96,7 @@
     { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Reto de 21 días" },
     { "type": "text", "id": "titulo", "label": "Titular (usa <em>…</em> para la parte en cursiva)", "default": "Tu casa ordenada en 21 días, <em>10 minutos al día</em>" },
     { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Un reto sencillo, una tarea por día y cero agobios.</p>" },
+    { "type": "select", "id": "composicion", "label": "Composición", "options": [ { "value": "centro", "label": "Centrada (texto arriba, cuaderno debajo)" }, { "value": "columnas", "label": "Dos columnas" } ], "default": "centro" },
     { "type": "checkbox", "id": "barra_progreso", "label": "Barra de progreso al bajar por la página", "default": true },
     { "type": "header", "content": "Compra" },
     { "type": "product", "id": "producto", "label": "Producto (vacío = el de la página)" },
@@ -120,8 +121,8 @@
     { "type": "text", "id": "portada_numero", "label": "Portada – número", "default": "21" },
     { "type": "text", "id": "portada_titulo", "label": "Portada – título", "default": "días para ordenar tu casa" },
     { "type": "textarea", "id": "portada_lineas", "label": "Portada – lista (una por línea)", "default": "Día 1 · Un cajón\nDía 2 · La encimera\nDía 3 · El recibidor" },
-    { "type": "color", "id": "color_portada", "label": "Color de la portada", "default": "#5E6E52" },
-    { "type": "color", "id": "color_circulo", "label": "Color del círculo de fondo", "default": "#E4E8DA" },
+    { "type": "color", "id": "color_portada", "label": "Color de la portada", "default": "#8C5A66" },
+    { "type": "color", "id": "color_circulo", "label": "Color del círculo de fondo", "default": "#F2DCD5" },
     { "type": "range", "id": "fuerza_3d", "label": "Intensidad del giro 3D", "min": 0, "max": 20, "step": 1, "default": 10 },
     { "type": "range", "id": "chapa_numero", "label": "Sello giratorio – número (0 = ocultar)", "min": 0, "max": 99, "step": 1, "default": 21 },
     { "type": "text", "id": "chapa_texto", "label": "Sello giratorio – texto", "default": "días · 10 minutos al día · sin agobios ·" },
@@ -130,7 +131,7 @@
     { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 14, "max": 26, "step": 1, "unit": "px", "default": 20 }
     ,
     { "type": "header", "content": "Fondo y espaciado" },
-    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
     { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 56 },
     { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 88 }
   ],

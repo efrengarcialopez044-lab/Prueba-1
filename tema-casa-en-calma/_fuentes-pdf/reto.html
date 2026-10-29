@@ -4,25 +4,25 @@
 <style>
 @page{size:A4;margin:0}
 *{box-sizing:border-box}
-body{margin:0;font-family:'DM Sans',sans-serif;color:#2B2622;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.pg{width:210mm;height:297mm;padding:20mm 18mm;position:relative;page-break-after:always;background:#FBF8F2;overflow:hidden}
+body{margin:0;font-family:'DM Sans',sans-serif;color:#3B2A30;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pg{width:210mm;height:297mm;padding:20mm 18mm;position:relative;page-break-after:always;background:#FDF8F5;overflow:hidden}
 .pg:last-child{page-break-after:auto}
 .serif{font-family:'Fraunces',Georgia,serif}
 h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;margin:0}
-.ante{font-size:9.5pt;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5E6E52;margin:0 0 4mm}
-.pie{position:absolute;left:18mm;right:18mm;bottom:10mm;display:flex;justify-content:space-between;font-size:8.5pt;color:#8B8178}
+.ante{font-size:9.5pt;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8C5A66;margin:0 0 4mm}
+.pie{position:absolute;left:18mm;right:18mm;bottom:10mm;display:flex;justify-content:space-between;font-size:8.5pt;color:#8E7A80}
 p{line-height:1.5;font-size:11pt;margin:0 0 3mm}
-.caja{border:1.4pt solid #8A9A7B;border-radius:2mm;width:6mm;height:6mm;flex:none;background:#fff}
+.caja{border:1.4pt solid #B98A93;border-radius:2mm;width:6mm;height:6mm;flex:none;background:#fff}
 .lista{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4.5mm}
 .lista li{display:flex;gap:4mm;align-items:flex-start;font-size:12pt;line-height:1.4}
-.tarjeta{background:#F1EADD;border-radius:5mm;padding:7mm}
-.linea{border-bottom:1pt solid #D9CFBF;height:9mm}
-.cover{background:#5E6E52;color:#F6F1E7;display:flex;flex-direction:column;justify-content:space-between;padding:26mm 22mm}
-.terra{color:#A9502F}
+.tarjeta{background:#F5E9E3;border-radius:5mm;padding:7mm}
+.linea{border-bottom:1pt solid #E6D3CC;height:9mm}
+.cover{background:#8C5A66;color:#FBF5F1;display:flex;flex-direction:column;justify-content:space-between;padding:26mm 22mm}
+.terra{color:#A44D3B}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3mm}
-.cal div{background:#fff;border:1pt solid #E4DACA;border-radius:3mm;height:38mm;padding:3mm;font-size:8.5pt;gap:1.5mm;line-height:1.3;display:flex;flex-direction:column;justify-content:space-between}
-.cal b{font-family:'Fraunces',serif;font-size:15pt;font-weight:500;color:#A9502F}
-.sem{font-size:10pt;font-weight:600;color:#5E6E52;margin:6mm 0 3mm;text-transform:uppercase;letter-spacing:.1em}
+.cal div{background:#fff;border:1pt solid #EBDCD5;border-radius:3mm;height:38mm;padding:3mm;font-size:8.5pt;gap:1.5mm;line-height:1.3;display:flex;flex-direction:column;justify-content:space-between}
+.cal b{font-family:'Fraunces',serif;font-size:15pt;font-weight:500;color:#A44D3B}
+.sem{font-size:10pt;font-weight:600;color:#8C5A66;margin:6mm 0 3mm;text-transform:uppercase;letter-spacing:.1em}
 </style></head><body>
 <div id="root"></div>
 <script>
@@ -52,27 +52,27 @@ const D=[
 const S=['Semana 1 · Zonas rápidas','Semana 2 · Cocina y baño','Semana 3 · Armarios y zonas grandes'];
 const pie=(n)=>`<div class="pie"><span>Reto de 21 días para ordenar tu casa</span><span>${n}</span></div>`;
 let h='';let n=1;
-h+=`<section class="pg cover"><div><p style="font-size:10pt;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin:0 0 6mm">Reto</p><p class="serif" style="font-size:150pt;line-height:.85;margin:0">21</p><h1 style="font-size:34pt;font-style:italic;line-height:1.1;margin-top:4mm">días para ordenar tu casa</h1></div><div><div style="width:22mm;height:1.6mm;background:#C0623F;border-radius:1mm;margin-bottom:8mm"></div><p style="font-size:14pt;margin:0">10 minutos al día. Una checklist por día. Cero agobios.</p></div></section>`;
+h+=`<section class="pg cover"><div><p style="font-size:10pt;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin:0 0 6mm">Reto</p><p class="serif" style="font-size:150pt;line-height:.85;margin:0">21</p><h1 style="font-size:34pt;font-style:italic;line-height:1.1;margin-top:4mm">días para ordenar tu casa</h1></div><div><div style="width:22mm;height:1.6mm;background:#C8654F;border-radius:1mm;margin-bottom:8mm"></div><p style="font-size:14pt;margin:0">10 minutos al día. Una checklist por día. Cero agobios.</p></div></section>`;
 n++;
 h+=`<section class="pg"><p class="ante">Antes de empezar</p><h2 style="font-size:30pt;margin-bottom:8mm">Cómo usar este reto</h2>
 <div style="display:flex;flex-direction:column;gap:6mm">${[['1','Una zona al día','Cada página es un día. Haz solo lo de ese día, aunque te queden ganas de más.'],['2','10 minutos con temporizador','Pon el temporizador del móvil. Cuando suene, para. Lo importante es la constancia, no la perfección.'],['3','Las 3 cajas','Ten a mano tres cajas o bolsas: me lo quedo, lo dono, lo tiro. Encontrarás el método en la página 25.'],['4','¿Día complicado?','Usa la versión exprés de 5 minutos que hay en cada checklist. Cuenta igual.'],['5','Si te saltas un día','No pasa nada. Retómalo al día siguiente donde lo dejaste. El reto no caduca.']].map(x=>`<div class="tarjeta" style="display:flex;gap:6mm;align-items:flex-start"><span class="serif terra" style="font-size:26pt;line-height:1">${x[0]}</span><div><h3 style="font-size:15pt;margin-bottom:2mm">${x[1]}</h3><p style="margin:0">${x[2]}</p></div></div>`).join('')}</div>
-<p style="margin-top:8mm;font-size:10pt;color:#6B6159">Puedes imprimirlo en A4 o usarlo en el móvil o la tablet marcando las casillas con cualquier app de PDF.</p>${pie(n)}</section>`;
+<p style="margin-top:8mm;font-size:10pt;color:#76636A">Puedes imprimirlo en A4 o usarlo en el móvil o la tablet marcando las casillas con cualquier app de PDF.</p>${pie(n)}</section>`;
 n++;
 h+=`<section class="pg"><p class="ante">Tu calendario</p><h2 style="font-size:30pt;margin-bottom:4mm">21 días, de lo fácil a lo grande</h2><p>Pégalo en la nevera y tacha cada día que completes.</p>${S.map((s,w)=>`<p class="sem">${s}</p><div class="cal">${D.slice(w*7,w*7+7).map((d,i)=>`<div><b>${w*7+i+1}</b><span>${d[0]}</span><span class="caja" style="width:5mm;height:5mm"></span></div>`).join('')}</div>`).join('')}${pie(n)}</section>`;
 D.forEach((d,i)=>{n++;const w=Math.floor(i/7);
-h+=`<section class="pg"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8mm"><div><p class="ante">${S[w]}</p><h2 style="font-size:28pt;line-height:1.1;max-width:120mm">${d[0]}</h2></div><div style="text-align:center;background:#5E6E52;color:#F6F1E7;border-radius:5mm;padding:4mm 6mm"><span style="font-size:8pt;letter-spacing:.15em;text-transform:uppercase">Día</span><br><span class="serif" style="font-size:34pt;line-height:1">${i+1}</span></div></div>
-<p style="font-size:12pt;color:#5C534B;margin-bottom:8mm">${d[1]}</p>
+h+=`<section class="pg"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8mm"><div><p class="ante">${S[w]}</p><h2 style="font-size:28pt;line-height:1.1;max-width:120mm">${d[0]}</h2></div><div style="text-align:center;background:#8C5A66;color:#FBF5F1;border-radius:5mm;padding:4mm 6mm"><span style="font-size:8pt;letter-spacing:.15em;text-transform:uppercase">Día</span><br><span class="serif" style="font-size:34pt;line-height:1">${i+1}</span></div></div>
+<p style="font-size:12pt;color:#6A5960;margin-bottom:8mm">${d[1]}</p>
 <div class="tarjeta" style="margin-bottom:7mm"><p style="font-weight:600;margin-bottom:5mm">Checklist · 10 minutos</p><ul class="lista">${d[2].map(x=>`<li><span class="caja"></span><span>${x}</span></li>`).join('')}</ul></div>
-<div style="border:1.2pt dashed #C0623F;border-radius:5mm;padding:5mm 7mm;margin-bottom:8mm;display:flex;gap:5mm;align-items:center"><span class="caja" style="border-color:#C0623F"></span><p style="margin:0"><strong class="terra">Versión exprés (5 min):</strong> ${d[3]}</p></div>
+<div style="border:1.2pt dashed #C8654F;border-radius:5mm;padding:5mm 7mm;margin-bottom:8mm;display:flex;gap:5mm;align-items:center"><span class="caja" style="border-color:#C8654F"></span><p style="margin:0"><strong class="terra">Versión exprés (5 min):</strong> ${d[3]}</p></div>
 <p style="font-weight:600;margin-bottom:2mm">Notas</p><div class="linea"></div><div class="linea"></div><div class="linea"></div>
 <div style="display:flex;gap:10mm;margin-top:8mm;align-items:center;font-size:11pt"><span>¿Cómo me siento hoy?</span>${['Igual','Mejor','¡Genial!'].map(x=>`<span style="display:flex;gap:2mm;align-items:center"><span class="caja" style="border-radius:50%"></span>${x}</span>`).join('')}</div>${pie(n)}</section>`;});
 n++;
 h+=`<section class="pg"><p class="ante">Herramienta</p><h2 style="font-size:30pt;margin-bottom:6mm">El método de las 3 cajas</h2><p style="margin-bottom:8mm">Ten siempre tres cajas o bolsas a mano mientras ordenas. Cada objeto que tocas va a una de ellas. Sin dejarlo “para luego”.</p>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-bottom:10mm">${[['Me lo quedo','Lo uso, me gusta y tiene un sitio.','#5E6E52'],['Lo dono','Está en buen estado, pero ya no lo uso.','#C0623F'],['Lo tiro','Está roto, caducado o no le sirve a nadie.','#2B2622']].map(c=>`<div style="border-radius:5mm;padding:7mm 5mm;background:${c[2]};color:#F6F1E7;height:58mm;display:flex;flex-direction:column;justify-content:space-between"><h3 style="font-size:17pt">${c[0]}</h3><p style="margin:0;font-size:10.5pt">${c[1]}</p></div>`).join('')}</div>
-<div class="tarjeta"><p style="font-weight:600;margin-bottom:4mm">Si dudas, hazte estas preguntas:</p><ul class="lista">${['¿Lo he usado en el último año?','Si lo viera hoy en una tienda, ¿lo compraría?','¿Lo tengo repetido?','¿Lo guardo por culpa o por compromiso?'].map(x=>`<li><span class="caja"></span><span>${x}</span></li>`).join('')}</ul><p style="margin:5mm 0 0;font-size:10.5pt;color:#5C534B">¿Sigues dudando? Guárdalo en una caja con la fecha de hoy. Si en tres meses no lo has abierto, ya sabes la respuesta.</p></div>${pie(n)}</section>`;
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-bottom:10mm">${[['Me lo quedo','Lo uso, me gusta y tiene un sitio.','#8C5A66'],['Lo dono','Está en buen estado, pero ya no lo uso.','#C8654F'],['Lo tiro','Está roto, caducado o no le sirve a nadie.','#3B2A30']].map(c=>`<div style="border-radius:5mm;padding:7mm 5mm;background:${c[2]};color:#FBF5F1;height:58mm;display:flex;flex-direction:column;justify-content:space-between"><h3 style="font-size:17pt">${c[0]}</h3><p style="margin:0;font-size:10.5pt">${c[1]}</p></div>`).join('')}</div>
+<div class="tarjeta"><p style="font-weight:600;margin-bottom:4mm">Si dudas, hazte estas preguntas:</p><ul class="lista">${['¿Lo he usado en el último año?','Si lo viera hoy en una tienda, ¿lo compraría?','¿Lo tengo repetido?','¿Lo guardo por culpa o por compromiso?'].map(x=>`<li><span class="caja"></span><span>${x}</span></li>`).join('')}</ul><p style="margin:5mm 0 0;font-size:10.5pt;color:#6A5960">¿Sigues dudando? Guárdalo en una caja con la fecha de hoy. Si en tres meses no lo has abierto, ya sabes la respuesta.</p></div>${pie(n)}</section>`;
 n++;
 h+=`<section class="pg"><p class="ante">Después del reto</p><h2 style="font-size:30pt;margin-bottom:6mm">Plan para mantenerlo</h2><p style="margin-bottom:7mm">El orden se mantiene con hábitos pequeños, no con grandes limpiezas. Elige tres y márcalos durante dos semanas.</p>
-<div style="display:flex;flex-direction:column;gap:4mm">${[['Reset de la noche','5 minutos antes de dormir: cada cosa a su sitio.'],['Uno entra, uno sale','Si entra una prenda o un objeto nuevo, sale otro.'],['La encimera libre','Nunca te vas a dormir con la encimera llena.'],['El correo al momento','Los papeles se abren y se deciden el mismo día.'],['Repaso del domingo','15 minutos para revisar la zona que más se desordena.'],['La caja de donación','Una caja fija en casa: cuando se llena, se lleva.']].map(x=>`<div style="display:flex;gap:5mm;align-items:center;background:#fff;border:1pt solid #E4DACA;border-radius:4mm;padding:4mm 5mm"><span class="caja"></span><div style="flex:1"><strong style="font-size:12pt">${x[0]}</strong><br><span style="font-size:10pt;color:#5C534B">${x[1]}</span></div><div style="display:flex;gap:1.6mm">${Array.from({length:14}).map(()=>'<span style="width:4.2mm;height:4.2mm;border-radius:50%;border:1pt solid #8A9A7B"></span>').join('')}</div></div>`).join('')}</div>
-<p style="margin-top:8mm;font-size:10pt;color:#6B6159">Gracias por hacer el reto. Si te ha ayudado, nos encantaría que nos lo contaras.</p>${pie(n)}</section>`;
+<div style="display:flex;flex-direction:column;gap:4mm">${[['Reset de la noche','5 minutos antes de dormir: cada cosa a su sitio.'],['Uno entra, uno sale','Si entra una prenda o un objeto nuevo, sale otro.'],['La encimera libre','Nunca te vas a dormir con la encimera llena.'],['El correo al momento','Los papeles se abren y se deciden el mismo día.'],['Repaso del domingo','15 minutos para revisar la zona que más se desordena.'],['La caja de donación','Una caja fija en casa: cuando se llena, se lleva.']].map(x=>`<div style="display:flex;gap:5mm;align-items:center;background:#fff;border:1pt solid #EBDCD5;border-radius:4mm;padding:4mm 5mm"><span class="caja"></span><div style="flex:1"><strong style="font-size:12pt">${x[0]}</strong><br><span style="font-size:10pt;color:#6A5960">${x[1]}</span></div><div style="display:flex;gap:1.6mm">${Array.from({length:14}).map(()=>'<span style="width:4.2mm;height:4.2mm;border-radius:50%;border:1pt solid #B98A93"></span>').join('')}</div></div>`).join('')}</div>
+<p style="margin-top:8mm;font-size:10pt;color:#76636A">Gracias por hacer el reto. Si te ha ayudado, nos encantaría que nos lo contaras.</p>${pie(n)}</section>`;
 document.getElementById('root').innerHTML=h;
 </script></body></html>

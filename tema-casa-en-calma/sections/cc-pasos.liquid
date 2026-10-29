@@ -21,6 +21,7 @@
     <div class="cc-pasos__grid">
       {%- for block in section.blocks -%}
         <div class="cc-paso cc-aparece" style="--cc-retraso: {{ forloop.index0 | times: 0.1 }}s" data-cc-tilt {{ block.shopify_attributes }}>
+          {%- if block.settings.icono != 'ninguno' -%}<span class="cc-paso__icono">{% render 'cc-icono', nombre: block.settings.icono %}</span>{%- endif -%}
           <span class="cc-paso__num" aria-hidden="true">{{ forloop.index }}</span>
           <h3>{{ block.settings.titulo }}</h3>
           <p>{{ block.settings.texto }}</p>
@@ -38,16 +39,17 @@
     { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "En 3 pasos" },
     { "type": "text", "id": "titulo", "label": "Título", "default": "Cómo funciona" },
     { "type": "text", "id": "ancla", "label": "Nombre del ancla", "default": "como-funciona" },
-    { "type": "color", "id": "color_tarjeta", "label": "Color de las tarjetas", "default": "#F6F1E7" },
+    { "type": "color", "id": "color_tarjeta", "label": "Color de las tarjetas", "default": "#FBF5F1" },
     { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 52 }
     ,
     { "type": "header", "content": "Fondo y espaciado" },
-    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
     { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
     { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
   ],
   "blocks": [
     { "type": "paso", "name": "Paso", "settings": [
+      { "type": "select", "id": "icono", "label": "Icono", "options": [ { "value": "ninguno", "label": "Ninguno" }, { "value": "descarga", "label": "Descarga" }, { "value": "imprimir", "label": "Imprimir" }, { "value": "reloj", "label": "Reloj" }, { "value": "check", "label": "Check" }, { "value": "corazon", "label": "Corazón" } ], "default": "ninguno" },
       { "type": "text", "id": "titulo", "label": "Título", "default": "Compra y descarga" },
       { "type": "textarea", "id": "texto", "label": "Texto", "default": "Lo recibes en tu email al momento." }
     ] }

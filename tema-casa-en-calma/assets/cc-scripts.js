@@ -1,6 +1,7 @@
 /* Casa en Calma — interacciones (prefijo cc-) */
 (function () {
   var reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rapido = true;
 
   function aparecer(raiz) {
     var els = (raiz || document).querySelectorAll('.cc-aparece:not(.is-in)');
@@ -156,6 +157,41 @@
   }
 
 
+
+  // Modo ligero en móviles lentos o con ahorro de datos
+  (function () {
+    var c = navigator.connection || {};
+    var lento = c.saveData || /(^|-)2g|3g/.test(c.effectiveType || '') || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) || (navigator.deviceMemory && navigator.deviceMemory <= 2);
+    if (lento) { document.documentElement.classList.add('cc-lite'); reducir = true; }
+  })();
+
+  // Calendario de 21 días: al tocar un día se ve su tarea
+  function calendario(raiz) {
+    (raiz || document).querySelectorAll('[data-cc-calendario]').forEach(function (sec) {
+      var cal = sec.querySelector('.cc-cal');
+      var num = sec.querySelector('[data-cc-dia-num]');
+      var tarea = sec.querySelector('[data-cc-dia-tarea]');
+      var dias = sec.querySelectorAll('[data-cc-dia]');
+      function elegir(b) {
+        var n = Number(b.getAttribute('data-cc-dia'));
+        dias.forEach(function (d) {
+          var k = Number(d.getAttribute('data-cc-dia'));
+          d.classList.toggle('is-activo', k === n);
+          d.classList.toggle('is-hecho', k < n);
+          d.setAttribute('aria-pressed', k === n ? 'true' : 'false');
+        });
+        num.textContent = n;
+        tarea.style.opacity = 0;
+        setTimeout(function () { tarea.textContent = b.getAttribute('data-cc-tarea'); tarea.style.opacity = 1; }, 150);
+      }
+      dias.forEach(function (b) { b.addEventListener('click', function () { elegir(b); }); });
+      if (!cal) return;
+      if (reducir || !('IntersectionObserver' in window)) { cal.classList.add('is-in'); return; }
+      var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { cal.classList.add('is-in'); io.disconnect(); } }, { threshold: 0.2 });
+      io.observe(cal);
+    });
+  }
+
   // Titulares que aparecen palabra a palabra
   function palabras(raiz) {
     (raiz || document).querySelectorAll('[data-cc-palabras]').forEach(function (el) {
@@ -261,7 +297,7 @@
     }).observe(ancla);
   }
 
-  function iniciar(raiz) { palabras(raiz); aparecer(raiz); contadores(raiz); cuaderno(raiz); capas(raiz); tilt(raiz); magneticos(raiz); recorrido(raiz); cuentas(raiz); compra(raiz); }
+  function iniciar(raiz) { palabras(raiz); aparecer(raiz); contadores(raiz); cuaderno(raiz); capas(raiz); tilt(raiz); magneticos(raiz); recorrido(raiz); calendario(raiz); cuentas(raiz); compra(raiz); }
   document.addEventListener('DOMContentLoaded', function () { iniciar(); parallax(); barra(); progreso(); });
   document.addEventListener('shopify:section:load', function (e) { iniciar(e.target); });
 })();

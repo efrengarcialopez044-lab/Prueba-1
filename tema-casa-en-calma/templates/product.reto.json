@@ -7,18 +7,17 @@
         "titulo": "Tu casa ordenada en 21 días, <em>10 minutos al día</em>",
         "texto": "<p>Sin maratones de limpieza ni agobios. Cada día sabes exactamente qué hacer, pones el temporizador y listo. En tres semanas, tu casa respira.</p>",
         "barra_progreso": true,
-        "mostrar_precio": true,
-        "precio_nota": "pago único · acceso inmediato",
-        "boton_texto": "Empezar mi reto",
-        "enlace_texto": "Ver cómo es por dentro",
+        "mostrar_precio": false,
+        "precio_nota": "",
+        "boton_texto": "Empieza hoy",
         "enlace_url": "#incluye",
         "mostrar_extra": false,
         "extra": "planner-de-limpieza-semanal",
         "extra_texto": "Añade también el",
         "sellos": "Acceso inmediato\nGarantía de 14 días\nPago 100 % seguro",
         "mostrar_pagos": true,
-        "hoja_1": "shopify://shop_images/reto21-pagina-25.jpg",
-        "hoja_2": "shopify://shop_images/reto21-pagina-3.jpg",
+        "hoja_1": "shopify://shop_images/rosa-pagina-25.jpg",
+        "hoja_2": "shopify://shop_images/rosa-pagina-3.jpg",
         "ficha_1": "Día 1 · Un cajón",
         "ficha_2": "10 minutos al día",
         "ficha_3": "Encimera despejada",
@@ -26,43 +25,31 @@
         "portada_numero": "21",
         "portada_titulo": "días para ordenar tu casa",
         "portada_lineas": "Día 1 · Un cajón\nDía 2 · La encimera\nDía 3 · El recibidor",
-        "color_portada": "#5E6E52",
-        "color_circulo": "#E4E8DA",
+        "color_portada": "#8C5A66",
+        "color_circulo": "#F2DCD5",
         "fuerza_3d": 12,
         "chapa_numero": 21,
         "chapa_texto": "días · 10 minutos al día · sin agobios ·",
-        "titulo_tamano": 70,
+        "titulo_tamano": 72,
         "texto_tamano": 20,
-        "color_fondo": "#F6F1E7",
+        "color_fondo": "#FBF5F1",
         "padding_top": 56,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "composicion": "centro",
+        "enlace_texto": "Ver cómo es por dentro"
       }
     },
     "cinta": {
       "type": "cc-cinta",
       "settings": {
         "textos": "10 minutos al día\nUna zona cada día\nSin agobios\nEmpiezas hoy mismo\nTu casa, por fin en calma",
-        "color_cinta": "#5E6E52",
-        "color_texto": "#F6F1E7",
-        "color_fondo": "#F6F1E7",
+        "color_cinta": "#8C5A66",
+        "color_texto": "#FBF5F1",
+        "color_fondo": "#FBF5F1",
         "giro": -2,
         "velocidad": 40,
         "texto_tamano": 26,
         "padding": 24
-      }
-    },
-    "problema": {
-      "type": "cc-problema",
-      "settings": {
-        "p_ante": "Te suena, ¿verdad?",
-        "p_titulo": "Llegas a casa y el desorden te está esperando",
-        "p_lista": "No sabes por dónde empezar y lo vas dejando.\nOrdenas un sábado entero y en una semana vuelve todo.\nVer tantas cosas fuera de su sitio te quita la calma.",
-        "s_ante": "Así lo cambiamos",
-        "s_titulo": "Una tarea pequeña al día. Sin pensar, sin maratones.",
-        "s_lista": "Cada día sabes exactamente qué toca: una zona, unos pasos.\n10 minutos con el temporizador y lo dejas. Cumplido.\nAl terminar, hábitos fáciles para que el orden se quede.",
-        "color_fondo": "#F6F1E7",
-        "padding_top": 88,
-        "padding_bottom": 40
       }
     },
     "recorrido": {
@@ -74,7 +61,7 @@
         "ancla": "incluye",
         "mostrar_dias": true,
         "titulo_tamano": 52,
-        "color_fondo": "#F6F1E7",
+        "color_fondo": "#FBF5F1",
         "padding_top": 72,
         "padding_bottom": 40
       },
@@ -82,7 +69,7 @@
         "r1": {
           "type": "paso",
           "settings": {
-            "imagen": "shopify://shop_images/reto21-pagina-4.jpg",
+            "imagen": "shopify://shop_images/rosa-pagina-4.jpg",
             "etiqueta": "Semana 1 · Días 1 a 7",
             "titulo": "Zonas rápidas para coger impulso",
             "texto": "Un cajón, la encimera, el recibidor… Pequeñas victorias que se notan desde el primer día.",
@@ -92,7 +79,7 @@
         "r2": {
           "type": "paso",
           "settings": {
-            "imagen": "shopify://shop_images/reto21-pagina-11.jpg",
+            "imagen": "shopify://shop_images/rosa-pagina-11.jpg",
             "etiqueta": "Semana 2 · Días 8 a 14",
             "titulo": "Cocina y baño, sin miedo",
             "texto": "Nevera, despensa, armarios y botes de la ducha. Lo que más se usa, por fin en orden.",
@@ -102,7 +89,7 @@
         "r3": {
           "type": "paso",
           "settings": {
-            "imagen": "shopify://shop_images/reto21-pagina-18.jpg",
+            "imagen": "shopify://shop_images/rosa-pagina-18.jpg",
             "etiqueta": "Semana 3 · Días 15 a 21",
             "titulo": "Armarios y zonas grandes",
             "texto": "Ropa, zapatos y abrigos con el método de las 3 cajas: decides rápido y sin culpa.",
@@ -112,7 +99,7 @@
         "r4": {
           "type": "paso",
           "settings": {
-            "imagen": "shopify://shop_images/reto21-pagina-26.jpg",
+            "imagen": "shopify://shop_images/rosa-pagina-26.jpg",
             "etiqueta": "Después del reto",
             "titulo": "Un plan para que dure",
             "texto": "Hábitos de 5 minutos para que el orden se quede contigo. Para siempre.",
@@ -131,11 +118,11 @@
       "type": "cc-pasos",
       "settings": {
         "antetitulo": "Así de fácil",
-        "titulo": "Empiezas en 2 minutos",
+        "titulo": "Cómo funciona",
         "ancla": "como-funciona",
-        "color_tarjeta": "#F6F1E7",
+        "color_tarjeta": "#FFFBF9",
         "titulo_tamano": 52,
-        "color_fondo": "#E4E8DA",
+        "color_fondo": "#E9EDE3",
         "padding_top": 96,
         "padding_bottom": 96
       },
@@ -143,20 +130,23 @@
         "p1": {
           "type": "paso",
           "settings": {
-            "titulo": "Te unes al reto",
-            "texto": "Pago seguro en un minuto. Al instante lo tienes en tu email."
+            "icono": "descarga",
+            "titulo": "Descárgalo",
+            "texto": "Pagas en un minuto y lo recibes al instante en tu email."
           }
         },
         "p2": {
           "type": "paso",
           "settings": {
-            "titulo": "Lo tienes a mano",
-            "texto": "Imprímelo y pégalo en la nevera, o llévalo en el móvil."
+            "icono": "imprimir",
+            "titulo": "Imprímelo",
+            "texto": "Pega el calendario en la nevera o llévalo en el móvil."
           }
         },
         "p3": {
           "type": "paso",
           "settings": {
+            "icono": "reloj",
             "titulo": "10 minutos al día",
             "texto": "Sigue la tarea del día, márcala y listo. En 21 días, otra casa."
           }
@@ -170,12 +160,11 @@
     },
     "testimonios": {
       "type": "cc-testimonios",
-      "disabled": true,
       "settings": {
         "antetitulo": "Opiniones",
         "titulo": "Lo que dicen quienes ya lo han hecho",
         "titulo_tamano": 48,
-        "color_fondo": "#F6F1E7",
+        "color_fondo": "#FBF5F1",
         "padding_top": 96,
         "padding_bottom": 48
       },
@@ -217,8 +206,8 @@
         "antetitulo": "Precio de lanzamiento",
         "titulo": "Empieza hoy. Tu casa te lo agradecerá.",
         "texto": "<p>Menos que un café a la semana, y te acompaña los 21 días.</p>",
-        "imagen": "shopify://shop_images/reto21-1.jpg",
-        "color_visual": "#5E6E52",
+        "imagen": "shopify://shop_images/rosa-reto-1.jpg",
+        "color_visual": "#8C5A66",
         "lista": "Calendario de 21 días para la nevera\n21 tareas guiadas de 10 minutos, con versión exprés\nEl método de las 3 cajas para decidir sin culpa\nPlan de hábitos para que el orden dure",
         "ancla": "comprar",
         "opcion_1_titulo": "Reto de 21 días",
@@ -228,17 +217,17 @@
         "opcion_2_titulo": "Pack completo",
         "opcion_2_texto": "Reto + Planner de limpieza semanal para mantenerla",
         "opcion_2_etiqueta": "Recomendado",
-        "boton_texto": "Empezar mi reto",
+        "boton_texto": "Empieza hoy",
         "sellos": "Acceso inmediato\nPago 100 % seguro",
         "mostrar_pagos": true,
         "fecha_fin": "",
         "texto_fin": "La oferta de lanzamiento ha terminado.",
-        "garantia_dias": 14,
+        "garantia_dias": 0,
         "garantia_titulo": "Garantía de 14 días",
         "garantia_texto": "Si el reto no te ayuda, te devolvemos el dinero. Sin preguntas.",
         "titulo_tamano": 44,
-        "color_fondo": "#F6F1E7",
-        "padding_top": 96,
+        "color_fondo": "#FBF5F1",
+        "padding_top": 72,
         "padding_bottom": 96
       }
     },
@@ -249,7 +238,7 @@
         "ancla": "preguntas",
         "primera_abierta": true,
         "titulo_tamano": 52,
-        "color_fondo": "#FFFDF8",
+        "color_fondo": "#FFFBF9",
         "padding_top": 96,
         "padding_bottom": 120
       },
@@ -311,18 +300,92 @@
       "settings": {
         "en_ordenador": true,
         "nota": "Precio de lanzamiento",
-        "boton_texto": "Empezar mi reto",
+        "boton_texto": "Empieza hoy",
         "destino": "comprar"
+      }
+    },
+    "dolores": {
+      "type": "cc-dolores",
+      "settings": {
+        "antetitulo": "Te suena, ¿verdad?",
+        "titulo": "El desorden te quita más de lo que crees",
+        "cierre": "No es falta de ganas. Es que nadie te ha dado <em>un plan sencillo</em>.",
+        "titulo_tamano": 48,
+        "color_fondo": "#FBF5F1",
+        "padding_top": 88,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "d1": {
+          "type": "dolor",
+          "settings": {
+            "icono": "reloj",
+            "titulo": "No tienes tiempo",
+            "texto": "Entre el trabajo, la casa y la familia, ordenar siempre se queda para «cuando pueda»."
+          }
+        },
+        "d2": {
+          "type": "dolor",
+          "settings": {
+            "icono": "ola",
+            "titulo": "Te agobia empezar",
+            "texto": "Miras alrededor y no sabes por dónde coger el desorden. Así que lo vas dejando."
+          }
+        },
+        "d3": {
+          "type": "dolor",
+          "settings": {
+            "icono": "cansada",
+            "titulo": "Vuelve a aparecer",
+            "texto": "Ordenas un sábado entero y, a la semana, todo está igual. Agotador."
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2",
+        "d3"
+      ]
+    },
+    "calendario": {
+      "type": "cc-calendario",
+      "settings": {
+        "antetitulo": "Tu calendario",
+        "titulo": "Un día, una zona",
+        "texto": "<p>Toca cualquier día y mira lo que te espera.</p>",
+        "semana_1": "Semana 1 · Zonas rápidas",
+        "semana_2": "Semana 2 · Cocina y baño",
+        "semana_3": "Semana 3 · Armarios",
+        "tareas": "El cajón de los trastos\nLa encimera\nEl recibidor\nLa mesita de noche\nEl sofá y la mesa\nPapeles y correo\nEl bolso y la mochila\nLa nevera\nLa despensa\nMenaje de cocina\nBajo el fregadero\nArmario del baño\nDucha y bañera\nToallas y sábanas\nZapatos\nCamisetas y tops\nPantalones y faldas\nAbrigos y bolsos\nJuguetes o hobbies\nProductos de limpieza\nRepaso final y foto",
+        "pie": "10 minutos con el temporizador y listo.",
+        "titulo_tamano": 48,
+        "color_fondo": "#F5E9E3",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "garantia": {
+      "type": "cc-garantia",
+      "settings": {
+        "dias": 14,
+        "titulo": "Pruébalo sin riesgo: 14 días de garantía",
+        "texto": "<p>Haz el reto. Si en 14 días no notas tu casa más ordenada, escríbenos y te devolvemos el dinero. Sin preguntas.</p>",
+        "color_caja": "#F5E9E3",
+        "color_fondo": "#FBF5F1",
+        "padding_top": 24,
+        "padding_bottom": 24
       }
     }
   },
   "order": [
     "portada",
     "cinta",
-    "problema",
-    "recorrido",
+    "dolores",
     "pasos",
+    "recorrido",
+    "calendario",
     "testimonios",
+    "garantia",
     "oferta",
     "preguntas",
     "barra"

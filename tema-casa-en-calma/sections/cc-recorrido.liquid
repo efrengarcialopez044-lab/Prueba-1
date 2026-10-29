@@ -8,7 +8,7 @@
     #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
   }
   #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
-  @media (max-width: 989px) { #shopify-section-{{ section.id }} .cc-recorrido__escena { background: linear-gradient({{ section.settings.color_fondo }} 82%, transparent); } }
+  @media (max-width: 989px) { #shopify-section-{{ section.id }} .cc-recorrido__escena { background: {{ section.settings.color_fondo }}; box-shadow: 0 24px 24px -12px {{ section.settings.color_fondo }}; } }
   @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
 {% endstyle %}
 
@@ -63,7 +63,7 @@
     { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 52 }
     ,
     { "type": "header", "content": "Fondo y espaciado" },
-    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
     { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
     { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
   ],

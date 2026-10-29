@@ -11,6 +11,15 @@
   @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
 {% endstyle %}
 
+{%- liquid
+  assign reales = 0
+  for block in section.blocks
+    unless block.settings.texto contains '['
+      assign reales = reales | plus: 1
+    endunless
+  endfor
+-%}
+{%- if reales > 0 or request.design_mode -%}
 <section class="cc-section cc-testimonios">
   <div class="cc-contenedor">
     <div class="cc-cabecera cc-centro cc-aparece">
@@ -19,10 +28,14 @@
     </div>
     <div class="cc-testimonios__grid">
       {%- for block in section.blocks -%}
-        <figure class="cc-testimonio cc-aparece" style="--cc-retraso: {{ forloop.index0 | times: 0.1 }}s" data-cc-tilt {{ block.shopify_attributes }}>
+        {%- assign hueco = false -%}
+        {%- if block.settings.texto contains '[' -%}{%- assign hueco = true -%}{%- endif -%}
+        {%- if hueco and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+        <figure class="cc-testimonio cc-aparece{% if hueco %} cc-testimonio--hueco{% endif %}" style="--cc-retraso: {{ forloop.index0 | times: 0.1 }}s" data-cc-tilt {{ block.shopify_attributes }}>
           {%- if block.settings.estrellas > 0 -%}
             <p class="cc-estrellas" aria-label="{{ block.settings.estrellas }} de 5 estrellas">{% for i in (1..block.settings.estrellas) %}★{% endfor %}</p>
           {%- endif -%}
+          {%- if hueco -%}<p class="cc-testimonio__aviso">RELLENAR con una opinión real · solo lo ves tú en el editor</p>{%- endif -%}
           <blockquote>“{{ block.settings.texto }}”</blockquote>
           <figcaption>
             {%- if block.settings.foto != blank -%}{{ block.settings.foto | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
@@ -33,6 +46,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -45,7 +59,7 @@
     { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
     ,
     { "type": "header", "content": "Fondo y espaciado" },
-    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
     { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
     { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
   ],

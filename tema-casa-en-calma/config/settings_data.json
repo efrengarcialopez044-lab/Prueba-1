@@ -16,57 +16,57 @@
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#F6F1E7",
+            "background": "#FBF5F1",
             "background_gradient": "",
-            "text": "#2B2622",
-            "button": "#C0623F",
+            "text": "#3B2A30",
+            "button": "#C8654F",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#A9502F",
-            "shadow": "#2B2622"
+            "secondary_button_label": "#A44D3B",
+            "shadow": "#3B2A30"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#F1EADD",
+            "background": "#F5E9E3",
             "background_gradient": "",
-            "text": "#2B2622",
-            "button": "#C0623F",
+            "text": "#3B2A30",
+            "button": "#C8654F",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#A9502F",
-            "shadow": "#2B2622"
+            "secondary_button_label": "#A44D3B",
+            "shadow": "#3B2A30"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#2B2622",
+            "background": "#3B2A30",
             "background_gradient": "",
-            "text": "#F6F1E7",
-            "button": "#C0623F",
+            "text": "#FBF5F1",
+            "button": "#C8654F",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#E4B9A6",
-            "shadow": "#2B2622"
+            "secondary_button_label": "#EFC2B5",
+            "shadow": "#3B2A30"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#5E6E52",
+            "background": "#8C5A66",
             "background_gradient": "",
-            "text": "#F6F1E7",
-            "button": "#F6F1E7",
-            "button_label": "#5E6E52",
-            "secondary_button_label": "#F6F1E7",
-            "shadow": "#2B2622"
+            "text": "#FBF5F1",
+            "button": "#FBF5F1",
+            "button_label": "#8C5A66",
+            "secondary_button_label": "#FBF5F1",
+            "shadow": "#3B2A30"
           }
         },
         "scheme-5": {
           "settings": {
-            "background": "#FFFDF8",
+            "background": "#FFFBF9",
             "background_gradient": "",
-            "text": "#2B2622",
-            "button": "#2B2622",
+            "text": "#3B2A30",
+            "button": "#3B2A30",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#2B2622",
-            "shadow": "#2B2622"
+            "secondary_button_label": "#3B2A30",
+            "shadow": "#3B2A30"
           }
         }
       },

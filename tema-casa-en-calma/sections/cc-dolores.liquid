@@ -1,0 +1,61 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-dolores">
+  <div class="cc-contenedor">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h2>
+    </div>
+    <div class="cc-dolores__grid">
+      {%- for block in section.blocks -%}
+        <article class="cc-dolor cc-aparece" style="--cc-retraso: {{ forloop.index0 | times: 0.1 }}s" data-cc-tilt {{ block.shopify_attributes }}>
+          <span class="cc-dolor__icono">{% render 'cc-icono', nombre: block.settings.icono %}</span>
+          <h3>{{ block.settings.titulo }}</h3>
+          {%- if block.settings.texto != blank -%}<p>{{ block.settings.texto }}</p>{%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.cierre != blank -%}<p class="cc-dolores__cierre cc-aparece">{{ section.settings.cierre }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – El problema",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Te suena, ¿verdad?" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "El desorden te quita más de lo que crees" },
+    { "type": "text", "id": "cierre", "label": "Frase final (usa <em>…</em> para resaltar)", "default": "No es falta de ganas. Es que nadie te ha dado <em>un plan sencillo</em>." },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    { "type": "dolor", "name": "Problema", "settings": [
+      { "type": "select", "id": "icono", "label": "Icono", "options": [
+        { "value": "reloj", "label": "Reloj" }, { "value": "monton", "label": "Montón" }, { "value": "ola", "label": "Agobio" },
+        { "value": "cansada", "label": "Cansancio" }, { "value": "casa", "label": "Casa" }, { "value": "corazon", "label": "Corazón" }
+      ], "default": "reloj" },
+      { "type": "text", "id": "titulo", "label": "Título", "default": "No tienes tiempo" },
+      { "type": "textarea", "id": "texto", "label": "Texto" }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [ { "name": "Casa – El problema", "blocks": [ { "type": "dolor" }, { "type": "dolor" }, { "type": "dolor" } ] } ]
+}
+{% endschema %}
