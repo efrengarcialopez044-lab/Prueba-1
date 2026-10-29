@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@400;500;600;700&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#FBF5F1}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;transform-origin:50% 45%}
+svg{position:absolute;inset:0}
+#cap{position:absolute;left:70px;right:70px;top:150px;text-align:center;font-family:'Fraunces',serif;color:#3B2A30;z-index:5}
+.t{font-size:84px;line-height:1.06;font-weight:500;letter-spacing:-.01em}
+.t em{font-style:italic;color:#A44D3B;font-weight:400}
+.n{display:inline-flex;width:120px;height:120px;border-radius:50%;background:#8C5A66;color:#FFFBF9;align-items:center;justify-content:center;font-size:70px;margin-bottom:26px;box-shadow:0 18px 40px -16px rgba(110,66,80,.7)}
+.chip{display:inline-block;font-family:'DM Sans';font-weight:600;font-size:34px;letter-spacing:.12em;text-transform:uppercase;color:#8C5A66;background:#FFFBF9;border-radius:999px;padding:16px 34px;margin-bottom:30px;box-shadow:0 10px 30px -14px rgba(110,66,80,.5)}
+.pill{background:#FFFBF9;border-radius:40px;padding:34px 40px;box-shadow:0 24px 60px -30px rgba(110,66,80,.6)}
+#fin{position:absolute;inset:0;z-index:3;display:none;font-family:'DM Sans';color:#3B2A30}
+#fin .marca{position:absolute;top:120px;left:0;right:0;text-align:center;font-family:'Fraunces';font-size:54px;color:#6E4250}
+#fin .marca small{display:block;font-family:'DM Sans';font-size:30px;letter-spacing:.2em;text-transform:uppercase;color:#A44D3B;margin-top:6px}
+#tapa{position:absolute;left:300px;top:300px;width:480px;height:679px;border-radius:10px 24px 24px 10px;background:url(../pdf/hi-reto-1.png) center/cover;box-shadow:40px 60px 80px -40px rgba(80,40,50,.6),inset 8px 0 0 rgba(0,0,0,.12)}
+#precio{position:absolute;left:70px;width:720px;top:1060px;text-align:left}
+#precio .grande{font-family:'Fraunces';font-weight:600;font-size:170px;line-height:1;color:#3B2A30}
+#precio .con{font-size:40px;margin:10px 0 20px;color:#3B2A30}
+#precio .cod{display:inline-block;border:5px dashed #C8654F;border-radius:22px;padding:14px 34px;font-weight:700;font-size:62px;letter-spacing:.08em;color:#A44D3B;background:#FFFBF9}
+#precio .nota{font-size:30px;color:#6E4250;margin-top:18px}
+#cta{position:absolute;left:70px;top:1660px;background:#C8654F;color:#fff;font-weight:700;font-size:52px;padding:34px 64px;border-radius:999px;box-shadow:0 26px 50px -20px rgba(164,77,59,.8)}
+</style></head>
+<body><div id="stage">
+<svg id="bg" viewBox="0 0 1080 1920"></svg>
+<div id="fin"><div class="marca">Casa en Calma<small>Reto de 21 días</small></div><div id="tapa"></div>
+<div id="precio"><div class="grande">9,99 €</div><div class="con">con el código</div><div class="cod">BIENVENIDA</div><div class="nota">Precio normal 12 € · se aplica al pagar</div></div>
+<div id="cta">Empieza hoy →</div></div>
+<svg id="fg" viewBox="0 0 1080 1920"></svg>
+<div id="cap"></div>
+</div>
+<script src="lib.js"></script>
+<script>
+const COSAS = [
+  ['caja', [180, 1590, -12, 1], [745, 864, 0, .6]],
+  ['libros', [870, 1640, 18, 1], [880, 889, 0, .8]],
+  ['ropa', [720, 1750, -6, 1.1], [730, 1132, 0, .6]],
+  ['ropa2', [300, 1790, 10, 1.1], [900, 1132, 0, .6]],
+  ['taza', [960, 1500, 30, 1], [990, 886, 0, .6]],
+  ['zapato', [110, 1830, -25, 1], [960, 1400, 0, .8]],
+  ['zapato', [560, 1860, 40, 1], [860, 1400, 0, .8]]
+];
+function desorden(m) {
+  return COSAS.map(([tipo, a, b], i) => {
+    const p = eio(clamp(m * 1.25 - i * .04));
+    return objeto(tipo, lerp(b[0], a[0], p), lerp(b[1], a[1], p) - Math.sin(p * Math.PI) * 180, lerp(b[2], a[2], p), lerp(b[3], a[3], p));
+  }).join('');
+}
+const parpadeo = t => (t % 3.3) < .12 ? .12 : 1;
+const respira = t => Math.sin(t * 3) * 6;
+function texto(html, t, a, b) {
+  const p = eo(seg(t, a, a + .35)), q = seg(t, b - .2, b);
+  return `<div style="position:absolute;left:0;right:0;top:0;opacity:${p * (1 - q)};transform:translateY(${(1 - p) * 60}px) scale(${.9 + .1 * back(seg(t, a, a + .4))})">${html}</div>`;
+}
+// cajón visto desde arriba: m=1 revuelto, 0 ordenado
+function cajon(m) {
+  let s = `<g transform="translate(540,1180)"><rect x="-400" y="-300" width="800" height="600" rx="30" fill="#C9A27C"/><rect x="-370" y="-270" width="740" height="540" rx="18" fill="#F1E2D3"/>`;
+  const d = 1 - m;
+  s += `<path d="M-123,-270 V270 M123,-270 V270 M-370,0 H370" stroke="#C9A27C" stroke-width="14" opacity="${d}"/>`;
+  const cols = [C.malva, C.terra, C.sage, C.rosa2, C.terraT, '#E9C46A'];
+  for (let i = 0; i < 18; i++) {
+    const tx = -246 + (i % 3) * 246 + (Math.floor(i / 6) % 1) * 0, ty = -135 + (Math.floor(i / 3) % 2) * 270;
+    const k = Math.floor(i / 6);
+    const ox = tx + (k - 1) * 60, oy = ty;
+    const rx = Math.sin(i * 7.3) * 300, ry = Math.cos(i * 3.1) * 220, rr = Math.sin(i * 5) * 80;
+    const x = lerp(ox, rx, m), y = lerp(oy, ry, m), r = lerp(0, rr, m);
+    s += `<rect x="${x - 22}" y="${y - 70}" width="44" height="140" rx="16" fill="${cols[i % 6]}" transform="rotate(${r} ${x} ${y})"/>`;
+  }
+  return s + '</g>';
+}
+// encimera vista de frente
+function encimera(m) {
+  let s = `<rect width="1080" height="1920" fill="${C.crema}"/><rect x="0" y="560" width="1080" height="620" fill="${C.sageC}"/>`;
+  for (let i = 0; i < 6; i++) s += `<path d="M${i * 180},560 V1180" stroke="#DDE3D5" stroke-width="6"/>`;
+  s += `<rect x="40" y="1180" width="1000" height="40" rx="10" fill="${C.papel}" stroke="${C.rosa2}" stroke-width="4"/><rect x="60" y="1220" width="960" height="700" fill="${C.malva}"/><path d="M380,1220 V1920 M700,1220 V1920" stroke="${C.malvaO}" stroke-width="8"/><rect x="330" y="1300" width="30" height="120" rx="12" fill="${C.rosa}"/><rect x="720" y="1300" width="30" height="120" rx="12" fill="${C.rosa}"/>`;
+  const its = [['taza', [300, 1100, 40], [180, 1160, 0]], ['taza', [720, 1120, -60], [260, 1160, 0]], ['libros', [520, 1150, 25], [470, 1166, 0]], ['planta', [880, 1140, -30], [860, 1120, 0]], ['caja', [150, 1130, 15], [680, 1120, 0]]];
+  its.forEach(([tp, a, b], i) => { const p = eio(clamp(m * 1.3 - i * .06)); s += objeto(tp, lerp(b[0], a[0], p), lerp(b[1], a[1], p), lerp(b[2], a[2], p), tp === 'caja' ? .6 : .9); });
+  return s;
+}
+const ESC = [0, 3.2, 6.0, 8.9, 10.2, 11.8, 14.4, 19.2];
+
+window.setT = function (t) {
+  let bg = '', fg = '', cap = '';
+  const fin = document.getElementById('fin');
+  fin.style.display = 'none';
+  let z = 1;
+  for (const e of ESC) if (t >= e && t < e + .3) z = 1 + .05 * (1 - eo(seg(t, e, e + .3)));
+  document.getElementById('stage').style.transform = `scale(${z})`;
+  const b = parpadeo(t), dy = respira(t);
+
+  if (t < 3.2) {
+    bg = salon({ estanteria: true }) + desorden(1);
+    bg += `<rect x="790" y="820" width="250" height="600" rx="16" fill="${C.malvaO}"/>`;
+    const ent = eo(seg(t, 0, 1.1));
+    fg = mujer({ x: lerp(1000, 560, ent), y: 1740, s: .92, m: t > 1.1 ? 'cansada' : 'normal', li: 'abajo', ld: t > 1.6 ? 'frente' : 'abajo', blink: b, dy: ent < 1 ? -Math.abs(Math.sin(t * 9)) * 20 : dy, sudor: t > 1.6 });
+    fg += t < 1.4 ? objeto('caja', lerp(1100, 660, ent), 1440, 0, .5) : '';
+    cap = texto(`<div class="t pill">¿Llegas a casa y <em>el desorden te espera?</em></div>`, t, .05, 3.2);
+  } else if (t < 6.0) {
+    bg = `<rect width="1080" height="1920" fill="${C.rosa}"/><circle cx="540" cy="950" r="440" fill="${C.crema}"/>`;
+    for (let i = 0; i < 6; i++) bg += destello(140 + i * 160, 1520 + Math.sin(t * 3 + i) * 26, 16 + (i % 3) * 7, i % 2 ? C.terra : C.malva);
+    const p = back(seg(t, 3.25, 3.8));
+    const r = Math.sin(t * 1.8) * 5;
+    bg += `<g transform="translate(560,960) rotate(${r - 6}) scale(${p})"><rect x="-205" y="-290" width="430" height="600" rx="16" fill="${C.tinta}" opacity=".18" transform="translate(30,40)"/><image href="../pdf/hi-reto-1.png" x="-215" y="-304" width="430" height="608" preserveAspectRatio="none"/></g>`;
+    fg = mujer({ x: 200, y: 1800, s: .62, m: 'feliz', li: 'cadera', ld: 'senala', blink: b, dy });
+    cap = texto(`<div class="chip">Casa en Calma</div><div class="t pill">Prueba el <em>Reto de 21 días</em></div>`, t, 3.25, 6.0);
+  } else if (t < 8.9) {
+    bg = `<rect width="1080" height="1920" fill="${C.crema}"/>`;
+    const p = seg(t, 6.1, 8.6);
+    bg += reloj(540, 840, 210, p);
+    const zonas = ['Cajones', 'Cocina', 'Baño', 'Armario', 'Salón'];
+    zonas.forEach((zn, i) => { const q = back(seg(t, 7.0 + i * .22, 7.4 + i * .22)); if (q > 0) bg += `<g transform="translate(${190 + (i % 3) * 350 - (i > 2 ? -175 : 0)},${1260 + Math.floor(i / 3) * 140}) scale(${q})"><rect x="-150" y="-50" width="300" height="100" rx="50" fill="${[C.sageC, C.rosa, C.crema2, C.sageC, C.rosa][i]}" stroke="${C.rosa2}" stroke-width="3"/><text y="14" text-anchor="middle" font-family="DM Sans" font-weight="600" font-size="38" fill="${C.tinta}">Día ${i + 1} · ${zn}</text></g>`; });
+    fg = mujer({ x: 880, y: 1860, s: .5, m: 'feliz', li: 'cadera', ld: 'pulgar', blink: b, dy });
+    cap = texto(`<div class="t pill"><em>10 minutos</em> al día, una zona cada día</div>`, t, 6.05, 8.9);
+  } else if (t < 10.2) {
+    bg = `<rect width="1080" height="1920" fill="${C.rosa}"/>` + cajon(1 - eio(seg(t, 9.2, 10.0)));
+    if (t > 9.9) for (let i = 0; i < 4; i++) bg += destello(240 + i * 200, 820 + (i % 2) * 40, 26, C.terra);
+    cap = texto(`<div class="chip">Día 1</div><div class="t pill">Hoy, <em>un cajón</em></div>`, t, 8.95, 10.2);
+  } else if (t < 11.8) {
+    bg = encimera(1 - eio(seg(t, 10.5, 11.4)));
+    if (t > 11.3) for (let i = 0; i < 4; i++) bg += destello(220 + i * 210, 960 + (i % 2) * 40, 26, C.terra);
+    cap = texto(`<div class="chip">Día 2</div><div class="t pill">Mañana, <em>la encimera</em></div>`, t, 10.25, 11.8);
+  } else if (t < 14.4) {
+    const m = 1 - eio(seg(t, 12.0, 13.2));
+    bg = salon({ suelo: m < .5 ? C.sageC : C.rosa }) + desorden(m) + (m < .3 ? objeto('planta', 680, 840, 0, .7) : '');
+    if (t > 13.0) for (let i = 0; i < 8; i++) { const q = seg(t, 13.0 + i * .08, 14.2 + i * .08); bg += destello(140 + i * 110, 1300 - q * 300 + (i % 3) * 60, 30 * Math.sin(q * Math.PI), i % 2 ? C.terra : C.sage); }
+    fg = mujer({ x: 420, y: 1740, s: .92, m: m < .5 ? 'feliz' : 'normal', li: m < .5 ? 'abierto' : 'abajo', ld: m < .5 ? 'abierto' : 'abajo', blink: b, dy });
+    cap = texto(`<div class="chip">Día 21</div><div class="t pill">En 3 semanas, <em>tu casa respira</em></div>`, t, 11.85, 14.4);
+  } else {
+    bg = `<rect width="1080" height="1920" fill="${C.rosa}"/><circle cx="560" cy="640" r="430" fill="${C.crema}"/>`;
+    for (let i = 0; i < 5; i++) bg += destello(120 + i * 210, 280 + (i % 2) * 120 + Math.sin(t * 3 + i) * 14, 16 + (i % 3) * 6, i % 2 ? C.terra : C.papel);
+    fin.style.display = 'block';
+    const p = back(seg(t, 14.4, 15.0));
+    document.getElementById('tapa').style.transform = `perspective(1400px) rotateY(${-22 + Math.sin(t * 1.6) * 8}deg) rotateX(6deg) scale(${p})`;
+    const pr = document.getElementById('precio');
+    const q = eo(seg(t, 15.0, 15.5));
+    pr.style.opacity = q; pr.style.transform = `translateY(${(1 - q) * 80}px)`;
+    const cta = document.getElementById('cta');
+    const r = eo(seg(t, 16.4, 16.8));
+    cta.style.opacity = r; cta.style.transform = `scale(${(.8 + .2 * r) * (1 + Math.max(0, Math.sin((t - 16.8) * 6)) * .05)})`;
+    fg = mujer({ x: 905, y: 1880, s: .58, m: 'feliz', li: 'cadera', ld: 'pulgar', blink: b, dy });
+  }
+  document.getElementById('bg').innerHTML = bg;
+  document.getElementById('fg').innerHTML = fg;
+  document.getElementById('cap').innerHTML = cap;
+};
+window.setT(0);
+</script></body></html>
