@@ -1,0 +1,60 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-paraquien">
+  <div class="cc-contenedor" style="max-width: 1040px">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h2>
+    </div>
+    <div class="cc-paraquien__grid">
+      <div class="cc-paraquien__si cc-aparece">
+        <h3>{{ section.settings.si_titulo }}</h3>
+        {%- assign ls = section.settings.si | newline_to_br | split: '<br />' -%}
+        <ul>{%- for l in ls -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+      </div>
+      <div class="cc-paraquien__no cc-aparece" style="--cc-retraso:.1s">
+        <h3>{{ section.settings.no_titulo }}</h3>
+        {%- assign ls = section.settings.no | newline_to_br | split: '<br />' -%}
+        <ul>{%- for l in ls -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-x' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+      </div>
+    </div>
+    {%- if section.settings.boton_texto != blank -%}
+      <div class="cc-centro cc-aparece" style="margin-top: 36px"><a class="cc-btn" href="#{{ section.settings.destino | default: 'comprar' }}">{{ section.settings.boton_texto }}</a></div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – ¿Es para mí?",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Sin rodeos" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "¿Es para ti?" },
+    { "type": "text", "id": "si_titulo", "label": "Columna «sí» – título", "default": "Es para ti si…" },
+    { "type": "textarea", "id": "si", "label": "Columna «sí» – lista", "default": "Tienes poco tiempo" },
+    { "type": "text", "id": "no_titulo", "label": "Columna «no» – título", "default": "No es para ti si…" },
+    { "type": "textarea", "id": "no", "label": "Columna «no» – lista", "default": "Buscas una limpieza a fondo en un día" },
+    { "type": "text", "id": "boton_texto", "label": "Botón – texto", "default": "Sí, es para mí" },
+    { "type": "text", "id": "destino", "label": "Botón – ancla", "default": "comprar" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "Casa – ¿Es para mí?" } ]
+}
+{% endschema %}

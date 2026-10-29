@@ -1,0 +1,56 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-comparar">
+  <div class="cc-contenedor" style="max-width: 1040px">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h2>
+    </div>
+    <div class="cc-comparar__grid">
+      <div class="cc-comparar__col cc-comparar__col--antes cc-aparece" data-cc-tilt>
+        <p class="cc-comparar__etq">{{ section.settings.antes_titulo }}</p>
+        {%- assign ls = section.settings.antes | newline_to_br | split: '<br />' -%}
+        <ul>{%- for l in ls -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-x' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+      </div>
+      <div class="cc-comparar__flecha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="cc-comparar__col cc-comparar__col--despues cc-aparece" style="--cc-retraso:.12s" data-cc-tilt>
+        <p class="cc-comparar__etq">{{ section.settings.despues_titulo }}</p>
+        {%- assign ls = section.settings.despues | newline_to_br | split: '<br />' -%}
+        <ul>{%- for l in ls -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Antes y después",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "En 21 días" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "De agobio a calma" },
+    { "type": "text", "id": "antes_titulo", "label": "Columna 1 – título", "default": "Tu casa hoy" },
+    { "type": "textarea", "id": "antes", "label": "Columna 1 – lista (una por línea)", "default": "Cosas por todas partes" },
+    { "type": "text", "id": "despues_titulo", "label": "Columna 2 – título", "default": "Tu casa en 21 días" },
+    { "type": "textarea", "id": "despues", "label": "Columna 2 – lista (una por línea)", "default": "Cada cosa en su sitio" },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "Casa – Antes y después" } ]
+}
+{% endschema %}

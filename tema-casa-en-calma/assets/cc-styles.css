@@ -469,3 +469,38 @@ h1, h2, h3, .h0, .h1, .h2, .h3 { font-family: var(--cc-serif); font-weight: 500;
 .cc-resenas-vacio h3 { margin: 10px 0 10px; font-family: var(--cc-serif); font-size: 30px; font-weight: 500; }
 .cc-resenas-vacio > p:not(.cc-estrellas):not(.cc-testimonio__aviso) { margin: 0 0 24px; font-size: 17px; line-height: 1.55; color: var(--cc-tinta-2); }
 .cc-resenas-vacio .cc-estrellas { opacity: .35; }
+
+/* Antes y después */
+.cc-comparar__grid { display: grid; grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr); gap: 16px; align-items: center; }
+.cc-comparar__col { border-radius: 28px; padding: 36px 32px; }
+.cc-comparar__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.cc-comparar__col li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; font-size: 17px; line-height: 1.45; }
+.cc-comparar__col svg { width: 20px; height: 20px; margin-top: 2px; }
+.cc-comparar__etq { margin: 0 0 18px; font-family: var(--cc-serif); font-size: 26px; }
+.cc-comparar__col--antes { background: var(--cc-crema-2); color: var(--cc-tinta-2); }
+.cc-comparar__col--antes svg { color: var(--cc-tinta-2); opacity: .7; }
+.cc-comparar__col--antes .cc-comparar__etq { color: var(--cc-tinta); }
+.cc-comparar__col--despues { background: var(--cc-malva); color: var(--cc-crema); box-shadow: 0 40px 70px -40px rgba(90, 48, 60, .6); transform: scale(1.03); }
+.cc-comparar__col--despues svg { color: var(--cc-rosa); }
+.cc-comparar__flecha { width: 56px; height: 56px; border-radius: 50%; background: var(--cc-terracota); color: #fff; display: flex; align-items: center; justify-content: center; }
+.cc-comparar__flecha svg { width: 26px; height: 26px; }
+
+/* ¿Es para mí? */
+.cc-paraquien__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.cc-paraquien__si, .cc-paraquien__no { border-radius: 26px; padding: 34px 32px; background: var(--cc-papel); border: 1.5px solid var(--cc-linea); }
+.cc-paraquien__si { border-color: var(--cc-sage); background: var(--cc-sage-clara); }
+.cc-paraquien__grid h3 { margin: 0 0 18px; font-family: var(--cc-serif); font-size: 26px; font-weight: 500; }
+.cc-paraquien__grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cc-paraquien__grid li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; font-size: 16px; line-height: 1.45; color: var(--cc-tinta-2); }
+.cc-paraquien__grid svg { width: 20px; height: 20px; margin-top: 2px; }
+.cc-paraquien__si svg { color: #5E7354; }
+.cc-paraquien__no svg { color: var(--cc-tinta-2); opacity: .6; }
+
+@media (max-width: 749px) {
+  .cc-comparar__grid { grid-template-columns: 1fr; }
+  .cc-comparar__flecha { margin: -6px auto; transform: rotate(90deg); width: 46px; height: 46px; position: relative; z-index: 2; }
+  .cc-comparar__col--despues { transform: none; }
+  .cc-comparar__col { padding: 28px 24px; }
+  .cc-paraquien__grid { grid-template-columns: 1fr; }
+  .cc-paraquien__si, .cc-paraquien__no { padding: 26px 22px; }
+}

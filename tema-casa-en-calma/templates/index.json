@@ -291,6 +291,20 @@
             "pregunta": "¿Y si no me convence?",
             "respuesta": "<p>Tienes 14 días de garantía. Si el reto no te ayuda, escríbenos y te devolvemos el dinero.</p>"
           }
+        },
+        "q6": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Puedo regalarlo?",
+            "respuesta": "<p>Claro. Al comprar, pon el email de la persona a la que se lo quieras regalar o reenvíale el email que recibes. Es un regalo bonito y útil.</p>"
+          }
+        },
+        "q7": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Cómo pago?",
+            "respuesta": "<p>Con tarjeta y otros métodos de pago seguros. El pago se hace en la plataforma segura de Shopify: nunca vemos los datos de tu tarjeta.</p>"
+          }
         }
       },
       "block_order": [
@@ -299,7 +313,9 @@
         "q2",
         "q3",
         "q4",
-        "q5"
+        "q5",
+        "q6",
+        "q7"
       ]
     },
     "barra": {
@@ -383,6 +399,38 @@
         "padding_top": 24,
         "padding_bottom": 24
       }
+    },
+    "comparar": {
+      "type": "cc-comparar",
+      "settings": {
+        "antetitulo": "En 21 días",
+        "titulo": "De agobio a calma",
+        "antes_titulo": "Tu casa hoy",
+        "antes": "Cosas fuera de su sitio en cada habitación\nNo sabes por dónde empezar\nTe pasas el finde recogiendo\nTe da apuro que venga alguien sin avisar",
+        "despues_titulo": "Tu casa en 21 días",
+        "despues": "Cada cosa tiene su sitio y vuelve a él\nSabes qué hacer cada día, sin pensarlo\n10 minutos al día y el finde es tuyo\nAbres la puerta tranquila, venga quien venga",
+        "titulo_tamano": 48,
+        "color_fondo": "#FBF5F1",
+        "padding_top": 96,
+        "padding_bottom": 72
+      }
+    },
+    "paraquien": {
+      "type": "cc-paraquien",
+      "settings": {
+        "antetitulo": "Sin rodeos",
+        "titulo": "¿Es para ti?",
+        "si_titulo": "Es para ti si…",
+        "si": "Vas justa de tiempo y quieres resultados sin maratones\nTe agobia el desorden y no sabes por dónde empezar\nTe ayuda tener una lista y marcar lo que haces\nQuieres que el orden dure, no solo un fin de semana",
+        "no_titulo": "No es para ti si…",
+        "no": "Buscas dejar toda la casa perfecta en un solo día\nPrefieres que alguien venga a ordenar por ti\nNo puedes dedicarle ni 10 minutos al día",
+        "boton_texto": "Sí, es para mí",
+        "destino": "comprar",
+        "titulo_tamano": 48,
+        "color_fondo": "#F5E9E3",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
@@ -392,6 +440,8 @@
     "pasos",
     "recorrido",
     "calendario",
+    "comparar",
+    "paraquien",
     "testimonios",
     "garantia",
     "oferta",
