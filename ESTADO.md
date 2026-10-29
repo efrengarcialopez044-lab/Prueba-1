@@ -10,3 +10,8 @@
   - PDFs en `entregables/`. Fuentes HTML de los PDF en `tema-casa-en-calma/_fuentes-pdf/`.
   - v2 (29-oct): portada 3D por capas, cinta animada, recorrido 3D, tarjeta de compra con pack, botón fijo también en ordenador, sin la palabra "PDF". Pendiente: adjuntar PDF a cada producto, publicar productos, fecha real de la cuenta atrás, testimonios reales.
 - Descartados: temas "Finanzas Claras", "Norte (Claude)", "Plano (minimal)" y sus productos (en borrador).
+
+## 29/10 – Productos publicados
+- Reto 21 días (gid://shopify/Product/10503775486281, variante 55783414890825) y Planner limpieza (gid://shopify/Product/10503775551817, variante 55783414956361): con archivo adjunto y en estado ACTIVO en la Tienda online.
+- Tema "Casa en Calma – Reto 21 días" (190706745673) sin publicar todavía: la API no deja publicarlo, lo tiene que hacer la dueña desde el admin. La contraseña de la tienda también se quita desde el admin.
+- Anuncios en vídeo en anuncios/.
