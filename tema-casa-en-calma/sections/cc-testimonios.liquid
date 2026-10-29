@@ -19,13 +19,22 @@
     endunless
   endfor
 -%}
-{%- if reales > 0 or request.design_mode -%}
-<section class="cc-section cc-testimonios">
+{%- if reales > 0 or request.design_mode or section.settings.mostrar_vacio -%}
+<section class="cc-section cc-testimonios" id="resenas">
   <div class="cc-contenedor">
     <div class="cc-cabecera cc-centro cc-aparece">
       {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
       <h2 class="cc-titulo">{{ section.settings.titulo }}</h2>
     </div>
+    {%- if reales == 0 and section.settings.mostrar_vacio -%}
+      <div class="cc-resenas-vacio cc-aparece">
+        <p class="cc-estrellas" aria-hidden="true">★★★★★</p>
+        <h3>{{ section.settings.vacio_titulo }}</h3>
+        <p>{{ section.settings.vacio_texto }}</p>
+        {%- if section.settings.vacio_boton != blank -%}<a class="cc-btn" href="#{{ section.settings.vacio_destino | default: 'comprar' }}">{{ section.settings.vacio_boton }}</a>{%- endif -%}
+        {%- if request.design_mode -%}<p class="cc-testimonio__aviso" style="margin-top: 18px">Tus clientas ven este mensaje mientras no haya reseñas reales. Abajo, los huecos para rellenar (solo los ves tú).</p>{%- endif -%}
+      </div>
+    {%- endif -%}
     <div class="cc-testimonios__grid">
       {%- for block in section.blocks -%}
         {%- assign hueco = false -%}
@@ -54,9 +63,15 @@
   "tag": "section",
   "settings": [
     { "type": "paragraph", "content": "Usa solo opiniones reales de clientas. Inventarlas es ilegal y puede costarte la tienda." },
-    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Opiniones" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Reseñas" },
     { "type": "text", "id": "titulo", "label": "Título", "default": "Lo que dicen quienes ya lo han hecho" },
-    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 }
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 48 },
+    { "type": "header", "content": "Mientras no haya reseñas" },
+    { "type": "checkbox", "id": "mostrar_vacio", "label": "Mostrar un mensaje de lanzamiento", "default": true },
+    { "type": "text", "id": "vacio_titulo", "label": "Título", "default": "Acabamos de lanzar el reto" },
+    { "type": "textarea", "id": "vacio_texto", "label": "Texto", "default": "Sé de las primeras en hacerlo y cuéntanos qué tal: tu opinión aparecerá aquí." },
+    { "type": "text", "id": "vacio_boton", "label": "Botón – texto", "default": "Quiero ser de las primeras" },
+    { "type": "text", "id": "vacio_destino", "label": "Botón – ancla a la que lleva", "default": "comprar" }
     ,
     { "type": "header", "content": "Fondo y espaciado" },
     { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FBF5F1" },

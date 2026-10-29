@@ -161,12 +161,17 @@
     "testimonios": {
       "type": "cc-testimonios",
       "settings": {
-        "antetitulo": "Opiniones",
-        "titulo": "Lo que dicen quienes ya lo han hecho",
+        "antetitulo": "Reseñas",
+        "titulo": "Lo que dicen quienes lo han hecho",
         "titulo_tamano": 48,
         "color_fondo": "#FBF5F1",
         "padding_top": 96,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "mostrar_vacio": true,
+        "vacio_titulo": "Acabamos de lanzar el reto",
+        "vacio_texto": "Sé de las primeras en hacerlo y cuéntanos qué tal: tu opinión aparecerá aquí.",
+        "vacio_boton": "Quiero ser de las primeras",
+        "vacio_destino": "comprar"
       },
       "blocks": {
         "t1": {

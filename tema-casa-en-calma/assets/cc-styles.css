@@ -463,3 +463,9 @@ h1, h2, h3, .h0, .h1, .h2, .h3 { font-family: var(--cc-serif); font-weight: 500;
   .cc-cal__detalle { min-height: 0; padding: 26px 22px; }
   .cc-dolores__cierre { font-size: 22px; }
 }
+
+/* Reseñas: estado de lanzamiento */
+.cc-resenas-vacio { max-width: 620px; margin: 0 auto 32px; text-align: center; background: var(--cc-papel); border-radius: 28px; padding: 44px 32px; }
+.cc-resenas-vacio h3 { margin: 10px 0 10px; font-family: var(--cc-serif); font-size: 30px; font-weight: 500; }
+.cc-resenas-vacio > p:not(.cc-estrellas):not(.cc-testimonio__aviso) { margin: 0 0 24px; font-size: 17px; line-height: 1.55; color: var(--cc-tinta-2); }
+.cc-resenas-vacio .cc-estrellas { opacity: .35; }

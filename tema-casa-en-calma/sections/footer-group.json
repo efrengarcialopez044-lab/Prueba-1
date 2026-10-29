@@ -32,7 +32,9 @@
         "legal_4_texto": "Contacto",
         "nav_2_texto": "Cómo es por dentro",
         "nav_3_texto": "Preguntas frecuentes",
-        "texto_tamano": 13
+        "texto_tamano": 13,
+        "contacto_titulo": "",
+        "contacto_texto": ""
       }
     }
   },
