@@ -504,3 +504,13 @@ h1, h2, h3, .h0, .h1, .h2, .h3 { font-family: var(--cc-serif); font-weight: 500;
   .cc-paraquien__grid { grid-template-columns: 1fr; }
   .cc-paraquien__si, .cc-paraquien__no { padding: 26px 22px; }
 }
+
+/* Precio de lanzamiento y cuenta atrás en móvil */
+.cc-hero__precio { flex-wrap: wrap; row-gap: 4px; }
+.cc-hero__precio strong { white-space: nowrap; }
+@media (max-width: 749px) {
+  .cc-hero__precio span { flex-basis: 100%; }
+  .cc-cuenta { gap: 6px; flex-wrap: nowrap; }
+  .cc-cuenta div { min-width: 0; flex: 1 1 0; padding: 12px 4px; border-radius: 14px; }
+  .cc-cuenta strong { font-size: 28px; }
+}

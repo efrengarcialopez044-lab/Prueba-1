@@ -7,8 +7,8 @@
         "titulo": "Tu casa ordenada en 21 días, <em>10 minutos al día</em>",
         "texto": "<p>Sin maratones de limpieza ni agobios. Cada día sabes exactamente qué hacer, pones el temporizador y listo. En tres semanas, tu casa respira.</p>",
         "barra_progreso": true,
-        "mostrar_precio": false,
-        "precio_nota": "",
+        "mostrar_precio": true,
+        "precio_nota": "precio de lanzamiento hasta el 9 de noviembre · después 12 €",
         "boton_texto": "Empieza hoy",
         "enlace_url": "#incluye",
         "mostrar_extra": false,
@@ -209,9 +209,9 @@
     "oferta": {
       "type": "cc-oferta",
       "settings": {
-        "antetitulo": "Precio de lanzamiento",
+        "antetitulo": "Precio de lanzamiento · hasta el 9 de noviembre",
         "titulo": "Empieza hoy. Tu casa te lo agradecerá.",
-        "texto": "<p>Menos que un café a la semana, y te acompaña los 21 días.</p>",
+        "texto": "<p>Hasta el domingo 9 de noviembre a las 23:59 el reto cuesta 7 €. Después pasará a costar 12 €.</p>",
         "imagen": "shopify://shop_images/rosa-reto-1.jpg",
         "color_visual": "#8C5A66",
         "lista": "Calendario de 21 días para la nevera\n21 tareas guiadas de 10 minutos, con versión exprés\nEl método de las 3 cajas para decidir sin culpa\nPlan de hábitos para que el orden dure",
@@ -227,8 +227,8 @@
         "boton_texto": "Empieza hoy",
         "sellos": "Acceso inmediato\nPago 100 % seguro",
         "mostrar_pagos": true,
-        "fecha_fin": "",
-        "texto_fin": "La oferta de lanzamiento ha terminado.",
+        "fecha_fin": "2026-11-09T23:59:00+01:00",
+        "texto_fin": "El precio de lanzamiento ha terminado.",
         "garantia_dias": 0,
         "garantia_titulo": "Garantía de 14 días",
         "garantia_texto": "Si el reto no te ayuda, te devolvemos el dinero. Sin preguntas.",
@@ -305,10 +305,18 @@
             "pregunta": "¿Cómo pago?",
             "respuesta": "<p>Con tarjeta y otros métodos de pago seguros. El pago se hace en la plataforma segura de Shopify: nunca vemos los datos de tu tarjeta.</p>"
           }
+        },
+        "q8": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "¿Por qué cuesta solo 7 €?",
+            "respuesta": "<p>Es el precio de lanzamiento, válido hasta el domingo 9 de noviembre a las 23:59. A partir de entonces el reto costará 12 €.</p>"
+          }
         }
       },
       "block_order": [
         "q0",
+        "q8",
         "q1",
         "q2",
         "q3",
@@ -323,7 +331,7 @@
       "settings": {
         "producto": "reto-de-21-dias-para-ordenar-tu-casa",
         "en_ordenador": true,
-        "nota": "Precio de lanzamiento",
+        "nota": "Lanzamiento hasta el 9/11",
         "boton_texto": "Empieza hoy",
         "destino": "comprar"
       }

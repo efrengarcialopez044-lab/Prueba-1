@@ -3,6 +3,7 @@
 - Tienda: 1nukqm-b8.myshopify.com (EUR, España). Tema activo: Horizon (sin tocar).
 - v3 (29-oct): paleta femenina (rosa empolvado, malva, beige rosado, terracota suave, toque salvia), hero centrado, secciones nuevas cc-dolores y cc-calendario, testimonios solo visibles en el editor mientras sean huecos, modo ligero para móviles lentos. Reto y planner regenerados con la paleta nueva.
 - v4: secciones cc-comparar (antes/después) y cc-paraquien, 2 preguntas nuevas, SEO del reto, código AMIGAS21 (100 %, 5 usos) para primeras reseñas reales.
+- Precio de lanzamiento 7 € hasta 2026-11-09 23:59 (cuenta atrás activa). El 10-nov hay que subir el reto a 12 € de verdad.
 - **Proyecto actual: Casa en Calma · Reto de 21 días para ordenar tu casa**
   - Tema "Casa en Calma – Reto 21 días" (id 190706745673), sin publicar. Código en `tema-casa-en-calma/`.
   - Producto "Reto de 21 días para ordenar tu casa" (7 €, plantilla product.reto) y "Planner de limpieza semanal" (3 €, oferta extra). Ambos en BORRADOR, creados con Digital Products.
