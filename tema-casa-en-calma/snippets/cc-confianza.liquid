@@ -1,0 +1,12 @@
+{%- comment -%} Fila de confianza + iconos de pago. Uso: {% render 'cc-confianza', lineas: texto, pagos: true %} {%- endcomment -%}
+{%- if lineas != blank -%}
+  {%- assign ls = lineas | newline_to_br | split: '<br />' -%}
+  <ul class="cc-confianza">
+    {%- for l in ls -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}{{ t }}</li>{%- endif -%}{%- endfor -%}
+  </ul>
+{%- endif -%}
+{%- if pagos and shop.enabled_payment_types.size > 0 -%}
+  <ul class="cc-pagos" aria-label="Formas de pago">
+    {%- for tipo in shop.enabled_payment_types limit: 7 -%}<li>{{ tipo | payment_type_svg_tag }}</li>{%- endfor -%}
+  </ul>
+{%- endif -%}

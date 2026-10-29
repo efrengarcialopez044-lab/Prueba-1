@@ -11,7 +11,10 @@ Para verlo: Panel de Shopify → Tienda online → Temas → "Casa en Calma – 
 |---|---|
 | `sections/cc-hero.liquid` | Portada: titular, cuaderno 3D que gira con el ratón y el scroll, contador animado, botón de compra directa |
 | `sections/cc-problema.liquid` | Problema → solución (dos tarjetas con efecto tilt) |
-| `sections/cc-incluye.liquid` | Qué incluye: vistas previas de las páginas del PDF |
+| `sections/cc-cinta.liquid` | Cinta animada con frases que se desliza sola |
+| `sections/cc-recorrido.liquid` | Recorrido 3D: al bajar, las páginas pasan en 3D y se encienden los 21 días |
+| `sections/cc-oferta.liquid` | Tarjeta de compra: elegir Reto (7 €) o Pack completo (10 €), garantía, iconos de pago y cuenta atrás opcional |
+| `sections/cc-incluye.liquid` | Qué incluye: vistas previas de las páginas (opcional) |
 | `sections/cc-pasos.liquid` | Cómo funciona en 3 pasos |
 | `sections/cc-testimonios.liquid` | Testimonios (huecos editables: usa solo opiniones reales) |
 | `sections/cc-garantia.liquid` | Garantía de devolución |
@@ -19,7 +22,8 @@ Para verlo: Panel de Shopify → Tienda online → Temas → "Casa en Calma – 
 | `sections/cc-cta.liquid` | Llamada final: precio, cuenta atrás hasta una fecha real, oferta del planner por 3 € |
 | `sections/cc-barra.liquid` | Botón de compra fijo en el móvil |
 | `snippets/cc-compra.liquid` | Formulario de compra directa al pago (+ casilla del producto extra) |
-| `assets/cc-styles.css`, `assets/cc-scripts.js` | Estilos y animaciones (Intersection Observer, CSS 3D, sin librerías externas) |
+| `snippets/cc-confianza.liquid` | Fila de confianza + iconos de las formas de pago |
+| `assets/cc-styles.css`, `assets/cc-scripts.js` | Estilos y animaciones: escena 3D por capas, titulares palabra a palabra, botones magnéticos, barra de progreso, tilt, parallax (sin librerías externas) |
 | `templates/index.json`, `templates/product.reto.json` | Portada y página del producto con la landing completa |
 
 ## Instalarlo en otra tienda (manual)

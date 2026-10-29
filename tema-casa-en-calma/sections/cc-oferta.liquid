@@ -1,0 +1,146 @@
+{%- liquid
+  assign p = section.settings.producto
+  if p == blank
+    assign p = product
+  endif
+  assign v = p.selected_or_first_available_variant
+  assign x = section.settings.extra
+  assign hay_pack = false
+  if section.settings.mostrar_pack and x != blank and x.available
+    assign hay_pack = true
+    assign xv = x.selected_or_first_available_variant
+    assign total_pack = v.price | plus: xv.price
+  endif
+  assign img = section.settings.imagen
+  if img == blank and p.featured_media
+    assign img = p.featured_media.preview_image
+  endif
+  assign form_id = 'cc-oferta-' | append: section.id
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-oferta__visual { --cc-oferta-visual: {{ section.settings.color_visual }}; }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.7 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-oferta" id="{{ section.settings.ancla | default: 'comprar' }}">
+  <div class="cc-contenedor" style="max-width: 1140px">
+    <div class="cc-oferta__caja cc-aparece">
+      <div class="cc-oferta__visual">
+        <div>
+          {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+          <h2 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h2>
+          {%- if section.settings.texto != blank -%}<div class="cc-texto" style="color: inherit; opacity: .8">{{ section.settings.texto }}</div>{%- endif -%}
+        </div>
+        {%- if img != blank -%}
+          <div class="cc-oferta__img">{{ img | image_url: width: 1000 | image_tag: widths: '500, 800, 1000', sizes: '(max-width: 989px) 70vw, 420px', loading: 'lazy', alt: img.alt | default: p.title }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="cc-oferta__compra">
+        {%- if section.settings.fecha_fin != blank -%}
+          <div class="cc-cuenta" data-cc-hasta="{{ section.settings.fecha_fin | escape }}" role="timer" aria-label="Tiempo restante de la oferta">
+            <div><strong data-d>00</strong><span>días</span></div>
+            <div><strong data-h>00</strong><span>horas</span></div>
+            <div><strong data-m>00</strong><span>min</span></div>
+            <div><strong data-s>00</strong><span>seg</span></div>
+          </div>
+          {%- if section.settings.texto_fin != blank -%}<p data-cc-fin-oferta hidden style="margin: 0 0 18px; font-size: 14px; color: var(--cc-tinta-2)">{{ section.settings.texto_fin }}</p>{%- endif -%}
+        {%- endif -%}
+
+        {%- if section.settings.lista != blank -%}
+          {%- assign ls = section.settings.lista | newline_to_br | split: '<br />' -%}
+          <ul class="cc-oferta__lista">{%- for l in ls -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}<span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}</ul>
+        {%- endif -%}
+
+        {%- if p != blank -%}
+          {%- form 'product', p, id: form_id, data-cc-compra: '' -%}
+            <input type="hidden" name="id" value="{{ v.id }}">
+            <input type="hidden" name="return_to" value="/checkout">
+            <fieldset class="cc-opciones" data-cc-opciones>
+              <legend class="visually-hidden">Elige tu opción</legend>
+              <label class="cc-opcion">
+                <input type="radio" name="cc-opcion-{{ section.id }}" value="" checked data-cc-precio="{{ v.price | money | strip_html | escape }}">
+                <span class="cc-opcion__punto" aria-hidden="true"></span>
+                <span class="cc-opcion__txt"><strong>{{ section.settings.opcion_1_titulo | default: p.title }}</strong>{%- if section.settings.opcion_1_texto != blank -%}<small>{{ section.settings.opcion_1_texto }}</small>{%- endif -%}</span>
+                <span class="cc-opcion__precio">{{ v.price | money }}</span>
+              </label>
+              {%- if hay_pack -%}
+                <label class="cc-opcion">
+                  <input type="radio" name="cc-opcion-{{ section.id }}" value="{{ xv.id }}" data-cc-extra data-cc-precio="{{ total_pack | money | strip_html | escape }}">
+                  <span class="cc-opcion__punto" aria-hidden="true"></span>
+                  <span class="cc-opcion__txt"><strong>{{ section.settings.opcion_2_titulo }}</strong>{%- if section.settings.opcion_2_texto != blank -%}<small>{{ section.settings.opcion_2_texto }}</small>{%- endif -%}</span>
+                  <span class="cc-opcion__precio">{{ total_pack | money }}</span>
+                  {%- if section.settings.opcion_2_etiqueta != blank -%}<span class="cc-opcion__etiqueta">{{ section.settings.opcion_2_etiqueta }}</span>{%- endif -%}
+                </label>
+              {%- endif -%}
+            </fieldset>
+            <button type="submit" class="cc-btn cc-btn--xl cc-btn--bloque"{% unless v.available %} disabled{% endunless %}>
+              {%- if v.available -%}{{ section.settings.boton_texto }} <span class="cc-btn__precio" data-cc-precio-boton>{{ v.price | money }}</span>{%- else -%}No disponible{%- endif -%}
+            </button>
+          {%- endform -%}
+        {%- endif -%}
+
+        <div class="cc-centro">{% render 'cc-confianza', lineas: section.settings.sellos, pagos: section.settings.mostrar_pagos %}</div>
+
+        {%- if section.settings.garantia_dias > 0 -%}
+          <div class="cc-oferta__garantia">
+            <div class="cc-sello" aria-hidden="true"><strong>{{ section.settings.garantia_dias }}</strong><span>días</span></div>
+            <p style="margin: 0"><b>{{ section.settings.garantia_titulo }}</b><br>{{ section.settings.garantia_texto }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Oferta y compra",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Precio de lanzamiento" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Empieza hoy. Tu casa te lo agradecerá." },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "image_picker", "id": "imagen", "label": "Imagen (vacío = foto del producto)" },
+    { "type": "color", "id": "color_visual", "label": "Color del panel de la imagen", "default": "#5E6E52" },
+    { "type": "textarea", "id": "lista", "label": "Lo que se lleva (una línea por elemento)", "default": "Calendario de 21 días\n21 tareas guiadas de 10 minutos" },
+    { "type": "text", "id": "ancla", "label": "Nombre del ancla (los botones llevan aquí)", "default": "comprar" },
+    { "type": "header", "content": "Opciones de compra" },
+    { "type": "product", "id": "producto", "label": "Producto principal (vacío = el de la página)" },
+    { "type": "text", "id": "opcion_1_titulo", "label": "Opción 1 – nombre (vacío = nombre del producto)", "default": "Reto de 21 días" },
+    { "type": "text", "id": "opcion_1_texto", "label": "Opción 1 – descripción corta" },
+    { "type": "checkbox", "id": "mostrar_pack", "label": "Ofrecer un pack con un producto extra", "default": true },
+    { "type": "product", "id": "extra", "label": "Producto extra del pack" },
+    { "type": "text", "id": "opcion_2_titulo", "label": "Opción 2 – nombre", "default": "Pack completo" },
+    { "type": "text", "id": "opcion_2_texto", "label": "Opción 2 – descripción corta" },
+    { "type": "text", "id": "opcion_2_etiqueta", "label": "Opción 2 – etiqueta", "default": "Recomendado" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Empezar mi reto" },
+    { "type": "textarea", "id": "sellos", "label": "Ventajas bajo el botón (una por línea)", "default": "Acceso inmediato\nPago seguro" },
+    { "type": "checkbox", "id": "mostrar_pagos", "label": "Mostrar iconos de formas de pago", "default": true },
+    { "type": "header", "content": "Cuenta atrás" },
+    { "type": "text", "id": "fecha_fin", "label": "Fin de la oferta (AAAA-MM-DDTHH:MM, vacío = sin cuenta atrás)", "info": "Pon una fecha real. Al llegar, la cuenta atrás desaparece sola. Ejemplo: 2026-11-30T23:59" },
+    { "type": "text", "id": "texto_fin", "label": "Texto cuando termina la oferta", "default": "La oferta de lanzamiento ha terminado." },
+    { "type": "header", "content": "Garantía" },
+    { "type": "range", "id": "garantia_dias", "label": "Días de garantía (0 = ocultar)", "min": 0, "max": 60, "step": 1, "default": 14 },
+    { "type": "text", "id": "garantia_titulo", "label": "Garantía – título", "default": "Garantía de 14 días" },
+    { "type": "text", "id": "garantia_texto", "label": "Garantía – texto", "default": "Si no te ayuda, te devolvemos el dinero." },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 72, "step": 2, "unit": "px", "default": 44 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "Casa – Oferta y compra" } ]
+}
+{% endschema %}

@@ -1,0 +1,82 @@
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.color_fondo }};
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.6 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round }}px; }
+  }
+  #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano }}px; }
+  @media (max-width: 989px) { #shopify-section-{{ section.id }} .cc-recorrido__escena { background: linear-gradient({{ section.settings.color_fondo }} 82%, transparent); } }
+  @media (max-width: 749px) { #shopify-section-{{ section.id }} .cc-titulo { font-size: {{ section.settings.titulo_tamano | times: 0.66 | round }}px; } }
+{% endstyle %}
+
+<section class="cc-section cc-recorrido" data-cc-recorrido{% if section.settings.ancla != blank %} id="{{ section.settings.ancla }}"{% endif %}>
+  <div class="cc-contenedor">
+    <div class="cc-cabecera cc-centro cc-aparece">
+      {%- if section.settings.antetitulo != blank -%}<p class="cc-ante">{{ section.settings.antetitulo }}</p>{%- endif -%}
+      <h2 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h2>
+      {%- if section.settings.texto != blank -%}<div class="cc-texto">{{ section.settings.texto }}</div>{%- endif -%}
+    </div>
+    <div class="cc-recorrido__grid">
+      <div class="cc-recorrido__escena" aria-hidden="true">
+        <div class="cc-recorrido__pila">
+          {%- for block in section.blocks -%}
+            <div class="cc-recorrido__hoja" data-cc-hoja data-pos="{{ forloop.index0 }}">
+              {%- if block.settings.imagen != blank -%}
+                {{ block.settings.imagen | image_url: width: 900 | image_tag: widths: '450, 700, 900', sizes: '(max-width: 989px) 220px, 340px', loading: 'lazy', alt: '' }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.mostrar_dias -%}
+          <div class="cc-dias" data-cc-dias>{%- for i in (1..21) -%}<i></i>{%- endfor -%}</div>
+        {%- endif -%}
+      </div>
+      <div class="cc-recorrido__pasos">
+        {%- for block in section.blocks -%}
+          <div class="cc-recorrido__paso" data-cc-paso data-cc-hasta-dia="{{ block.settings.hasta_dia }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.etiqueta != blank -%}<p class="cc-recorrido__etiqueta">{{ block.settings.etiqueta }}</p>{%- endif -%}
+            <h3>{{ block.settings.titulo }}</h3>
+            {%- if block.settings.texto != blank -%}<p>{{ block.settings.texto }}</p>{%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Casa – Recorrido 3D",
+  "tag": "section",
+  "settings": [
+    { "type": "paragraph", "content": "Al bajar por la página, cada paso hace pasar una hoja en 3D y se van encendiendo los días." },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Así es por dentro" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Tres semanas que cambian tu casa" },
+    { "type": "richtext", "id": "texto", "label": "Texto" },
+    { "type": "text", "id": "ancla", "label": "Nombre del ancla", "default": "incluye" },
+    { "type": "checkbox", "id": "mostrar_dias", "label": "Mostrar los 21 puntos de días", "default": true },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del título", "min": 24, "max": 80, "step": 2, "unit": "px", "default": 52 }
+    ,
+    { "type": "header", "content": "Fondo y espaciado" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    { "type": "paso", "name": "Paso", "settings": [
+      { "type": "image_picker", "id": "imagen", "label": "Página que se muestra" },
+      { "type": "text", "id": "etiqueta", "label": "Etiqueta", "default": "Semana 1" },
+      { "type": "text", "id": "titulo", "label": "Título", "default": "Zonas rápidas" },
+      { "type": "textarea", "id": "texto", "label": "Texto" },
+      { "type": "range", "id": "hasta_dia", "label": "Días encendidos en este paso", "min": 0, "max": 21, "step": 1, "default": 7 }
+    ] }
+  ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Casa – Recorrido 3D", "blocks": [ { "type": "paso" }, { "type": "paso" }, { "type": "paso" } ] } ]
+}
+{% endschema %}

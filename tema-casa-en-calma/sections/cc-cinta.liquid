@@ -1,0 +1,34 @@
+{%- liquid
+  assign items = section.settings.textos | newline_to_br | split: '<br />'
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} { background: {{ section.settings.color_fondo }}; padding: {{ section.settings.padding }}px 0; overflow: hidden; }
+  #shopify-section-{{ section.id }} .cc-cinta { --cc-cinta-bg: {{ section.settings.color_cinta }}; --cc-cinta-fg: {{ section.settings.color_texto }}; --cc-cinta-giro: {{ section.settings.giro }}deg; --cc-cinta-vel: {{ section.settings.velocidad }}s; --cc-cinta-tam: {{ section.settings.texto_tamano }}px; }
+{% endstyle %}
+<div class="cc-section cc-cinta" role="marquee" aria-label="{{ section.settings.textos | newline_to_br | strip_html | escape }}">
+  <div class="cc-cinta__pista" aria-hidden="true">
+    {%- for vuelta in (1..2) -%}
+      <div class="cc-cinta__grupo">
+        {%- for r in (1..2) -%}{%- for it in items -%}{%- assign t = it | strip -%}{%- if t != blank -%}<span>{{ t }}</span>{%- endif -%}{%- endfor -%}{%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Casa – Cinta animada",
+  "tag": "section",
+  "settings": [
+    { "type": "textarea", "id": "textos", "label": "Frases (una por línea)", "default": "10 minutos al día\nSin agobios\nUna tarea cada día" },
+    { "type": "color", "id": "color_cinta", "label": "Color de la cinta", "default": "#5E6E52" },
+    { "type": "color", "id": "color_texto", "label": "Color del texto", "default": "#F6F1E7" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo", "default": "#F6F1E7" },
+    { "type": "range", "id": "giro", "label": "Inclinación", "min": -4, "max": 4, "step": 1, "unit": "°", "default": -2 },
+    { "type": "range", "id": "velocidad", "label": "Duración de una vuelta", "min": 10, "max": 80, "step": 5, "unit": "s", "default": 40 },
+    { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 26 },
+    { "type": "range", "id": "padding", "label": "Espacio arriba y abajo", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 24 }
+  ],
+  "presets": [ { "name": "Casa – Cinta animada" } ]
+}
+{% endschema %}

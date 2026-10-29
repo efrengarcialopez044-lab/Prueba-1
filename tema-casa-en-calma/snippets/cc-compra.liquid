@@ -16,7 +16,7 @@
       </label>
     {%- endif -%}
     <div class="cc-botones"{% if ancla %} data-cc-ancla-compra{% endif %}>
-      <button type="submit" class="cc-btn"{% unless v.available %} disabled{% endunless %}>
+      <button type="submit" class="cc-btn{% if grande %} cc-btn--xl{% endif %}"{% unless v.available %} disabled{% endunless %}>
         {%- if v.available -%}{{ boton_texto | default: 'Comprar' }} <span class="cc-btn__precio">{{ v.price | money }}</span>{%- else -%}No disponible{%- endif -%}
       </button>
       {%- if enlace_texto != blank -%}<a class="cc-enlace" href="{{ enlace_url | default: '#' }}">{{ enlace_texto }}</a>{%- endif -%}

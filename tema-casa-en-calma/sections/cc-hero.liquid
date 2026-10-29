@@ -3,6 +3,7 @@
   if p == blank
     assign p = product
   endif
+  assign v = p.selected_or_first_available_variant
 -%}
 {% style %}
   #shopify-section-{{ section.id }} {
@@ -22,25 +23,35 @@
   }
 {% endstyle %}
 
+{%- if section.settings.barra_progreso -%}<div class="cc-progreso" data-cc-progreso aria-hidden="true"><i></i></div>{%- endif -%}
+
 <section class="cc-section cc-hero">
   <div class="cc-contenedor cc-hero__grid">
     <div>
       {%- if section.settings.antetitulo != blank -%}<p class="cc-ante cc-aparece">{{ section.settings.antetitulo }}</p>{%- endif -%}
-      <h1 class="cc-titulo cc-aparece" style="--cc-retraso:.06s">{{ section.settings.titulo }}</h1>
-      {%- if section.settings.texto != blank -%}<div class="cc-texto cc-aparece" style="--cc-retraso:.12s; margin-bottom: 30px; max-width: 540px">{{ section.settings.texto }}</div>{%- endif -%}
-      <div class="cc-aparece" style="--cc-retraso:.18s">
-        {% render 'cc-compra', p: p, extra: section.settings.extra, mostrar_extra: section.settings.mostrar_extra, extra_texto: section.settings.extra_texto, boton_texto: section.settings.boton_texto, enlace_texto: section.settings.enlace_texto, enlace_url: section.settings.enlace_url, ancla: true, sufijo: section.id %}
+      <h1 class="cc-titulo" data-cc-palabras>{{ section.settings.titulo }}</h1>
+      {%- if section.settings.texto != blank -%}<div class="cc-texto cc-aparece" style="--cc-retraso:.35s; margin-bottom: 28px; max-width: 540px">{{ section.settings.texto }}</div>{%- endif -%}
+      <div class="cc-aparece" style="--cc-retraso:.45s">
+        {%- if section.settings.mostrar_precio and v != blank -%}
+          <p class="cc-hero__precio">
+            <strong>{{ v.price | money }}</strong>
+            {%- if v.compare_at_price > v.price -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}
+            {%- if section.settings.precio_nota != blank -%}<span>{{ section.settings.precio_nota }}</span>{%- endif -%}
+          </p>
+        {%- endif -%}
+        {% render 'cc-compra', p: p, extra: section.settings.extra, mostrar_extra: section.settings.mostrar_extra, extra_texto: section.settings.extra_texto, boton_texto: section.settings.boton_texto, enlace_texto: section.settings.enlace_texto, enlace_url: section.settings.enlace_url, ancla: true, sufijo: section.id, grande: true %}
+        {% render 'cc-confianza', lineas: section.settings.sellos, pagos: section.settings.mostrar_pagos %}
       </div>
-      {%- if section.settings.sellos != blank -%}
-        {%- assign sellos = section.settings.sellos | newline_to_br | split: '<br />' -%}
-        <ul class="cc-hero__sellos cc-aparece" style="--cc-retraso:.24s">
-          {%- for s in sellos -%}{%- assign t = s | strip -%}{%- if t != blank -%}<li>{% render 'cc-check' %}{{ t }}</li>{%- endif -%}{%- endfor -%}
-        </ul>
-      {%- endif -%}
     </div>
 
-    <div class="cc-escena" data-cc-escena data-cc-fuerza="{{ section.settings.fuerza_3d | divided_by: 10.0 }}">
+    <div class="cc-escena cc-escena--pro" data-cc-escena data-cc-fuerza="{{ section.settings.fuerza_3d | divided_by: 10.0 }}">
       <div class="cc-escena__circulo" data-cc-parallax="0.06" aria-hidden="true"></div>
+      {%- if section.settings.hoja_1 != blank -%}
+        <div class="cc-capa cc-hojita cc-hojita--b" data-cc-prof="-0.35" data-cc-base="rotate(12deg)" aria-hidden="true">{{ section.settings.hoja_1 | image_url: width: 600 | image_tag: loading: 'eager', alt: '' }}</div>
+      {%- endif -%}
+      {%- if section.settings.hoja_2 != blank -%}
+        <div class="cc-capa cc-hojita cc-hojita--a" data-cc-prof="-0.2" data-cc-base="rotate(5deg)" aria-hidden="true">{{ section.settings.hoja_2 | image_url: width: 600 | image_tag: loading: 'eager', alt: '' }}</div>
+      {%- endif -%}
       <div class="cc-cuaderno__flota">
         <div class="cc-cuaderno" data-cc-cuaderno role="img" aria-label="{{ section.settings.portada_numero }} {{ section.settings.portada_titulo | escape }}">
           <div class="cc-cuaderno__trasera"></div>
@@ -63,8 +74,14 @@
           </div>
         </div>
       </div>
+      {%- if section.settings.ficha_1 != blank -%}<div class="cc-capa cc-ficha cc-ficha--1" data-cc-prof="0.9" aria-hidden="true"><i>{% render 'cc-check' %}</i>{{ section.settings.ficha_1 }}</div>{%- endif -%}
+      {%- if section.settings.ficha_2 != blank -%}<div class="cc-capa cc-ficha cc-ficha--2" data-cc-prof="0.6" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9.5V13l2.5 1.5M10 3h4"/></svg></i>{{ section.settings.ficha_2 }}</div>{%- endif -%}
+      {%- if section.settings.ficha_3 != blank -%}<div class="cc-capa cc-ficha cc-ficha--3" data-cc-prof="1.1" aria-hidden="true"><i>{% render 'cc-check' %}</i>{{ section.settings.ficha_3 }}</div>{%- endif -%}
       {%- if section.settings.chapa_numero > 0 -%}
-        <div class="cc-chapa"><strong data-cc-contar="{{ section.settings.chapa_numero }}">{{ section.settings.chapa_numero }}</strong><span>{{ section.settings.chapa_texto | newline_to_br }}</span></div>
+        <div class="cc-capa cc-sello-giro" data-cc-prof="0.5" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><defs><path id="cc-circ-{{ section.id }}" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><circle cx="60" cy="60" r="58" fill="#FFFDF8"/><text font-family="DM Sans, sans-serif" font-size="10.5" font-weight="600" letter-spacing="2.6" fill="#5E6E52"><textPath href="#cc-circ-{{ section.id }}">{{ section.settings.chapa_texto | upcase | escape }}</textPath></text></svg>
+          <strong data-cc-contar="{{ section.settings.chapa_numero }}">{{ section.settings.chapa_numero }}</strong>
+        </div>
       {%- endif -%}
     </div>
   </div>
@@ -76,20 +93,29 @@
   "tag": "section",
   "settings": [
     { "type": "header", "content": "Textos" },
-    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Reto descargable · PDF imprimible" },
+    { "type": "text", "id": "antetitulo", "label": "Antetítulo", "default": "Reto de 21 días" },
     { "type": "text", "id": "titulo", "label": "Titular (usa <em>…</em> para la parte en cursiva)", "default": "Tu casa ordenada en 21 días, <em>10 minutos al día</em>" },
-    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Un reto sencillo, una checklist por día y cero agobios.</p>" },
-    { "type": "textarea", "id": "sellos", "label": "Ventajas bajo el botón (una por línea)", "default": "Descarga inmediata\nGarantía de 14 días\nImprime o usa en el móvil" },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Un reto sencillo, una tarea por día y cero agobios.</p>" },
+    { "type": "checkbox", "id": "barra_progreso", "label": "Barra de progreso al bajar por la página", "default": true },
     { "type": "header", "content": "Compra" },
     { "type": "product", "id": "producto", "label": "Producto (vacío = el de la página)" },
-    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Quiero mi casa en orden" },
+    { "type": "checkbox", "id": "mostrar_precio", "label": "Mostrar el precio encima del botón", "default": true },
+    { "type": "text", "id": "precio_nota", "label": "Nota junto al precio", "default": "pago único" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Empezar mi reto" },
     { "type": "text", "id": "enlace_texto", "label": "Enlace secundario – texto", "default": "Ver qué incluye" },
     { "type": "url", "id": "enlace_url", "label": "Enlace secundario – dirección" },
-    { "type": "checkbox", "id": "mostrar_extra", "label": "Ofrecer un producto extra junto al botón", "default": true },
+    { "type": "checkbox", "id": "mostrar_extra", "label": "Ofrecer un producto extra junto al botón", "default": false },
     { "type": "product", "id": "extra", "label": "Producto extra" },
     { "type": "text", "id": "extra_texto", "label": "Texto de la oferta extra", "default": "Añade también el" },
-    { "type": "header", "content": "Cuaderno 3D" },
-    { "type": "image_picker", "id": "portada_imagen", "label": "Imagen de portada (vacío = portada con textos)" },
+    { "type": "textarea", "id": "sellos", "label": "Ventajas bajo el botón (una por línea)", "default": "Acceso inmediato\nGarantía de 14 días\nPago seguro" },
+    { "type": "checkbox", "id": "mostrar_pagos", "label": "Mostrar iconos de formas de pago", "default": true },
+    { "type": "header", "content": "Escena 3D" },
+    { "type": "image_picker", "id": "hoja_1", "label": "Página de muestra (detrás)" },
+    { "type": "image_picker", "id": "hoja_2", "label": "Página de muestra (delante)" },
+    { "type": "text", "id": "ficha_1", "label": "Etiqueta flotante 1", "default": "Día 1 · Un cajón" },
+    { "type": "text", "id": "ficha_2", "label": "Etiqueta flotante 2", "default": "10 minutos al día" },
+    { "type": "text", "id": "ficha_3", "label": "Etiqueta flotante 3", "default": "Hecho ✓" },
+    { "type": "image_picker", "id": "portada_imagen", "label": "Imagen de portada del cuaderno (vacío = portada con textos)" },
     { "type": "text", "id": "portada_mini", "label": "Portada – texto pequeño", "default": "Reto" },
     { "type": "text", "id": "portada_numero", "label": "Portada – número", "default": "21" },
     { "type": "text", "id": "portada_titulo", "label": "Portada – título", "default": "días para ordenar tu casa" },
@@ -97,15 +123,15 @@
     { "type": "color", "id": "color_portada", "label": "Color de la portada", "default": "#5E6E52" },
     { "type": "color", "id": "color_circulo", "label": "Color del círculo de fondo", "default": "#E4E8DA" },
     { "type": "range", "id": "fuerza_3d", "label": "Intensidad del giro 3D", "min": 0, "max": 20, "step": 1, "default": 10 },
-    { "type": "range", "id": "chapa_numero", "label": "Contador animado (0 = ocultar)", "min": 0, "max": 99, "step": 1, "default": 21 },
-    { "type": "textarea", "id": "chapa_texto", "label": "Texto del contador", "default": "días · 10 min\nal día" },
+    { "type": "range", "id": "chapa_numero", "label": "Sello giratorio – número (0 = ocultar)", "min": 0, "max": 99, "step": 1, "default": 21 },
+    { "type": "text", "id": "chapa_texto", "label": "Sello giratorio – texto", "default": "días · 10 minutos al día · sin agobios ·" },
     { "type": "header", "content": "Tipografía" },
-    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del titular", "min": 32, "max": 96, "step": 2, "unit": "px", "default": 68 },
+    { "type": "range", "id": "titulo_tamano", "label": "Tamaño del titular", "min": 32, "max": 96, "step": 2, "unit": "px", "default": 70 },
     { "type": "range", "id": "texto_tamano", "label": "Tamaño del texto", "min": 14, "max": 26, "step": 1, "unit": "px", "default": 20 }
     ,
     { "type": "header", "content": "Fondo y espaciado" },
     { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#F6F1E7" },
-    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 56 },
     { "type": "range", "id": "padding_bottom", "label": "Espacio inferior", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 88 }
   ],
   "presets": [ { "name": "Casa – Portada" } ]
