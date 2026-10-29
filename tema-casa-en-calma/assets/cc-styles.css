@@ -514,3 +514,13 @@ h1, h2, h3, .h0, .h1, .h2, .h3 { font-family: var(--cc-serif); font-weight: 500;
   .cc-cuenta div { min-width: 0; flex: 1 1 0; padding: 12px 4px; border-radius: 14px; }
   .cc-cuenta strong { font-size: 28px; }
 }
+
+/* Cupón de bienvenida */
+.cc-cupon { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 12px 16px; border: 1.5px dashed var(--cc-terracota); border-radius: 16px; background: var(--cc-papel); max-width: 480px; text-align: left; }
+.cc-hero--centro .cc-cupon { margin-left: auto; margin-right: auto; }
+.cc-cupon__icono { flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--cc-rosa); color: var(--cc-terracota-texto); display: inline-flex; align-items: center; justify-content: center; }
+.cc-cupon__icono svg { width: 22px; height: 22px; }
+.cc-cupon__txt { font-size: 15px; line-height: 1.4; color: var(--cc-tinta); }
+.cc-cupon__txt small { display: block; font-size: 13px; color: var(--cc-tinta-2); }
+.cc-cupon__codigo { appearance: none; border: 0; cursor: pointer; margin-left: 4px; padding: 3px 10px; border-radius: 8px; background: var(--cc-terracota); color: #fff; font-family: var(--cc-sans); font-size: 14px; font-weight: 700; letter-spacing: .08em; }
+.cc-cupon__codigo:hover { background: var(--cc-terracota-texto); }

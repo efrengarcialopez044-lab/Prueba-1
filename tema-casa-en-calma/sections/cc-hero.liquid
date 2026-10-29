@@ -39,7 +39,8 @@
             {%- if section.settings.precio_nota != blank -%}<span>{{ section.settings.precio_nota }}</span>{%- endif -%}
           </p>
         {%- endif -%}
-        {% render 'cc-compra', p: p, extra: section.settings.extra, mostrar_extra: section.settings.mostrar_extra, extra_texto: section.settings.extra_texto, boton_texto: section.settings.boton_texto, enlace_texto: section.settings.enlace_texto, enlace_url: section.settings.enlace_url, ancla: true, sufijo: section.id, grande: true %}
+        {% render 'cc-cupon', codigo: section.settings.codigo, texto: section.settings.codigo_texto, nota: section.settings.codigo_nota %}
+        {% render 'cc-compra', p: p, extra: section.settings.extra, mostrar_extra: section.settings.mostrar_extra, extra_texto: section.settings.extra_texto, boton_texto: section.settings.boton_texto, enlace_texto: section.settings.enlace_texto, enlace_url: section.settings.enlace_url, ancla: true, sufijo: section.id, grande: true, codigo: section.settings.codigo %}
         {% render 'cc-confianza', lineas: section.settings.sellos, pagos: section.settings.mostrar_pagos %}
       </div>
     </div>
@@ -102,6 +103,9 @@
     { "type": "product", "id": "producto", "label": "Producto (vacío = el de la página)" },
     { "type": "checkbox", "id": "mostrar_precio", "label": "Mostrar el precio encima del botón", "default": true },
     { "type": "text", "id": "precio_nota", "label": "Nota junto al precio", "default": "pago único" },
+    { "type": "text", "id": "codigo", "label": "Código de descuento (se aplica solo al pagar; vacío = ninguno)", "info": "Créalo antes en Descuentos. Escríbelo exactamente igual." },
+    { "type": "text", "id": "codigo_texto", "label": "Mensaje del código", "default": "Código de bienvenida:" },
+    { "type": "text", "id": "codigo_nota", "label": "Nota bajo el código", "default": "Se aplica solo al pagar" },
     { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Empezar mi reto" },
     { "type": "text", "id": "enlace_texto", "label": "Enlace secundario – texto", "default": "Ver qué incluye" },
     { "type": "url", "id": "enlace_url", "label": "Enlace secundario – dirección" },

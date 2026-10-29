@@ -5,9 +5,16 @@
 {%- if p != blank -%}
   {%- assign v = p.selected_or_first_available_variant -%}
   {%- assign form_id = 'cc-compra-' | append: sufijo -%}
-  {%- form 'product', p, id: form_id, data-cc-compra: '' -%}
+  {%- liquid
+    assign destino = '/checkout'
+    if codigo != blank
+      assign destino = '/discount/' | append: codigo | append: '?redirect=%2Fcheckout'
+    endif
+  -%}
+  {%- form 'product', p, id: form_id, data-cc-compra: '', data-cc-codigo: codigo -%}
     <input type="hidden" name="id" value="{{ v.id }}">
-    <input type="hidden" name="return_to" value="/checkout">
+    <input type="hidden" name="return_to" value="{{ destino }}">
+    {%- if codigo != blank -%}<input type="hidden" data-cc-cod value="{{ codigo | escape }}">{%- endif -%}
     {%- if mostrar_extra and extra != blank and extra.available -%}
       <label class="cc-bump">
         <input type="checkbox" value="{{ extra.selected_or_first_available_variant.id }}" data-cc-extra>

@@ -16,6 +16,10 @@
     assign img = p.featured_media.preview_image
   endif
   assign form_id = 'cc-oferta-' | append: section.id
+  assign destino = '/checkout'
+  if section.settings.codigo != blank
+    assign destino = '/discount/' | append: section.settings.codigo | append: '?redirect=%2Fcheckout'
+  endif
 -%}
 {% style %}
   #shopify-section-{{ section.id }} {
@@ -62,9 +66,11 @@
         {%- endif -%}
 
         {%- if p != blank -%}
-          {%- form 'product', p, id: form_id, data-cc-compra: '' -%}
+          {% render 'cc-cupon', codigo: section.settings.codigo, texto: section.settings.codigo_texto, nota: section.settings.codigo_nota %}
+          {%- form 'product', p, id: form_id, data-cc-compra: '', data-cc-codigo: section.settings.codigo -%}
             <input type="hidden" name="id" value="{{ v.id }}">
-            <input type="hidden" name="return_to" value="/checkout">
+            <input type="hidden" name="return_to" value="{{ destino }}">
+            {%- if section.settings.codigo != blank -%}<input type="hidden" data-cc-cod value="{{ section.settings.codigo | escape }}">{%- endif -%}
             <fieldset class="cc-opciones" data-cc-opciones>
               <legend class="visually-hidden">Elige tu opción</legend>
               <label class="cc-opcion">
@@ -124,6 +130,9 @@
     { "type": "text", "id": "opcion_2_titulo", "label": "Opción 2 – nombre", "default": "Pack completo" },
     { "type": "text", "id": "opcion_2_texto", "label": "Opción 2 – descripción corta" },
     { "type": "text", "id": "opcion_2_etiqueta", "label": "Opción 2 – etiqueta", "default": "Recomendado" },
+    { "type": "text", "id": "codigo", "label": "Código de descuento (se aplica solo al pagar; vacío = ninguno)", "info": "Créalo antes en Descuentos. Escríbelo exactamente igual." },
+    { "type": "text", "id": "codigo_texto", "label": "Mensaje del código", "default": "Código de bienvenida:" },
+    { "type": "text", "id": "codigo_nota", "label": "Nota bajo el código", "default": "Se aplica solo al pagar" },
     { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Empezar mi reto" },
     { "type": "textarea", "id": "sellos", "label": "Ventajas bajo el botón (una por línea)", "default": "Acceso inmediato\nPago seguro" },
     { "type": "checkbox", "id": "mostrar_pagos", "label": "Mostrar iconos de formas de pago", "default": true },

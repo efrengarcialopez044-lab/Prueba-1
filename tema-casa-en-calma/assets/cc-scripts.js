@@ -136,7 +136,12 @@
           .then(function () {
             return fetch(raizUrl + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: items }) });
           })
-          .then(function (r) { if (!r.ok) throw new Error('add'); window.location.href = raizUrl + 'checkout'; })
+          .then(function (r) {
+            if (!r.ok) throw new Error('add');
+            var campo = f.querySelector('[data-cc-cod]');
+            var cod = (campo && campo.value) || f.getAttribute('data-cc-codigo');
+            window.location.href = cod ? raizUrl + 'discount/' + encodeURIComponent(cod) + '?redirect=' + encodeURIComponent(raizUrl + 'checkout') : raizUrl + 'checkout';
+          })
           .catch(function () { if (boton) boton.classList.remove('is-cargando'); f.submit(); });
       });
     });
@@ -287,6 +292,18 @@
     });
   }
 
+  // Botón para copiar el código del cupón
+  function copiar(raiz) {
+    (raiz || document).querySelectorAll('[data-cc-copiar]').forEach(function (b) {
+      if (b.dataset.ccCop) return; b.dataset.ccCop = '1';
+      b.addEventListener('click', function () {
+        var c = b.getAttribute('data-cc-copiar');
+        var hecho = function () { var t = b.textContent; b.textContent = '¡Copiado!'; setTimeout(function () { b.textContent = t; }, 1400); };
+        if (navigator.clipboard) navigator.clipboard.writeText(c).then(hecho, hecho); else hecho();
+      });
+    });
+  }
+
   function barra() {
     var b = document.querySelector('[data-cc-barra]');
     var ancla = document.querySelector('[data-cc-ancla-compra]');
@@ -297,7 +314,7 @@
     }).observe(ancla);
   }
 
-  function iniciar(raiz) { palabras(raiz); aparecer(raiz); contadores(raiz); cuaderno(raiz); capas(raiz); tilt(raiz); magneticos(raiz); recorrido(raiz); calendario(raiz); cuentas(raiz); compra(raiz); }
+  function iniciar(raiz) { palabras(raiz); aparecer(raiz); contadores(raiz); cuaderno(raiz); capas(raiz); tilt(raiz); magneticos(raiz); recorrido(raiz); calendario(raiz); copiar(raiz); cuentas(raiz); compra(raiz); }
   document.addEventListener('DOMContentLoaded', function () { iniciar(); parallax(); barra(); progreso(); });
   document.addEventListener('shopify:section:load', function (e) { iniciar(e.target); });
 })();

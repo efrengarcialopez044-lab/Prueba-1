@@ -1,0 +1,7 @@
+{%- comment -%} Cupón visible. Uso: {% render 'cc-cupon', codigo: 'BIENVENIDA', texto: '...', nota: '...' %} {%- endcomment -%}
+{%- if codigo != blank -%}
+  <div class="cc-cupon">
+    <span class="cc-cupon__icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V6.5A1.5 1.5 0 014.5 5h15A1.5 1.5 0 0121 6.5V9a3 3 0 000 6v2.5a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 17.5V15a3 3 0 000-6z"/><path d="M9.5 14.5l5-5M9.75 9.75h.01M14.25 14.25h.01"/></svg></span>
+    <span class="cc-cupon__txt">{{ texto }} <button type="button" class="cc-cupon__codigo" data-cc-copiar="{{ codigo | escape }}" aria-label="Copiar el código {{ codigo | escape }}">{{ codigo }}</button>{%- if nota != blank -%}<small>{{ nota }}</small>{%- endif -%}</span>
+  </div>
+{%- endif -%}

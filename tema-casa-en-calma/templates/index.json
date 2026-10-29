@@ -8,7 +8,7 @@
         "texto": "<p>Sin maratones de limpieza ni agobios. Cada día sabes exactamente qué hacer, pones el temporizador y listo. En tres semanas, tu casa respira.</p>",
         "barra_progreso": true,
         "mostrar_precio": true,
-        "precio_nota": "precio de lanzamiento hasta el 9 de noviembre · después 12 €",
+        "precio_nota": "pago único · acceso inmediato",
         "boton_texto": "Empieza hoy",
         "enlace_url": "#incluye",
         "mostrar_extra": false,
@@ -37,7 +37,10 @@
         "padding_bottom": 72,
         "producto": "reto-de-21-dias-para-ordenar-tu-casa",
         "composicion": "centro",
-        "enlace_texto": "Ver cómo es por dentro"
+        "enlace_texto": "Ver cómo es por dentro",
+        "codigo": "BIENVENIDA",
+        "codigo_texto": "Con tu código de bienvenida te queda en 9,99 €:",
+        "codigo_nota": "Se aplica solo al pagar · primera compra"
       }
     },
     "cinta": {
@@ -204,30 +207,31 @@
         "t1",
         "t2",
         "t3"
-      ]
+      ],
+      "disabled": true
     },
     "oferta": {
       "type": "cc-oferta",
       "settings": {
-        "antetitulo": "Precio de lanzamiento · hasta el 9 de noviembre",
+        "antetitulo": "Oferta de bienvenida",
         "titulo": "Empieza hoy. Tu casa te lo agradecerá.",
-        "texto": "<p>Hasta el domingo 9 de noviembre a las 23:59 el reto cuesta 7 €. Después pasará a costar 12 €.</p>",
+        "texto": "<p>En tu primera compra, el código de bienvenida te deja el reto en 9,99 €. Se aplica solo al pagar.</p>",
         "imagen": "shopify://shop_images/rosa-reto-1.jpg",
         "color_visual": "#8C5A66",
         "lista": "Calendario de 21 días para la nevera\n21 tareas guiadas de 10 minutos, con versión exprés\nEl método de las 3 cajas para decidir sin culpa\nPlan de hábitos para que el orden dure",
         "ancla": "comprar",
         "producto": "reto-de-21-dias-para-ordenar-tu-casa",
         "opcion_1_titulo": "Reto de 21 días",
-        "opcion_1_texto": "Todo lo que necesitas para ordenar tu casa",
+        "opcion_1_texto": "Con tu código de bienvenida: 9,99 €",
         "mostrar_pack": true,
         "extra": "planner-de-limpieza-semanal",
         "opcion_2_titulo": "Pack completo",
-        "opcion_2_texto": "Reto + Planner de limpieza semanal para mantenerla",
+        "opcion_2_texto": "Reto + Planner de limpieza semanal · con el código: 12,99 €",
         "opcion_2_etiqueta": "Recomendado",
         "boton_texto": "Empieza hoy",
         "sellos": "Acceso inmediato\nPago 100 % seguro",
         "mostrar_pagos": true,
-        "fecha_fin": "2026-11-09T23:59:00+01:00",
+        "fecha_fin": "",
         "texto_fin": "El precio de lanzamiento ha terminado.",
         "garantia_dias": 0,
         "garantia_titulo": "Garantía de 14 días",
@@ -235,7 +239,10 @@
         "titulo_tamano": 44,
         "color_fondo": "#FBF5F1",
         "padding_top": 72,
-        "padding_bottom": 96
+        "padding_bottom": 96,
+        "codigo": "BIENVENIDA",
+        "codigo_texto": "Código de bienvenida:",
+        "codigo_nota": "Reto por 9,99 € · se aplica solo al pagar"
       }
     },
     "preguntas": {
@@ -309,8 +316,8 @@
         "q8": {
           "type": "pregunta",
           "settings": {
-            "pregunta": "¿Por qué cuesta solo 7 €?",
-            "respuesta": "<p>Es el precio de lanzamiento, válido hasta el domingo 9 de noviembre a las 23:59. A partir de entonces el reto costará 12 €.</p>"
+            "pregunta": "¿Cómo uso el código de bienvenida?",
+            "respuesta": "<p>No tienes que hacer nada: al pulsar el botón de compra, el código BIENVENIDA se aplica solo y el reto te queda en 9,99 €. Si lo prefieres, también puedes escribirlo en la casilla de descuento al pagar. Es válido una vez por persona.</p>"
           }
         }
       },
@@ -331,7 +338,7 @@
       "settings": {
         "producto": "reto-de-21-dias-para-ordenar-tu-casa",
         "en_ordenador": true,
-        "nota": "Lanzamiento hasta el 9/11",
+        "nota": "Con el código BIENVENIDA: 9,99 €",
         "boton_texto": "Empieza hoy",
         "destino": "comprar"
       }
